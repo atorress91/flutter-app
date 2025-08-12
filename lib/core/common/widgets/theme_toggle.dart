@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/core/theme/app_theme.dart';
-import 'package:my_app/core/common/theme_icon_button.dart';
+import 'package:my_app/core/common/widgets/theme_icon_button.dart';
 
 class ThemeToggle extends StatelessWidget {
   const ThemeToggle({super.key});
