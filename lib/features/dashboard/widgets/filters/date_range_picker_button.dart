@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/date_formatter.dart';
@@ -29,6 +28,12 @@ class DateRangePickerButton extends StatelessWidget {
     }
   }
 
+  String _formatDateRange(DateTimeRange dateRange) {
+    final startDate = DateFormatter.ddMMyyyy(dateRange.start);
+    final endDate = DateFormatter.ddMMyyyy(dateRange.end);
+    return '$startDate - $endDate';
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -39,7 +44,7 @@ class DateRangePickerButton extends StatelessWidget {
       label: Text(
         dateRange == null
             ? 'Cualquier fecha'
-            : DateFormatter.ddMMyyyy(dateRange! as DateTime),
+            : _formatDateRange(dateRange!),
       ),
       style: OutlinedButton.styleFrom(
         foregroundColor: colorScheme.onSurface,

@@ -95,6 +95,48 @@ class AppSidebar extends StatelessWidget {
           ),
         ),
         SidebarMenuItem(
+          title: 'Solicitar pago',
+          icon: Icons.payment_outlined,
+          isCollapsed: isCollapsed,
+          isSelected: SidebarNavigation.isRouteSelected(
+            currentRoute,
+            '/dashboard/clients',
+          ),
+          onTap: () => SidebarNavigation.navigate(
+            context,
+            '/dashboard/clients',
+            onRequestClose: onRequestClose,
+          ),
+        ),
+        SidebarMenuItem(
+          title: 'Mi billetera',
+          icon: Icons.account_balance_wallet,
+          isCollapsed: isCollapsed,
+          isSelected: SidebarNavigation.isRouteSelected(
+            currentRoute,
+            '/dashboard/clients',
+          ),
+          onTap: () => SidebarNavigation.navigate(
+            context,
+            '/dashboard/clients',
+            onRequestClose: onRequestClose,
+          ),
+        ),
+        SidebarMenuItem(
+          title: 'Servicio al cliente',
+          icon: Icons.support_agent_outlined,
+          isCollapsed: isCollapsed,
+          isSelected: SidebarNavigation.isRouteSelected(
+            currentRoute,
+            '/dashboard/clients',
+          ),
+          onTap: () => SidebarNavigation.navigate(
+            context,
+            '/dashboard/clients',
+            onRequestClose: onRequestClose,
+          ),
+        ),
+        SidebarMenuItem(
           title: 'Panel Admin',
           icon: Icons.admin_panel_settings,
           isCollapsed: isCollapsed,
