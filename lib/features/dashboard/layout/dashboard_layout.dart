@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/features/dashboard/widgets/app_navbar.dart';
-import 'package:my_app/features/dashboard/widgets/app_sidebar.dart';
+import 'package:my_app/features/dashboard/widgets/sidebar/app_sidebar.dart';
 
 // Layout con comportamiento responsive: Drawer en móvil, sidebar fijo en escritorio
 class DashboardLayout extends StatefulWidget {
