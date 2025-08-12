@@ -1,0 +1,53 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ, Android Studio, and VS Code related
+*.iml
+*.ipr
+*.iws
+.idea/
+# Comment out .vscode/ if you want to share workspace settings.
+# .vscode/
+
+# Flutter/Dart/Pub related
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+**/doc/api/
+**/ios/Flutter/.last_build_id
+
+# Build results
+build/
+/android/build/
+/ios/build/
+/linux/build/
+/macos/build/
+/windows/build/
+/web/build/
+
+# Symbolication and Obfuscation files
+app.*.symbols
+app.*.map.json
+
+# Test results
+coverage/
+
+# Sensitive and local configuration files
+*.jks
+*.keystore
+*.pem
+.env
+.env.*
+!.env.example
