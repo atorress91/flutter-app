@@ -46,7 +46,7 @@ class ClientTreeNode extends StatelessWidget {
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    'Miembro desde: ${DateFormatter.long(client.joinDate)}',
+                    'Miembro desde: ${DateFormatter.ddMMyyyy(client.joinDate)}',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],

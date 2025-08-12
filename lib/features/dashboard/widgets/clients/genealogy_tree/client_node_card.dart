@@ -45,7 +45,7 @@ class ClientNodeCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  'Desde ${DateFormatter.long(client.joinDate)}',
+                  'Desde ${DateFormatter.ddMMyyyy(client.joinDate)}',
                   style: Theme.of(context).textTheme.bodySmall,
                   overflow: TextOverflow.ellipsis,
                 ),
