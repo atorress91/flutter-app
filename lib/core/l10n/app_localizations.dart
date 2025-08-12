@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
+import 'app_localizations_delegate.dart';
 
 /// AppLocalizations with modular registration support.
 ///
@@ -10,20 +10,22 @@ import 'package:flutter/foundation.dart';
 /// editing this file.
 class AppLocalizations {
   final Locale locale;
+
   AppLocalizations(this.locale);
 
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      AppLocalizationsDelegate();
 
   static AppLocalizations of(BuildContext context) {
-    final AppLocalizations? loc = Localizations.of<AppLocalizations>(context, AppLocalizations);
+    final AppLocalizations? loc = Localizations.of<AppLocalizations>(
+      context,
+      AppLocalizations,
+    );
     assert(loc != null, 'AppLocalizations not found in context');
     return loc!;
   }
 
-  static const supportedLocales = [
-    Locale('en'),
-    Locale('es'),
-  ];
+  static const supportedLocales = [Locale('en'), Locale('es')];
 
   /// Additional translations registered by modules at runtime.
   /// Structure: { 'en': { 'feature.key': 'Value', ... }, 'es': {...} }
@@ -35,9 +37,15 @@ class AppLocalizations {
   ///   'en': {'feature.title': 'Title'},
   ///   'es': {'feature.title': 'Título'},
   /// });
-  static void registerTranslations(Map<String, Map<String, String>> byLanguage, {bool override = true}) {
+  static void registerTranslations(
+    Map<String, Map<String, String>> byLanguage, {
+    bool override = true,
+  }) {
     byLanguage.forEach((lang, values) {
-      final target = _additionalTranslations.putIfAbsent(lang, () => <String, String>{});
+      final target = _additionalTranslations.putIfAbsent(
+        lang,
+        () => <String, String>{},
+      );
       if (override) {
         target.addAll(values);
       } else {
@@ -49,7 +57,11 @@ class AppLocalizations {
   }
 
   /// Register translations under a namespace (prefixing keys as `namespace.key`).
-  static void registerNamespace(String namespace, Map<String, Map<String, String>> byLanguage, {bool override = true}) {
+  static void registerNamespace(
+    String namespace,
+    Map<String, Map<String, String>> byLanguage, {
+    bool override = true,
+  }) {
     final Map<String, Map<String, String>> namespaced = {};
     byLanguage.forEach((lang, values) {
       namespaced[lang] = {
@@ -147,64 +159,84 @@ class AppLocalizations {
     if (fromCore != null) return fromCore;
 
     // 3) Fallback to English core, then to English additional
-    return _localizedValues['en']?[key] ?? _additionalTranslations['en']?[key] ?? key;
+    return _localizedValues['en']?[key] ??
+        _additionalTranslations['en']?[key] ??
+        key;
   }
 
   String get appTitle => _t('appTitle');
+
   String get loginScreenTitle => _t('loginScreenTitle');
+
   String get loginAsClient => _t('loginAsClient');
+
   String get loginAsAdmin => _t('loginAsAdmin');
+
   String get adminDashboard => _t('adminDashboard');
+
   String get adminPanelTitle => _t('adminPanelTitle');
+
   String get configPageTitle => _t('configPageTitle');
+
   String get profilePageTitle => _t('profilePageTitle');
+
   String get sidebarDashboard => _t('sidebarDashboard');
+
   String get sidebarLogoutToLogin => _t('sidebarLogoutToLogin');
+
   String get menuTooltip => _t('menuTooltip');
-  
+
   // Public helper to fetch by key (for dynamic keys)
   String t(String key) => _t(key);
-  
+
   /// Public helper with namespace: tNs('dashboard', 'title') => lookup 'dashboard.title'
   String tNs(String namespace, String key) => _t('$namespace.$key');
-  
+
   // Home getters
   String get homeWelcomeBack => _t('homeWelcomeBack');
+
   String get homeAnnualPerformance => _t('homeAnnualPerformance');
+
   String get homeQuickActions => _t('homeQuickActions');
+
   String get homeRecentActivity => _t('homeRecentActivity');
+
   // Stats
   String get statsTotalSales => _t('statsTotalSales');
+
   String get statsActiveUsers => _t('statsActiveUsers');
+
   String get statsNewOrders => _t('statsNewOrders');
+
   String get statsRevenue => _t('statsRevenue');
+
   // Quick actions
   String get quickCreate => _t('quickCreate');
+
   String get quickReports => _t('quickReports');
+
   String get quickInvoices => _t('quickInvoices');
+
   String get quickSettings => _t('quickSettings');
+
   // Activity
   String get activityNewSaleTitle => _t('activityNewSaleTitle');
+
   String get activityNewSaleSubtitle => _t('activityNewSaleSubtitle');
+
   String get activityUserRegisteredTitle => _t('activityUserRegisteredTitle');
-  String get activityUserRegisteredSubtitle => _t('activityUserRegisteredSubtitle');
-  String get activityInventoryUpdatedTitle => _t('activityInventoryUpdatedTitle');
-  String get activityInventoryUpdatedSubtitle => _t('activityInventoryUpdatedSubtitle');
+
+  String get activityUserRegisteredSubtitle =>
+      _t('activityUserRegisteredSubtitle');
+
+  String get activityInventoryUpdatedTitle =>
+      _t('activityInventoryUpdatedTitle');
+
+  String get activityInventoryUpdatedSubtitle =>
+      _t('activityInventoryUpdatedSubtitle');
+
   String get activityReportGeneratedTitle => _t('activityReportGeneratedTitle');
-  String get activityReportGeneratedSubtitle => _t('activityReportGeneratedSubtitle');
-}
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
-  const _AppLocalizationsDelegate();
-
-  @override
-  bool isSupported(Locale locale) => ['en', 'es'].contains(locale.languageCode);
-
-  @override
-  Future<AppLocalizations> load(Locale locale) {
-    return SynchronousFuture<AppLocalizations>(AppLocalizations(locale));
-  }
-
-  @override
-  bool shouldReload(covariant LocalizationsDelegate<AppLocalizations> old) => false;
+  String get activityReportGeneratedSubtitle =>
+      _t('activityReportGeneratedSubtitle');
 }
