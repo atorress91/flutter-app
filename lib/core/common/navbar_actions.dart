@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/common/theme_toggle.dart';
+import 'package:my_app/core/common/theme_toggle.dart';
 import 'package:my_app/core/l10n/app_locale.dart';
 
 import 'language_switcher.dart';

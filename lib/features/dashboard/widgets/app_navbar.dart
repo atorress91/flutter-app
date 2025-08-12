@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../common/navbar_actions.dart';
-import '../../../common/navbar_menu_button.dart';
+import '../../../core/common/navbar_actions.dart';
+import '../../../core/common/navbar_menu_button.dart';
 
 class AppNavbar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onMenuPressed;
