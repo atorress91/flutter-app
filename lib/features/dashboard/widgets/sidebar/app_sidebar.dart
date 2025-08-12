@@ -100,11 +100,11 @@ class AppSidebar extends StatelessWidget {
           isCollapsed: isCollapsed,
           isSelected: SidebarNavigation.isRouteSelected(
             currentRoute,
-            '/dashboard/clients',
+            '/dashboard/request-payment',
           ),
           onTap: () => SidebarNavigation.navigate(
             context,
-            '/dashboard/clients',
+            '/dashboard/request-payment',
             onRequestClose: onRequestClose,
           ),
         ),
@@ -114,11 +114,11 @@ class AppSidebar extends StatelessWidget {
           isCollapsed: isCollapsed,
           isSelected: SidebarNavigation.isRouteSelected(
             currentRoute,
-            '/dashboard/clients',
+            '/dashboard/my-wallet',
           ),
           onTap: () => SidebarNavigation.navigate(
             context,
-            '/dashboard/clients',
+            '/dashboard/my-wallet',
             onRequestClose: onRequestClose,
           ),
         ),
@@ -128,11 +128,11 @@ class AppSidebar extends StatelessWidget {
           isCollapsed: isCollapsed,
           isSelected: SidebarNavigation.isRouteSelected(
             currentRoute,
-            '/dashboard/clients',
+            '/dashboard/customer-service',
           ),
           onTap: () => SidebarNavigation.navigate(
             context,
-            '/dashboard/clients',
+            '/dashboard/customer-service',
             onRequestClose: onRequestClose,
           ),
         ),
