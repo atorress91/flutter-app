@@ -33,6 +33,9 @@ class TransactionCard extends StatelessWidget {
     final amountColor = _isCredit ? Colors.green.shade700 : Colors.red.shade700;
     final amountValue = _isCredit ? transaction.credit : transaction.debit;
 
+    final showCredit = transaction.credit > 0;
+    final showDebit = transaction.debit > 0;
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -136,27 +139,30 @@ class TransactionCard extends StatelessWidget {
                         ),
                       ),
 
-                      // Montos
-                      Row(
-                        children: [
-                          Expanded(
-                            child: MoneyAmount(
-                              title: 'Crédito',
-                              value: transaction.credit,
-                              color: Colors.green.shade700,
-                              alignRight: false,
-                            ),
-                          ),
-                          Expanded(
-                            child: MoneyAmount(
-                              title: 'Débito',
-                              value: transaction.debit,
-                              color: Colors.red.shade700,
-                              alignRight: true,
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Montos: solo mostrar el que aplique (> 0)
+                      if (showCredit || showDebit)
+                        Row(
+                          children: [
+                            if (showCredit)
+                              Expanded(
+                                child: MoneyAmount(
+                                  title: 'Crédito',
+                                  value: transaction.credit,
+                                  color: Colors.green.shade700,
+                                  alignRight: showDebit ? false : false,
+                                ),
+                              ),
+                            if (showDebit)
+                              Expanded(
+                                child: MoneyAmount(
+                                  title: 'Débito',
+                                  value: transaction.debit,
+                                  color: Colors.red.shade700,
+                                  alignRight: true,
+                                ),
+                              ),
+                          ],
+                        ),
                     ],
                   ),
                 ),
