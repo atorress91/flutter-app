@@ -25,26 +25,42 @@ class WalletSummaryCard extends StatelessWidget {
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Theme.of(context).dividerColor),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha((255 * 0.03).toInt()),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        // Distribuye el espacio uniformemente
         children: [
+          // Fila superior con icono
           CircleAvatar(
             backgroundColor: color.withAlpha((255 * 0.1).toInt()),
             radius: 20,
             child: Icon(icon, color: color, size: 20),
           ),
+
+          // Sección del valor - Sin Expanded para evitar overflow
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                value,
-                style: textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  value,
+                  style: textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: Theme.of(context).colorScheme.onSurface,
+                    letterSpacing: -0.2,
+                  ),
+                  maxLines: 1,
                 ),
-                overflow: TextOverflow.ellipsis, // Previene overflow del texto
               ),
               const SizedBox(height: 4),
               Text(
@@ -52,9 +68,11 @@ class WalletSummaryCard extends StatelessWidget {
                 style: textTheme.bodySmall?.copyWith(
                   color: Theme.of(
                     context,
-                  ).colorScheme.onSurface.withAlpha((255 * 0.6).toInt()),
+                  ).colorScheme.onSurface.withAlpha((255 * 0.65).toInt()),
+                  fontWeight: FontWeight.w500,
                 ),
-                overflow: TextOverflow.ellipsis, // Previene overflow del texto
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

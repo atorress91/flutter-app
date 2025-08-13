@@ -72,8 +72,9 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                     const SizedBox(height: 24),
 
                     // --- SECCIÓN DE RESUMEN ---
+                    // Cambia la altura de las tarjetas de resumen
                     SizedBox(
-                      height: 140, // Altura fija para las tarjetas de resumen
+                      height: 160, // Aumenta de 140 a 160 para mejor distribución
                       child: Row(
                         children: [
                           Expanded(
