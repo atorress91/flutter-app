@@ -6,6 +6,7 @@ import 'package:my_app/features/dashboard/screens/home_screen.dart';
 import 'package:my_app/features/dashboard/screens/purchases_screen.dart';
 import 'package:my_app/features/admin/layout/admin_layout.dart';
 import 'package:my_app/features/admin/screens/admin_dashboard_screen.dart';
+import 'package:my_app/features/dashboard/screens/request_payment_screen.dart';
 
 import '../features/auth/screens/landing_screen.dart';
 import '../features/dashboard/screens/clients_screen.dart';
@@ -48,6 +49,10 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: 'clients',
               builder: (context, state) => const ClientsScreen(),
+            ),
+            GoRoute(
+              path: 'request-payment',
+              builder: (context, state) => const RequestPaymentScreen(),
             ),
           ],
         ),
