@@ -17,6 +17,8 @@ class _NewPaymentRequestModalState extends State<NewPaymentRequestModal> {
 
   bool _isCodeSending = false;
   bool _isSubmitting = false;
+  bool _isPasswordVisible =
+      false; // Nueva variable para controlar la visibilidad
 
   @override
   void dispose() {
@@ -73,19 +75,18 @@ class _NewPaymentRequestModalState extends State<NewPaymentRequestModal> {
   Widget build(BuildContext context) {
     final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
 
-    // El padding con viewInsets asegura que el teclado no tape los inputs
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 20,
-        right: 20,
-        top: 20,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+    // Usar Container en lugar de Padding para mejor control del tamaño
+    return Container(
+      width: double.infinity,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.8,
+        maxWidth: MediaQuery.of(context).size.width * 0.9,
       ),
+      padding: const EdgeInsets.all(24),
       child: Form(
         key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          // Para que ocupe solo el espacio necesario
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // --- Encabezado del Modal ---
@@ -120,10 +121,25 @@ class _NewPaymentRequestModalState extends State<NewPaymentRequestModal> {
                   (value == null || value.isEmpty) ? 'Campo requerido' : null,
             ),
             const SizedBox(height: 16),
+            // --- Campo de Clave de Acceso con Icono de Mostrar/Ocultar ---
             TextFormField(
               controller: _accessKeyController,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'Clave de acceso *'),
+              obscureText: !_isPasswordVisible,
+              decoration: InputDecoration(
+                labelText: 'Clave de acceso *',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _isPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
+                  },
+                ),
+              ),
               validator: (value) =>
                   (value == null || value.isEmpty) ? 'Campo requerido' : null,
             ),

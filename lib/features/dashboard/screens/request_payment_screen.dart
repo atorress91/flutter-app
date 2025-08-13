@@ -44,16 +44,19 @@ class _RequestPaymentScreenState extends State<RequestPaymentScreen> {
 
   // --- NUEVA FUNCIÓN PARA ABRIR EL MODAL ---
   void _openRequestModal(BuildContext context) {
-    showModalBottomSheet(
+    showDialog(
       context: context,
-      isScrollControlled: true,
-      // Permite que el modal sea más alto que la mitad de la pantalla
-      backgroundColor: Theme.of(context).cardColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
+      barrierDismissible: true,
       builder: (context) {
-        return const NewPaymentRequestModal();
+        return Dialog(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: const SingleChildScrollView(
+            child: NewPaymentRequestModal(),
+          ),
+        );
       },
     );
   }
