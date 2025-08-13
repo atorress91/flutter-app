@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_app/features/auth/screens/login_screen.dart';
 import 'package:my_app/features/dashboard/layout/dashboard_layout.dart';
 import 'package:my_app/features/dashboard/screens/home_screen.dart';
+import 'package:my_app/features/dashboard/screens/my_wallet_screen.dart';
 import 'package:my_app/features/dashboard/screens/purchases_screen.dart';
 import 'package:my_app/features/admin/layout/admin_layout.dart';
 import 'package:my_app/features/admin/screens/admin_dashboard_screen.dart';
@@ -53,6 +54,10 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: 'request-payment',
               builder: (context, state) => const RequestPaymentScreen(),
+            ),
+            GoRoute(
+              path: 'my-wallet',
+              builder: (context, state) => const MyWalletScreen(),
             ),
           ],
         ),
