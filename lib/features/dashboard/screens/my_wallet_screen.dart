@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../data/wallet_data.dart';
 import '../domain/entities/transaction.dart';
+import '../data/wallet_data.dart';
 import '../widgets/wallet/transaction_history_list.dart';
 import '../widgets/wallet/wallet_summary_card.dart';
 
@@ -72,9 +72,8 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                     const SizedBox(height: 24),
 
                     // --- SECCIÓN DE RESUMEN ---
-                    // Cambia la altura de las tarjetas de resumen
                     SizedBox(
-                      height: 160, // Aumenta de 140 a 160 para mejor distribución
+                      height: 160,
                       child: Row(
                         children: [
                           Expanded(
