@@ -37,21 +37,26 @@ class SidebarHeader extends StatelessWidget {
   }
 
   Widget _buildHeaderContent(BuildContext context, TextTheme textTheme) {
-    return AnimatedSwitcher(
-      duration: headerAnimationDuration,
-      transitionBuilder: (child, animation) =>
-          FadeTransition(opacity: animation, child: child),
-      child: isCollapsed
-          ? _buildCollapsedHeader()
-          : _buildExpandedHeader(context, textTheme),
+    return SizedBox(
+      width: double.infinity,
+      child: AnimatedSwitcher(
+        duration: headerAnimationDuration,
+        transitionBuilder: (child, animation) =>
+            FadeTransition(opacity: animation, child: child),
+        child: isCollapsed
+            ? _buildCollapsedHeader()
+            : _buildExpandedHeader(context, textTheme),
+      ),
     );
   }
 
   Widget _buildCollapsedHeader() {
-    return const CircleAvatar(
+    return const Center(
       key: ValueKey('collapsed_header'),
-      radius: avatarRadiusCollapsed,
-      backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=andre'),
+      child: CircleAvatar(
+        radius: avatarRadiusCollapsed,
+        backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=laurap'),
+      ),
     );
   }
 
@@ -60,9 +65,11 @@ class SidebarHeader extends StatelessWidget {
       key: const ValueKey('expanded_header'),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const CircleAvatar(
-          radius: avatarRadiusExpanded,
-          backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=andre'),
+        const Center(
+          child: CircleAvatar(
+            radius: avatarRadiusExpanded,
+            backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=laurap'),
+          ),
         ),
         const SizedBox(height: 12),
         Text(
@@ -74,12 +81,11 @@ class SidebarHeader extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         Text(
-          'andre.dev@email.com',
+          'andres.dev@email.com',
           style: textTheme.bodyMedium?.copyWith(
-            color: Theme.of(context)
-                .colorScheme
-                .onSurface
-                .withAlpha((255 * 0.6).toInt()),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withAlpha((255 * 0.6).toInt()),
           ),
           overflow: TextOverflow.ellipsis,
         ),
@@ -96,10 +102,9 @@ class SidebarHeader extends StatelessWidget {
         child: IconButton(
           icon: Icon(
             Icons.close,
-            color: Theme.of(context)
-                .colorScheme
-                .onSurface
-                .withAlpha((255 * 0.7).toInt()),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withAlpha((255 * 0.7).toInt()),
           ),
           onPressed: onRequestClose,
         ),
