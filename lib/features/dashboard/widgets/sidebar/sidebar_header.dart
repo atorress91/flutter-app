@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../screens/profile_screen.dart';
 import 'sidebar_constants.dart';
 
 class SidebarHeader extends StatelessWidget {
@@ -44,18 +45,29 @@ class SidebarHeader extends StatelessWidget {
         transitionBuilder: (child, animation) =>
             FadeTransition(opacity: animation, child: child),
         child: isCollapsed
-            ? _buildCollapsedHeader()
+            ? _buildCollapsedHeader(context)
             : _buildExpandedHeader(context, textTheme),
       ),
     );
   }
 
-  Widget _buildCollapsedHeader() {
-    return const Center(
-      key: ValueKey('collapsed_header'),
-      child: CircleAvatar(
-        radius: avatarRadiusCollapsed,
-        backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=laurap'),
+  Widget _buildCollapsedHeader(BuildContext context) {
+    return Center(
+      key: const ValueKey('collapsed_header'),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ProfileScreen()),
+          );
+        },
+        child: const Hero(
+          tag: 'user_avatar',
+          child: CircleAvatar(
+            radius: avatarRadiusCollapsed,
+            backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=laurap'),
+          ),
+        ),
       ),
     );
   }
@@ -65,10 +77,23 @@ class SidebarHeader extends StatelessWidget {
       key: const ValueKey('expanded_header'),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Center(
-          child: CircleAvatar(
-            radius: avatarRadiusExpanded,
-            backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=laurap'),
+        Center(
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+              );
+            },
+            child: const Hero(
+              tag: 'user_avatar',
+              child: CircleAvatar(
+                radius: avatarRadiusExpanded,
+                backgroundImage: NetworkImage(
+                  'https://i.pravatar.cc/150?u=laurap',
+                ),
+              ),
+            ),
           ),
         ),
         const SizedBox(height: 12),

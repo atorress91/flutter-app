@@ -41,7 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _handleRefresh() async {
-
     // llamada a API
     await Future.delayed(const Duration(seconds: 2));
 
