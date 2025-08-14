@@ -1,13 +1,13 @@
-import '../../../../core/data/dtos/users_affiliates_dto.dart';
+import '../dtos/users_affiliates_dto.dart';
 
-class UserSession {
+class SessionModel {
   final UsersAffiliatesDto user;
   final DateTime loggedAt;
 
-  const UserSession({required this.user, required this.loggedAt});
+  const SessionModel({required this.user, required this.loggedAt});
 
-  factory UserSession.fromJson(Map<String, dynamic> json) {
-    return UserSession(
+  factory SessionModel.fromJson(Map<String, dynamic> json) {
+    return SessionModel(
       user: UsersAffiliatesDto.fromJson(json['user'] as Map<String, dynamic>),
       loggedAt: DateTime.parse(json['loggedAt'] as String),
     );

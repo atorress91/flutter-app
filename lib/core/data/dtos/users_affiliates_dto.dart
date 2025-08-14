@@ -1,3 +1,5 @@
+import 'package:my_app/features/dashboard/domain/entities/user.dart';
+
 class UsersAffiliatesDto {
   final int id;
   final String userName;

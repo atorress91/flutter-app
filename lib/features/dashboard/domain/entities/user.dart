@@ -4,7 +4,7 @@ class User extends Equatable {
   final int id;
   final String userName;
   final String email;
-  final String? fullName; // Lógica de negocio
+  final String? fullName;
   final String? imageUrl;
   final bool isActive;
 

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../../features/dashboard/domain/entities/user_session.dart';
+import '../data/models/session_model.dart';
 import '../data/dtos/users_affiliates_dto.dart';
 import '../data/request/request_user_auth.dart';
 import '../services/auth_service.dart';
@@ -19,19 +19,19 @@ final authServiceProvider = Provider<AuthService>(
 );
 
 /// Estado de autenticación (sin token)
-class AuthNotifier extends AsyncNotifier<UserSession?> {
+class AuthNotifier extends AsyncNotifier<SessionModel?> {
   FlutterSecureStorage get _storage => ref.read(secureStorageProvider);
 
   AuthService get _service => ref.read(authServiceProvider);
 
   @override
-  Future<UserSession?> build() async {
+  Future<SessionModel?> build() async {
     // Carga sesión persistida al iniciar la app
     final raw = await _storage.read(key: _kSessionKey);
     if (raw == null) return null;
     try {
       final map = jsonDecode(raw) as Map<String, dynamic>;
-      return UserSession.fromJson(map);
+      return SessionModel.fromJson(map);
     } catch (_) {
       return null;
     }
@@ -52,7 +52,7 @@ class AuthNotifier extends AsyncNotifier<UserSession?> {
           (data['affiliate'] ?? data['user'] ?? data) as Map<String, dynamic>;
 
       final user = UsersAffiliatesDto.fromJson(userPayload);
-      final session = UserSession(user: user, loggedAt: DateTime.now());
+      final session = SessionModel(user: user, loggedAt: DateTime.now());
 
       await _storage.write(
         key: _kSessionKey,
@@ -75,13 +75,13 @@ class AuthNotifier extends AsyncNotifier<UserSession?> {
     }
     try {
       final map = jsonDecode(raw) as Map<String, dynamic>;
-      state = AsyncData(UserSession.fromJson(map));
+      state = AsyncData(SessionModel.fromJson(map));
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
     }
   }
 }
 
-final authNotifierProvider = AsyncNotifierProvider<AuthNotifier, UserSession?>(
+final authNotifierProvider = AsyncNotifierProvider<AuthNotifier, SessionModel?>(
   () => AuthNotifier(),
 );
