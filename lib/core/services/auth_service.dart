@@ -1,25 +1,17 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 
+import '../data/models/api_response.dart';
 import '../data/request/request_user_auth.dart';
+import 'base_service.dart';
 
-class AuthService {
-  final String baseUrl;
-  final http.Client _client;
+class AuthService extends BaseService {
+  AuthService({super.client});
 
-  AuthService(this.baseUrl, {http.Client? client})
-    : _client = client ?? http.Client();
-
-  /// Retorna el "objeto de usuario" que venga en data (user o affiliate) o lanza excepción en Fail.
-  Future<Map<String, dynamic>> login(RequestUserAuth request) async {
-    final url = Uri.parse(
-      '$baseUrl/auth/login',
-    ); // ajusta prefijo /api/v1 si aplica
-    final res = await _client.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(request.toJson()),
-    );
+  /// Retorna el "objeto de usuario" que venga en data (user o affiliate) usando ApiResponse.
+  Future<ApiResponse<Map<String, dynamic>>> login(
+    RequestUserAuth request,
+  ) async {
+    final res = await postJson('/auth/login', request.toJson());
 
     if (res.statusCode != 200) {
       throw Exception('Error ${res.statusCode}: ${res.body}');
@@ -29,22 +21,23 @@ class AuthService {
     final Map<String, dynamic> body =
         jsonDecode(res.body) as Map<String, dynamic>;
 
-    // Intentamos detectar un envelope típico: { success: bool, data: {...}, message: "..." }
-    final bool success = body['success'] is bool
-        ? body['success'] as bool
-        : true;
-    if (!success) {
-      final msg = (body['message'] ?? 'Login fallido').toString();
-      throw Exception(msg);
-    }
+    // Usamos ApiResponse.fromEnvelope para manejar la respuesta
+    return ApiResponse.fromEnvelope(
+      envelope: body,
+      parseData: (json) {
+        // Extrae 'data' si existe, si no, usa el body como tal
+        final Object? data =
+            json is Map<String, dynamic> && json.containsKey('data')
+            ? json['data']
+            : json;
 
-    // Extrae 'data' si existe, si no, usa el body como tal
-    final Object? data = body.containsKey('data') ? body['data'] : body;
-
-    if (data is Map<String, dynamic>) {
-      return data;
-    } else {
-      throw Exception('Formato de respuesta inesperado');
-    }
+        if (data is Map<String, dynamic>) {
+          return data;
+        } else {
+          throw Exception('Formato de respuesta inesperado');
+        }
+      },
+      statusCode: res.statusCode,
+    );
   }
 }

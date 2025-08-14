@@ -14,11 +14,9 @@ final secureStorageProvider = Provider<FlutterSecureStorage>(
 );
 
 /// Servicio HTTP
-final authServiceProvider = Provider<AuthService>(
-  (ref) => AuthService('https://tu-base-url/api/v1'), // <-- Ajusta tu base URL
-);
+final authServiceProvider = Provider<AuthService>((ref) => AuthService());
 
-/// Estado de autenticación (sin token)
+/// Estado de autenticación
 class AuthNotifier extends AsyncNotifier<SessionModel?> {
   FlutterSecureStorage get _storage => ref.read(secureStorageProvider);
 
@@ -45,7 +43,14 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
     state = const AsyncLoading();
 
     state = await AsyncValue.guard(() async {
-      final data = await _service.login(req);
+      final apiResponse = await _service.login(req);
+
+      // Verificar si la respuesta fue exitosa
+      if (!apiResponse.success) {
+        throw Exception(apiResponse.message ?? 'Login fallido');
+      }
+
+      final data = apiResponse.data;
 
       // data puede ser "user" o "affiliate". Tomamos el primero que exista.
       final userPayload =
