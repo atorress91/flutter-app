@@ -6,14 +6,17 @@ import '../config/environments.dart';
 /// Servicio base para centralizar baseUrl, cliente HTTP y headers comunes.
 abstract class BaseService {
   final http.Client client;
+  final Microservice microservice;
 
-  BaseService({http.Client? client}) : client = client ?? http.Client();
+  BaseService({http.Client? client, required this.microservice})
+      : client = client ?? http.Client();
 
-  String get baseUrl => Environment.baseUrl;
+  String get baseUrl => Environment.baseUrlFor(microservice);
 
   /// Construye URIs garantizando que no haya doble slash.
-  Uri buildUri(String path, {Map<String, String>? query}) {
-    final normalizedBase = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
+  Uri buildUri(String path, {Map<String, String>? query, Microservice? service}) {
+    final base = Environment.baseUrlFor(service ?? microservice);
+    final normalizedBase = base.endsWith('/') ? base.substring(0, base.length - 1) : base;
     final normalizedPath = path.startsWith('/') ? path : '/$path';
     final uri = Uri.parse('$normalizedBase$normalizedPath');
     return query == null ? uri : uri.replace(queryParameters: query);
@@ -30,9 +33,10 @@ abstract class BaseService {
     String path, {
     Map<String, String>? headers,
     Map<String, String>? query,
+    Microservice? service,
   }) {
     return client.get(
-      buildUri(path, query: query),
+      buildUri(path, query: query, service: service),
       headers: defaultHeaders(headers),
     );
   }
@@ -42,9 +46,10 @@ abstract class BaseService {
     Object? body,
     Map<String, String>? headers,
     Map<String, String>? query,
+    Microservice? service,
   }) {
     return client.post(
-      buildUri(path, query: query),
+      buildUri(path, query: query, service: service),
       headers: defaultHeaders(headers),
       body: body,
     );
@@ -55,9 +60,10 @@ abstract class BaseService {
     Object? body,
     Map<String, String>? headers,
     Map<String, String>? query,
+    Microservice? service,
   }) {
     return client.put(
-      buildUri(path, query: query),
+      buildUri(path, query: query, service: service),
       headers: defaultHeaders(headers),
       body: body,
     );
@@ -68,9 +74,10 @@ abstract class BaseService {
     Object? body,
     Map<String, String>? headers,
     Map<String, String>? query,
+    Microservice? service,
   }) {
     return client.delete(
-      buildUri(path, query: query),
+      buildUri(path, query: query, service: service),
       headers: defaultHeaders(headers),
       body: body,
     );
@@ -78,12 +85,13 @@ abstract class BaseService {
 
   /// Helper para enviar JSON sin repetir jsonEncode ni content-type.
   Future<http.Response> postJson(String path, Map<String, dynamic> payload,
-      {Map<String, String>? headers, Map<String, String>? query}) {
+      {Map<String, String>? headers, Map<String, String>? query, Microservice? service}) {
     return post(
       path,
       body: jsonEncode(payload),
       headers: defaultHeaders(headers),
       query: query,
+      service: service,
     );
   }
 }

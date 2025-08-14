@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import '../data/models/api_response.dart';
 import '../data/request/request_user_auth.dart';
+import '../config/environments.dart';
 import 'base_service.dart';
 
 class AuthService extends BaseService {
-  AuthService({super.client});
+  AuthService({super.client}) : super(microservice: Microservice.account);
 
   /// Retorna el "objeto de usuario" que venga en data (user o affiliate) usando ApiResponse.
   Future<ApiResponse<Map<String, dynamic>>> login(

@@ -4,7 +4,17 @@ import 'main.dart' as app;
 
 void main() {
   Environment.set(AppEnvironment.local);
-  // Optional: override defaults if needed
-  // Environment.configure(local: const EnvironmentConfig(baseUrl: 'http://10.0.2.2:3000', clientId: 'android-emulator'));
+  // Definir endpoints de microservicios y clientId para local
+  Environment.configure(
+    local: EnvironmentConfig(
+      endpoints: {
+        Microservice.account: 'eco-keygJ-MrM8y9jUD/b1dN24=neYjxeUA=N-f?9sHuDCcJ0JWfx-ajo7yjVn441',
+        Microservice.systemConfiguration: 'eco-key8ZgMhRytu-Jrv1FU1rZSw2jM-FaBP!ou!sJNBITT3tA63GBrrQiVe3zvS',
+        Microservice.inventory: 'eco-keyLd5DU5faBWLfLrE1ATUK0c1qpvSci1x5TvFkDVw3FEM7JO30Jm!zXyB4w',
+        Microservice.wallet: 'eco-keypFvQnUOko=r4/G!chia5Fe2-6OU?2YNYqAPWlaiN!uYrZIdwoUNv9P4d7',
+      },
+      clientId: 'eco-keyhFvQoUOk=r6/F!chia2Fe1-8OU?4YNWqAVWlaiN!tYrWIdvoUMv8Q6d6',
+    ),
+  );
   runApp(const app.MyApp());
 }

@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       builder: (context, mode, _) {
         return ValueListenableBuilder<Locale>(
           valueListenable: AppLocale.locale,
-          builder: (context, locale, __) {
+          builder: (context, locale, _) {
             return MaterialApp.router(
               title: AppLocalizations(locale).appTitle,
               debugShowCheckedModeBanner: false,

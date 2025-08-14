@@ -1,23 +1,38 @@
 enum AppEnvironment { local, prod }
 
+enum Microservice { account, systemConfiguration, inventory, wallet }
+
 class EnvironmentConfig {
-  final String baseUrl;
+  final Map<Microservice, String> endpoints;
   final String clientId;
 
-  const EnvironmentConfig({required this.baseUrl, required this.clientId});
+  const EnvironmentConfig({
+    required this.endpoints,
+    required this.clientId,
+  });
 }
 
 /// Singleton-like environment holder
 class Environment {
   static AppEnvironment _env = AppEnvironment.local; // default
 
-  static EnvironmentConfig _local = const EnvironmentConfig(
-    baseUrl: 'http://localhost:3000',
+  static EnvironmentConfig _local = EnvironmentConfig(
+    endpoints: {
+      Microservice.account: 'http://localhost:3000',
+      Microservice.systemConfiguration: 'http://localhost:3001',
+      Microservice.inventory: 'http://localhost:3002',
+      Microservice.wallet: 'http://localhost:3003',
+    },
     clientId: 'my-local-client',
   );
 
-  static EnvironmentConfig _prod = const EnvironmentConfig(
-    baseUrl: 'https://api.example.com',
+  static EnvironmentConfig _prod = EnvironmentConfig(
+    endpoints: {
+      Microservice.account: 'https://api.example.com/account',
+      Microservice.systemConfiguration: 'https://api.example.com/system',
+      Microservice.inventory: 'https://api.example.com/inventory',
+      Microservice.wallet: 'https://api.example.com/wallet',
+    },
     clientId: 'my-prod-client',
   );
 
@@ -41,6 +56,6 @@ class Environment {
     }
   }
 
-  static String get baseUrl => config.baseUrl;
+  static String baseUrlFor(Microservice service) => config.endpoints[service] ?? '';
   static String get clientId => config.clientId;
 }
