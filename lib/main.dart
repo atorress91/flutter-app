@@ -4,9 +4,14 @@ import 'package:my_app/core/app_router.dart';
 import 'package:my_app/core/theme/app_theme.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/core/l10n/app_locale.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

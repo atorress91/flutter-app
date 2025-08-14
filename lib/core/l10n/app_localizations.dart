@@ -167,6 +167,9 @@ class AppLocalizations {
   String get appTitle => _t('appTitle');
 
   String get loginScreenTitle => _t('loginScreenTitle');
+  
+  String get passwordLabel => _t('passwordLabel');
+  String get signInButtonLabel => _t('signInButtonLabel');
 
   String get loginAsClient => _t('loginAsClient');
 

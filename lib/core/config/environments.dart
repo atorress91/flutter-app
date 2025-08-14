@@ -4,11 +4,14 @@ enum Microservice { account, systemConfiguration, inventory, wallet }
 
 class EnvironmentConfig {
   final Map<Microservice, String> endpoints;
+  final Map<Microservice, String>
+  serviceKeys; // llaves por microservicio para Authorization
   final String clientId;
 
   const EnvironmentConfig({
     required this.endpoints,
     required this.clientId,
+    this.serviceKeys = const {},
   });
 }
 
@@ -18,22 +21,24 @@ class Environment {
 
   static EnvironmentConfig _local = EnvironmentConfig(
     endpoints: {
-      Microservice.account: 'http://localhost:3000',
+      Microservice.account: 'https://account.recycoin.net/api/v1',
       Microservice.systemConfiguration: 'http://localhost:3001',
       Microservice.inventory: 'http://localhost:3002',
       Microservice.wallet: 'http://localhost:3003',
     },
     clientId: 'my-local-client',
+    serviceKeys: const {}, // por defecto vacío
   );
 
   static EnvironmentConfig _prod = EnvironmentConfig(
     endpoints: {
-      Microservice.account: 'https://api.example.com/account',
+      Microservice.account: 'https://account.recycoin.net/api/v1',
       Microservice.systemConfiguration: 'https://api.example.com/system',
       Microservice.inventory: 'https://api.example.com/inventory',
       Microservice.wallet: 'https://api.example.com/wallet',
     },
     clientId: 'my-prod-client',
+    serviceKeys: const {}, // por defecto vacío
   );
 
   static void set(AppEnvironment env) {
@@ -56,6 +61,12 @@ class Environment {
     }
   }
 
-  static String baseUrlFor(Microservice service) => config.endpoints[service] ?? '';
+  static String baseUrlFor(Microservice service) =>
+      config.endpoints[service] ?? '';
+
   static String get clientId => config.clientId;
+
+  // Devuelve la llave del microservicio para Authorization (si existe)
+  static String? serviceKeyFor(Microservice service) =>
+      config.serviceKeys[service];
 }

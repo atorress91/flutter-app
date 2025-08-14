@@ -9,25 +9,37 @@ abstract class BaseService {
   final Microservice microservice;
 
   BaseService({http.Client? client, required this.microservice})
-      : client = client ?? http.Client();
+    : client = client ?? http.Client();
+
+  // Eliminamos la noción de token dinámico aquí y usamos la llave por microservicio desde Environment
 
   String get baseUrl => Environment.baseUrlFor(microservice);
 
   /// Construye URIs garantizando que no haya doble slash.
-  Uri buildUri(String path, {Map<String, String>? query, Microservice? service}) {
+  Uri buildUri(
+    String path, {
+    Map<String, String>? query,
+    Microservice? service,
+  }) {
     final base = Environment.baseUrlFor(service ?? microservice);
-    final normalizedBase = base.endsWith('/') ? base.substring(0, base.length - 1) : base;
+    final normalizedBase = base.endsWith('/')
+        ? base.substring(0, base.length - 1)
+        : base;
     final normalizedPath = path.startsWith('/') ? path : '/$path';
     final uri = Uri.parse('$normalizedBase$normalizedPath');
     return query == null ? uri : uri.replace(queryParameters: query);
   }
 
-  /// Headers por defecto, incluyendo X-Client-Id desde environments.
-  Map<String, String> defaultHeaders([Map<String, String>? extra]) => {
-        'Content-Type': 'application/json',
-        'X-Client-Id': Environment.clientId,
-        if (extra != null) ...extra,
-      };
+  /// Headers por defecto, incluyendo X-Client-Id y Authorization por microservicio.
+  Map<String, String> defaultHeaders([Map<String, String>? extra]) {
+    final key = Environment.serviceKeyFor(microservice);
+    return {
+      'Content-Type': 'application/json',
+      'X-Client-Id': Environment.clientId,
+      if (key != null && key.isNotEmpty) 'Authorization': key, // sin "Bearer"
+      if (extra != null) ...extra,
+    };
+  }
 
   Future<http.Response> get(
     String path, {
@@ -84,8 +96,13 @@ abstract class BaseService {
   }
 
   /// Helper para enviar JSON sin repetir jsonEncode ni content-type.
-  Future<http.Response> postJson(String path, Map<String, dynamic> payload,
-      {Map<String, String>? headers, Map<String, String>? query, Microservice? service}) {
+  Future<http.Response> postJson(
+    String path,
+    Map<String, dynamic> payload, {
+    Map<String, String>? headers,
+    Map<String, String>? query,
+    Microservice? service,
+  }) {
     return post(
       path,
       body: jsonEncode(payload),
