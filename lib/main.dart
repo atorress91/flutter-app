@@ -9,18 +9,14 @@ import 'package:my_app/core/l10n/app_locale.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  if(kReleaseMode){
+  if (kReleaseMode) {
     Environment.configureProduction();
   } else {
     // Estamos en desarrollo
     Environment.configureLocal();
   }
 
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

@@ -2,22 +2,24 @@ class RequestUserAuth {
   final String userName;
   final String password;
   final String? browserInfo;
-  final String? operatingSystem;
   final String? ipAddress;
+  final String? operatingSystem;
 
   RequestUserAuth({
     required this.userName,
     required this.password,
     this.browserInfo,
-    this.operatingSystem,
     this.ipAddress,
+    this.operatingSystem,
   });
 
-  Map<String, dynamic> toJson() => {
-    'userName': userName,
-    'password': password,
-    'browserInfo': browserInfo,
-    'operatingSystem': operatingSystem,
-    'ipAddress': ipAddress,
-  };
+  Map<String, dynamic> toJson() {
+    return {
+      'userName': userName,
+      'password': password,
+      if (browserInfo != null) 'browserInfo': browserInfo,
+      if (ipAddress != null) 'ipAddress': ipAddress,
+      if (operatingSystem != null) 'operatingSystem': operatingSystem,
+    };
+  }
 }

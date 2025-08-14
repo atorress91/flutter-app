@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/core/providers/auth_providers.dart';
 import 'package:my_app/core/data/request/request_user_auth.dart';
+import 'package:my_app/core/services/device_info_service.dart';
+import 'package:my_app/core/services/network_service.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -29,11 +31,32 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (!_formKey.currentState!.validate()) return;
 
     final notifier = ref.read(authNotifierProvider.notifier);
+
+    // Mostrar loading mientras recopilamos información del dispositivo
+    setState(() {}); // Para mostrar el loading state
+
     try {
+      // Recopilar información del dispositivo en paralelo
+      final futures = await Future.wait([
+        DeviceInfoService.getDeviceInfo(),
+        NetworkService.getLocalIpAddress(),
+      ]);
+
+      final deviceInfo = futures[0] as Map<String, dynamic>;
+      final ipAddress = futures[1] as String?;
+
+      final browserInfo = DeviceInfoService.generateBrowserInfo(deviceInfo);
+      final operatingSystem = DeviceInfoService.generateOperatingSystem(
+        deviceInfo,
+      );
+
       await notifier.login(
         RequestUserAuth(
           userName: _userController.text.trim(),
           password: _passwordController.text,
+          browserInfo: browserInfo,
+          ipAddress: ipAddress,
+          operatingSystem: operatingSystem,
         ),
       );
 
@@ -47,9 +70,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       }
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.toString())),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 
@@ -104,7 +127,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         labelText: strings.passwordLabel,
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
-                          icon: Icon(_obscure ? Icons.visibility : Icons.visibility_off),
+                          icon: Icon(
+                            _obscure ? Icons.visibility : Icons.visibility_off,
+                          ),
                           onPressed: isLoading
                               ? null
                               : () => setState(() => _obscure = !_obscure),
@@ -131,7 +156,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ? const SizedBox(
                                 width: 22,
                                 height: 22,
-                                child: CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
                             : Text(strings.signInButtonLabel),
                       ),
@@ -140,10 +167,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       const SizedBox(height: 12),
                       Text(
                         authState.error.toString(),
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall
-                            ?.copyWith(color: Theme.of(context).colorScheme.error),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     ],
