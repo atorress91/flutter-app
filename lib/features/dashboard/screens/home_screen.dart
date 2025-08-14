@@ -98,9 +98,22 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 24),
-                            child: BalanceInfo(),
+                          // dentro del build, donde antes estaba BalanceInfo():
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: BalanceChart(
+                              currencySymbol: '\$',
+                              data: [
+                                // Datos de ejemplo con recycoins incluidos
+                                BalancePoint(date: DateTime(2025, 1, 1), available: 2500, locked: 300, recycoins: 120),
+                                BalancePoint(date: DateTime(2025, 1, 8), available: 2750, locked: 280, recycoins: 135),
+                                BalancePoint(date: DateTime(2025, 1, 15), available: 3200, locked: 260, recycoins: 145),
+                                BalancePoint(date: DateTime(2025, 1, 22), available: 3400, locked: 260, recycoins: 160),
+                                BalancePoint(date: DateTime(2025, 2, 1), available: 3600, locked: 240, recycoins: 175),
+                                BalancePoint(date: DateTime(2025, 2, 8), available: 3550, locked: 220, recycoins: 185),
+                                BalancePoint(date: DateTime(2025, 2, 15), available: 3800, locked: 210, recycoins: 200),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 30),
                           Padding(
@@ -135,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           const PerformanceChart(),
                           const SizedBox(height: 30),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            padding: EdgeInsets.symmetric(horizontal: 24),
                             child: Text(
                               AppLocalizations.of(context).homeQuickActions,
                               style: textTheme.titleLarge?.copyWith(
