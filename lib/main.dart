@@ -1,12 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:my_app/core/app_router.dart';
+import 'package:my_app/core/config/environments.dart';
 import 'package:my_app/core/theme/app_theme.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/core/l10n/app_locale.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
+  if(kReleaseMode){
+    Environment.configureProduction();
+  } else {
+    // Estamos en desarrollo
+    Environment.configureLocal();
+  }
+
   runApp(
     const ProviderScope(
       child: MyApp(),
