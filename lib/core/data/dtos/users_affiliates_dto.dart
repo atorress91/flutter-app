@@ -42,4 +42,16 @@ class UsersAffiliatesDto {
     'last_name': lastName,
     'image_profile_url': imageProfileUrl,
   };
+
+  User toEntity() {
+    return User(
+      id: id,
+      userName: userName,
+      email: email,
+      // Lógica de mapeo: combina nombre y apellido
+      fullName: (name != null && lastName != null) ? '$name $lastName' : name,
+      imageUrl: imageProfileUrl,
+      isActive: status == 1,
+    );
+  }
 }
