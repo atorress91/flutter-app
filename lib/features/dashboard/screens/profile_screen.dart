@@ -21,18 +21,20 @@ class ProfileScreen extends StatelessWidget {
         foregroundColor: Theme.of(context).colorScheme.onSurface,
       ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-        child: Column(
-          children: [
-            const ProfileHeader(),
-            const SizedBox(height: 24),
-            const ProfileStatusBadges(),
-            const SizedBox(height: 32),
-            const ProfileInfoCard(),
-            const SizedBox(height: 32),
-            _buildActionButtons(context),
-          ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+          child: Column(
+            children: [
+              const ProfileHeader(),
+              const SizedBox(height: 24),
+              const ProfileStatusBadges(),
+              const SizedBox(height: 32),
+              const ProfileInfoCard(),
+              const SizedBox(height: 32),
+              _buildActionButtons(context),
+            ],
+          ),
         ),
       ),
     );
