@@ -1,14 +1,15 @@
-import 'package:my_app/features/dashboard/domain/entities/user.dart';
+import 'package:my_app/features/auth/domain/entities/user.dart';
 
 class UsersAffiliatesDto {
   final int id;
   final String userName;
   final String email;
   final int isAffiliate;
-  final int status;
+  final bool status;
   final String? name;
   final String? lastName;
   final String? imageProfileUrl;
+  final DateTime createdAt;
 
   UsersAffiliatesDto({
     required this.id,
@@ -19,6 +20,7 @@ class UsersAffiliatesDto {
     this.name,
     this.lastName,
     this.imageProfileUrl,
+    required this.createdAt,
   });
 
   factory UsersAffiliatesDto.fromJson(Map<String, dynamic> json) {
@@ -27,10 +29,11 @@ class UsersAffiliatesDto {
       userName: (json['user_name'] ?? '') as String,
       email: (json['email'] ?? '') as String,
       isAffiliate: (json['is_affiliate'] ?? 0) as int,
-      status: (json['status'] ?? 0) as int,
+      status: (json['status'] ?? 0) == 1,
       name: json['name'] as String?,
       lastName: json['last_name'] as String?,
       imageProfileUrl: json['image_profile_url'] as String?,
+      createdAt: DateTime.parse(json['created_at'] as String),
     );
   }
 
@@ -43,6 +46,7 @@ class UsersAffiliatesDto {
     'name': name,
     'last_name': lastName,
     'image_profile_url': imageProfileUrl,
+    'created_at': createdAt.toIso8601String(),
   };
 
   User toEntity() {
@@ -50,10 +54,10 @@ class UsersAffiliatesDto {
       id: id,
       userName: userName,
       email: email,
-      // Lógica de mapeo: combina nombre y apellido
       fullName: (name != null && lastName != null) ? '$name $lastName' : name,
       imageUrl: imageProfileUrl,
-      isActive: status == 1,
+      isActive: status,
+      createdAt: createdAt,
     );
   }
 }

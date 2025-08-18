@@ -7,6 +7,9 @@ class User extends Equatable {
   final String? fullName;
   final String? imageUrl;
   final bool isActive;
+  final DateTime createdAt;
+  final String? roleName;
+  final String? phone;
 
   const User({
     required this.id,
@@ -15,6 +18,9 @@ class User extends Equatable {
     this.fullName,
     this.imageUrl,
     required this.isActive,
+    required this.createdAt,
+    this.roleName,
+    this.phone,
   });
 
   @override

@@ -35,7 +35,7 @@ class LoginServiceImpl implements LoginService {
       );
 
       final notifier = _ref.read(authNotifierProvider.notifier);
-      await notifier.login(
+      final session = await notifier.login(
         RequestUserAuth(
           userName: username.trim(),
           password: password,
@@ -46,7 +46,6 @@ class LoginServiceImpl implements LoginService {
       );
 
       final authState = _ref.read(authNotifierProvider);
-
       if (authState.hasError) {
         return ApiResponse<bool>(
           success: false,
@@ -56,8 +55,7 @@ class LoginServiceImpl implements LoginService {
         );
       }
 
-      final session = authState.value;
-      final isAffiliate = session?.user.isAffiliate == 1;
+      final isAffiliate = session.user.isAffiliate == 1;
 
       return ApiResponse<bool>(
         success: true,

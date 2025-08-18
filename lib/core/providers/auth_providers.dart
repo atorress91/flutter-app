@@ -37,10 +37,10 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
 
   UsersAffiliatesDto? get currentUser => state.value?.user;
 
-  Future<void> login(RequestUserAuth req) async {
+  Future<SessionModel> login(RequestUserAuth req) async {
     state = const AsyncLoading();
 
-    state = await AsyncValue.guard(() async {
+    final result = await AsyncValue.guard(() async {
       final apiResponse = await _service.login(req);
 
       if (!apiResponse.success) {
@@ -48,8 +48,6 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
       }
 
       final data = apiResponse.data;
-
-      // data puede ser "user" o "affiliate".
       final userPayload =
           (data['affiliate'] ?? data['user'] ?? data) as Map<String, dynamic>;
 
@@ -62,6 +60,9 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
       );
       return session;
     });
+
+    state = result;
+    return result.value!;
   }
 
   Future<void> logout() async {
