@@ -61,7 +61,7 @@ class LoginScreen extends ConsumerWidget {
     if (result.success) {
       final isAffiliate = result.data;
       print(isAffiliate);
-      final route = isAffiliate ? '/admin/dashboard' : '/dashboard';
+      final route = isAffiliate ? '/dashboard' : '/admin/dashboard';
       context.go(route);
     }
   }
