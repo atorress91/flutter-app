@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/core/providers/auth_providers.dart';
 import '../../screens/profile_screen.dart';
 import 'sidebar_constants.dart';
 
-class SidebarHeader extends StatelessWidget {
+class SidebarHeader extends ConsumerWidget {
   final bool isCollapsed;
   final VoidCallback? onRequestClose;
 
@@ -13,7 +16,24 @@ class SidebarHeader extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final asyncSession = ref.watch(authNotifierProvider);
+    final user = asyncSession.value?.user; // UsersAffiliatesDto?
+
+    String displayName() {
+      if (user == null) return '';
+      final name = user.name;
+      final last = user.lastName;
+      if (name != null && name.isNotEmpty) {
+        return (last != null && last.isNotEmpty) ? '$name $last' : name;
+      }
+      if (user.userName.isNotEmpty) return user.userName;
+      return user.email;
+    }
+
+    final secondaryText = user?.email ?? '';
+    final imageUrl = user?.imageProfileUrl;
+
     final textTheme = Theme.of(context).textTheme;
     final width = MediaQuery.of(context).size.width;
     final bool isMobile = width < 900;
@@ -24,12 +44,16 @@ class SidebarHeader extends StatelessWidget {
       color: Theme.of(context).colorScheme.surface,
       child: Stack(
         children: [
-          // Main header content
           Align(
             alignment: Alignment.centerLeft,
-            child: _buildHeaderContent(context, textTheme),
+            child: _buildHeaderContent(
+              context,
+              textTheme,
+              displayName(),
+              secondaryText,
+              imageUrl,
+            ),
           ),
-          // Mobile-only close button when expanded
           if (!isCollapsed && isMobile && onRequestClose != null)
             _buildCloseButton(context),
         ],
@@ -37,7 +61,13 @@ class SidebarHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildHeaderContent(BuildContext context, TextTheme textTheme) {
+  Widget _buildHeaderContent(
+    BuildContext context,
+    TextTheme textTheme,
+    String name,
+    String subtitle,
+    String? imageUrl,
+  ) {
     return SizedBox(
       width: double.infinity,
       child: AnimatedSwitcher(
@@ -45,13 +75,17 @@ class SidebarHeader extends StatelessWidget {
         transitionBuilder: (child, animation) =>
             FadeTransition(opacity: animation, child: child),
         child: isCollapsed
-            ? _buildCollapsedHeader(context)
-            : _buildExpandedHeader(context, textTheme),
+            ? _buildCollapsedHeader(context, name, imageUrl)
+            : _buildExpandedHeader(context, textTheme, name, subtitle, imageUrl),
       ),
     );
   }
 
-  Widget _buildCollapsedHeader(BuildContext context) {
+  Widget _buildCollapsedHeader(
+    BuildContext context,
+    String name,
+    String? imageUrl,
+  ) {
     return Center(
       key: const ValueKey('collapsed_header'),
       child: GestureDetector(
@@ -61,18 +95,36 @@ class SidebarHeader extends StatelessWidget {
             MaterialPageRoute(builder: (context) => const ProfileScreen()),
           );
         },
-        child: const Hero(
+        child: Hero(
           tag: 'user_avatar',
           child: CircleAvatar(
             radius: avatarRadiusCollapsed,
-            backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=laurap'),
+            backgroundColor:
+                Theme.of(context).colorScheme.primary.withAlpha((255 * 0.15).toInt()),
+            backgroundImage:
+                (imageUrl != null && imageUrl.isNotEmpty) ? NetworkImage(imageUrl) : null,
+            child: (imageUrl == null || imageUrl.isEmpty)
+                ? Text(
+                    _initialsFrom(name),
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w700,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  )
+                : null,
           ),
         ),
       ),
     );
   }
 
-  Widget _buildExpandedHeader(BuildContext context, TextTheme textTheme) {
+  Widget _buildExpandedHeader(
+    BuildContext context,
+    TextTheme textTheme,
+    String name,
+    String subtitle,
+    String? imageUrl,
+  ) {
     return Column(
       key: const ValueKey('expanded_header'),
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,20 +137,33 @@ class SidebarHeader extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const ProfileScreen()),
               );
             },
-            child: const Hero(
+            child: Hero(
               tag: 'user_avatar',
               child: CircleAvatar(
                 radius: avatarRadiusExpanded,
-                backgroundImage: NetworkImage(
-                  'https://i.pravatar.cc/150?u=laurap',
-                ),
+                backgroundColor: Theme.of(context)
+                    .colorScheme
+                    .primary
+                    .withAlpha((255 * 0.15).toInt()),
+                backgroundImage: (imageUrl != null && imageUrl.isNotEmpty)
+                    ? NetworkImage(imageUrl)
+                    : null,
+                child: (imageUrl == null || imageUrl.isEmpty)
+                    ? Text(
+                        _initialsFrom(name),
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w700,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      )
+                    : null,
               ),
             ),
           ),
         ),
         const SizedBox(height: 12),
         Text(
-          'André',
+          name.isEmpty ? '' : name,
           style: textTheme.titleLarge?.copyWith(
             color: Theme.of(context).colorScheme.onSurface,
             fontWeight: FontWeight.bold,
@@ -106,11 +171,12 @@ class SidebarHeader extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         Text(
-          'andres.dev@email.com',
+          subtitle,
           style: textTheme.bodyMedium?.copyWith(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withAlpha((255 * 0.6).toInt()),
+            color: Theme.of(context)
+                .colorScheme
+                .onSurface
+                .withAlpha((255 * 0.6).toInt()),
           ),
           overflow: TextOverflow.ellipsis,
         ),
@@ -127,13 +193,26 @@ class SidebarHeader extends StatelessWidget {
         child: IconButton(
           icon: Icon(
             Icons.close,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withAlpha((255 * 0.7).toInt()),
+            color: Theme.of(context)
+                .colorScheme
+                .onSurface
+                .withAlpha((255 * 0.7).toInt()),
           ),
           onPressed: onRequestClose,
         ),
       ),
     );
   }
+}
+
+String _initialsFrom(String name) {
+  if (name.trim().isEmpty) return '';
+  final parts = name
+      .trim()
+      .split(RegExp(r"\s+"))
+      .where((p) => p.isNotEmpty)
+      .toList();
+  if (parts.isEmpty) return '';
+  if (parts.length == 1) return parts.first[0].toUpperCase();
+  return (parts[0][0] + parts[1][0]).toUpperCase();
 }

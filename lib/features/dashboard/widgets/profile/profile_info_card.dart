@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:my_app/core/providers/auth_providers.dart';
 
-class ProfileInfoCard extends StatelessWidget {
+class ProfileInfoCard extends ConsumerWidget {
   const ProfileInfoCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final asyncSession = ref.watch(authNotifierProvider);
+    final user = asyncSession.value?.user; // UsersAffiliatesDto?
+
+    final email = user?.email ?? '—';
+    // UsersAffiliatesDto doesn't expose phone/address; show placeholders
+    final phone = '—';
+    final address = '—';
+    final createdAt = user?.createdAt;
+    final createdAtText = createdAt != null
+        ? DateFormat.yMMMd('es_CR').add_jm().format(createdAt)
+        : '—';
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -20,30 +34,28 @@ class ProfileInfoCard extends StatelessWidget {
             context,
             Icons.phone_outlined,
             'Teléfono',
-            '6083320715',
+            phone,
           ),
           const Divider(),
           _buildInfoRow(
             context,
             Icons.location_on_outlined,
             'Dirección',
-            '3144 keswick dr',
+            address,
           ),
           const Divider(),
           _buildInfoRow(
             context,
             Icons.email_outlined,
             'Correo',
-            'loryplaza@gmail.com',
+            email,
           ),
           const Divider(),
           _buildInfoRow(
             context,
             Icons.calendar_today_outlined,
             'Fecha Registro',
-            DateFormat.yMMMd(
-              'es_CR',
-            ).add_jm().format(DateTime.parse('2024-08-15 01:30:25')),
+            createdAtText,
           ),
         ],
       ),
