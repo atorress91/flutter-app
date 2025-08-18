@@ -50,14 +50,14 @@ class _LoginFormState extends ConsumerState<LoginForm> {
           TextFormField(
             controller: _userController,
             enabled: !loginState.isLoading,
-            decoration: const InputDecoration(
-              labelText: 'Usuario o email',
-              prefixIcon: Icon(Icons.person_outline),
+            decoration: InputDecoration(
+              labelText: strings.usernameOrEmailLabel,
+              prefixIcon: const Icon(Icons.person_outline),
             ),
             textInputAction: TextInputAction.next,
             validator: (v) {
               if (v == null || v.trim().isEmpty) {
-                return 'Ingresa tu usuario o email';
+                return strings.usernameOrEmailRequired;
               }
               return null;
             },
@@ -84,10 +84,10 @@ class _LoginFormState extends ConsumerState<LoginForm> {
             onFieldSubmitted: (_) => _handleSubmit(),
             validator: (v) {
               if (v == null || v.isEmpty) {
-                return 'Ingresa tu contraseña';
+                return strings.passwordRequired;
               }
               if (v.length < 4) {
-                return 'La contraseña es muy corta';
+                return strings.passwordTooShort;
               }
               return null;
             },

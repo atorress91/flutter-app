@@ -84,6 +84,13 @@ class AppLocalizations {
       'sidebarDashboard': 'Dashboard',
       'sidebarLogoutToLogin': 'Back to Login',
       'menuTooltip': 'Collapse/Expand Menu',
+      // Auth form
+      'passwordLabel': 'Password',
+      'signInButtonLabel': 'Sign in',
+      'usernameOrEmailLabel': 'Username or email',
+      'usernameOrEmailRequired': 'Enter your username or email',
+      'passwordRequired': 'Enter your password',
+      'passwordTooShort': 'Password is too short',
       // Home screen
       'homeWelcomeBack': 'Welcome back,',
       'homeAnnualPerformance': 'Annual Performance',
@@ -121,6 +128,13 @@ class AppLocalizations {
       'sidebarDashboard': 'Dashboard',
       'sidebarLogoutToLogin': 'Salir a Login',
       'menuTooltip': 'Contraer/Expandir Menú',
+      // Auth form
+      'passwordLabel': 'Contraseña',
+      'signInButtonLabel': 'Iniciar sesión',
+      'usernameOrEmailLabel': 'Usuario o email',
+      'usernameOrEmailRequired': 'Ingresa tu usuario o email',
+      'passwordRequired': 'Ingresa tu contraseña',
+      'passwordTooShort': 'La contraseña es muy corta',
       // Home screen
       'homeWelcomeBack': 'Bienvenido de nuevo,',
       'homeAnnualPerformance': 'Rendimiento Anual',
@@ -170,6 +184,11 @@ class AppLocalizations {
   
   String get passwordLabel => _t('passwordLabel');
   String get signInButtonLabel => _t('signInButtonLabel');
+
+  String get usernameOrEmailLabel => _t('usernameOrEmailLabel');
+  String get usernameOrEmailRequired => _t('usernameOrEmailRequired');
+  String get passwordRequired => _t('passwordRequired');
+  String get passwordTooShort => _t('passwordTooShort');
 
   String get loginAsClient => _t('loginAsClient');
 
