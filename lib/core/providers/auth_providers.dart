@@ -4,16 +4,15 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../data/models/session_model.dart';
 import '../data/dtos/users_affiliates_dto.dart';
 import '../data/request/request_user_auth.dart';
+import '../errors/exceptions.dart';
 import '../services/auth_service.dart';
 
 const _kSessionKey = 'user_session_v1';
 
-/// Storage seguro
 final secureStorageProvider = Provider<FlutterSecureStorage>(
   (ref) => const FlutterSecureStorage(),
 );
 
-/// Servicio HTTP
 final authServiceProvider = Provider<AuthService>((ref) => AuthService());
 
 /// Estado de autenticación
@@ -24,7 +23,6 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
 
   @override
   Future<SessionModel?> build() async {
-    // Carga sesión persistida al iniciar la app
     final raw = await _storage.read(key: _kSessionKey);
     if (raw == null) return null;
     try {
@@ -45,14 +43,13 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
     state = await AsyncValue.guard(() async {
       final apiResponse = await _service.login(req);
 
-      // Verificar si la respuesta fue exitosa
       if (!apiResponse.success) {
-        throw Exception(apiResponse.message ?? 'Login fallido');
+        throw ApiException(apiResponse.message ?? 'Login fallido');
       }
 
       final data = apiResponse.data;
 
-      // data puede ser "user" o "affiliate". Tomamos el primero que exista.
+      // data puede ser "user" o "affiliate".
       final userPayload =
           (data['affiliate'] ?? data['user'] ?? data) as Map<String, dynamic>;
 
