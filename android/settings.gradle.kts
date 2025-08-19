@@ -26,3 +26,5 @@ plugins {
 }
 
 include(":app")
+
+rootProject.name = file(".").name
