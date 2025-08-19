@@ -46,13 +46,13 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
   Future<SessionModel> login(RequestUserAuth req) async {
     state = const AsyncLoading();
     final result = await AsyncValue.guard(() async {
+      // El notificador se comunica con el repositorio
       final user = await _repository.login(req);
       final session = SessionModel(user: user, loggedAt: DateTime.now());
 
-      await _storage.write(
-        key: _kSessionKey,
-        value: jsonEncode(session.toJson()),
-      );
+      await ref
+          .read(secureStorageProvider)
+          .write(key: _kSessionKey, value: jsonEncode(session.toJson()));
       return session;
     });
 
