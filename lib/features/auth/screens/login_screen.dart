@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
+import 'package:my_app/core/services/biometric_service.dart';
 import '../presentation/controllers/login_controller.dart';
+import '../presentation/widgets/biometric_login_button.dart';
 import '../presentation/widgets/login_form.dart';
 
 class LoginScreen extends ConsumerWidget {
@@ -60,6 +62,9 @@ class LoginScreen extends ConsumerWidget {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 24),
+                      // Botón para iniciar sesión con huella si está habilitado y disponible
+                      BiometricLoginButton(ref: ref),
+                      const SizedBox(height: 12),
                       LoginForm(
                         key: const Key('login_form'),
                         // Pasar las credenciales desde el formulario
@@ -77,6 +82,8 @@ class LoginScreen extends ConsumerWidget {
     );
   }
 
+  // login_screen.dart
+
   Future<void> _handleLogin(
     BuildContext context,
     WidgetRef ref,
@@ -90,8 +97,38 @@ class LoginScreen extends ConsumerWidget {
 
     if (result.success) {
       final isAffiliate = result.data;
+
+      // Guardar el último rol para el inicio con huella
+      final bio = ref.read(biometricServiceProvider);
+      await bio.saveLastIsAffiliate(isAffiliate);
+
+      // Si la biometría no está habilitada pero está disponible,
+      // preguntar al usuario si desea activarla.
+      final enabled = await bio.isEnabled();
+      if (!enabled) {
+        final available = await bio.isBiometricAvailable();
+        if (available) {
+          if (!context.mounted) return;
+          final shouldEnable = await askEnableBiometrics(context);
+          if (shouldEnable == true) {
+            await bio.setEnabled(true);
+          }
+        }
+      }
+
+      if (!context.mounted) return;
+
       final route = isAffiliate ? '/dashboard' : '/admin/dashboard';
       context.go(route);
+    } else {
+      // Si el login falla, muestra un error.
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Credenciales incorrectas o error de conexión.'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
+      );
     }
   }
 }

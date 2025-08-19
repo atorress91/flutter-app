@@ -19,8 +19,10 @@ class LandingScreen extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              const Color(0xFF1A1A2E), // Tu color primario
-              const Color(0xFF2C2C4E).withOpacity(0.8), // Tu color de tarjeta
+              const Color(0xFF1A1A2E),
+              // Tu color primario
+              const Color(0xFF2C2C4E).withAlpha((255 * 0.8).toInt()),
+              // Tu color de tarjeta
             ],
           ),
         ),
@@ -55,7 +57,7 @@ class LandingScreen extends StatelessWidget {
                   'Gestiona tus datos y visualiza tu progreso de una manera fácil e intuitiva.',
                   textAlign: TextAlign.center,
                   style: textTheme.titleMedium?.copyWith(
-                    color: Colors.white.withOpacity(0.7),
+                    color: Colors.white.withAlpha((255 * 0.7).toInt()),
                   ),
                 ),
                 const SizedBox(height: 48),

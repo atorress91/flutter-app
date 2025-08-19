@@ -25,7 +25,7 @@ class PaymentHistoryList extends StatelessWidget {
       // Para que funcione dentro de otra ListView
       physics: const NeverScrollableScrollPhysics(),
       // El scroll lo maneja el padre
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         return _HistoryItem(request: requests[index]);
       },
