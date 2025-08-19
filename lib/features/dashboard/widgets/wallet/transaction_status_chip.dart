@@ -37,11 +37,11 @@ class TransactionStatusChip extends StatelessWidget {
 
   _StatusVisual _configFor(TransactionStatus status, ColorScheme scheme) {
     switch (status) {
-      case TransactionStatus.Atendido:
+      case TransactionStatus.atendido:
         return _StatusVisual('Atendido', scheme.primary);
-      case TransactionStatus.Pendiente:
+      case TransactionStatus.pendiente:
         return _StatusVisual('Pendiente', scheme.tertiary);
-      case TransactionStatus.Fallido:
+      case TransactionStatus.fallido:
         return _StatusVisual('Fallido', scheme.error);
     }
   }

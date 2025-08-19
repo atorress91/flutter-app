@@ -1,4 +1,4 @@
-enum RequestStatus { Aprobado, Pendiente, Rechazado }
+enum RequestStatus { aprobado, pendiente, rechazado }
 
 class PaymentRequest {
   final double amount;

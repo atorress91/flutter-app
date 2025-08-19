@@ -1,4 +1,4 @@
-enum TransactionStatus { Atendido, Pendiente, Fallido }
+enum TransactionStatus { atendido, pendiente, fallido }
 
 class Transaction {
   final String responsibleUser;

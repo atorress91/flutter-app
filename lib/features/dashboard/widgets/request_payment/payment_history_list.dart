@@ -41,11 +41,11 @@ class _HistoryItem extends StatelessWidget {
   Color _getStatusColor(RequestStatus status, BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     switch (status) {
-      case RequestStatus.Aprobado:
+      case RequestStatus.aprobado:
         return Colors.green.shade700;
-      case RequestStatus.Pendiente:
+      case RequestStatus.pendiente:
         return Colors.orange.shade700;
-      case RequestStatus.Rechazado:
+      case RequestStatus.rechazado:
         return colorScheme.error;
     }
   }

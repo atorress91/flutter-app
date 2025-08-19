@@ -16,7 +16,7 @@ class TransactionHistoryList extends StatelessWidget {
       itemCount: transactions.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final tx = transactions[index];
         return TransactionCard(

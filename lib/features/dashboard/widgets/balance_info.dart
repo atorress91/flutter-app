@@ -143,12 +143,16 @@ class _BalanceChartState extends State<BalanceChart>
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: _getSelectedColor(
-                                  touchedIndex,
-                                  colorAvailable,
-                                  colorLocked,
-                                  colorRecoins,
-                                ).withOpacity(0.3 * _pulseController!.value),
+                                color:
+                                    _getSelectedColor(
+                                      touchedIndex,
+                                      colorAvailable,
+                                      colorLocked,
+                                      colorRecoins,
+                                    ).withAlpha(
+                                      (255 * 0.3 * _pulseController!.value)
+                                          .toInt(),
+                                    ),
                                 blurRadius: 30,
                                 spreadRadius: 5,
                               ),
@@ -417,7 +421,7 @@ class _CenterContent extends StatelessWidget {
               fontWeight: FontWeight.w600,
               color: isSelected
                   ? color
-                  : theme.colorScheme.onSurface.withOpacity(0.8),
+                  : theme.colorScheme.onSurface.withAlpha((255 * 0.8).toInt()),
             ),
           ),
           if (isSelected) ...[
@@ -426,7 +430,9 @@ class _CenterContent extends StatelessWidget {
               description,
               textAlign: TextAlign.center,
               style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.6),
+                color: theme.colorScheme.onSurface.withAlpha(
+                  (255 * 0.6).toInt(),
+                ),
                 fontSize: 11,
               ),
             ),
@@ -459,7 +465,7 @@ class _LegendItem extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.15),
+              color: color.withAlpha((255 * 0.15).toInt()),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, size: 20, color: color),
@@ -469,7 +475,7 @@ class _LegendItem extends StatelessWidget {
             label,
             style: theme.textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w600,
-              color: theme.colorScheme.onSurface.withOpacity(0.7),
+              color: theme.colorScheme.onSurface.withAlpha((255 * 0.7).toInt()),
             ),
             textAlign: TextAlign.center,
           ),
@@ -508,7 +514,7 @@ class _BadgeIcon extends StatelessWidget {
         color: Colors.white,
         shape: BoxShape.circle,
         border: Border.all(
-          color: color.withOpacity(0.3),
+          color: color.withAlpha((255 * 0.3).toInt()),
           width: elevated ? 3 : 2,
         ),
         boxShadow: [
@@ -539,13 +545,13 @@ class _EmptyState extends StatelessWidget {
           Icon(
             Icons.pie_chart_outline_rounded,
             size: 48,
-            color: theme.colorScheme.onSurface.withOpacity(0.3),
+            color: theme.colorScheme.onSurface.withAlpha((255 * 0.3).toInt()),
           ),
           const SizedBox(height: 12),
           Text(
             'Sin datos disponibles',
             style: theme.textTheme.bodyLarge?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.6),
+              color: theme.colorScheme.onSurface.withAlpha((255 * 0.6).toInt()),
               fontWeight: FontWeight.w500,
             ),
           ),
