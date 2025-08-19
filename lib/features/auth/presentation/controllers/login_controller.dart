@@ -1,40 +1,60 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../../core/data/models/api_response.dart';
+import 'package:my_app/core/data/request/request_user_auth.dart';
+import 'package:my_app/core/providers/auth_providers.dart';
+import 'package:my_app/core/services/platform/device_info_service.dart';
+import 'package:my_app/core/services/platform/network_service.dart';
 import '../../domain/entities/login_state.dart';
-import '../../domain/services/login_service.dart';
 
 class LoginController extends StateNotifier<LoginState> {
-  final LoginService _loginService;
-
-  LoginController(this._loginService) : super(const LoginState());
+  LoginController(this.ref) : super(const LoginState());
+  final Ref ref;
 
   void togglePasswordVisibility() {
     state = state.copyWith(obscurePassword: !state.obscurePassword);
   }
 
-  Future<ApiResponse<bool>> login(String username, String password) async {
+  /// Orquesta el proceso de login.
+  Future<bool?> login(String username, String password) async {
     state = state.copyWith(isLoading: true, error: null);
+    try {
+      // 1. Obtiene la información del dispositivo y la red
+      final futures = await Future.wait([
+        DeviceInfoService.getDeviceInfo(),
+        NetworkService.getLocalIpAddress(),
+      ]);
+      final deviceInfo = futures[0] as Map<String, dynamic>;
+      final ipAddress = futures[1] as String?;
 
-    final result = await _loginService.performLogin(username, password);
+      final browserInfo = DeviceInfoService.generateBrowserInfo(deviceInfo);
+      final operatingSystem = DeviceInfoService.generateOperatingSystem(
+        deviceInfo,
+      );
 
-    if (result.success) {
+      // 2. Crea el objeto de la solicitud
+      final request = RequestUserAuth(
+        userName: username.trim(),
+        password: password,
+        browserInfo: browserInfo,
+        ipAddress: ipAddress,
+        operatingSystem: operatingSystem,
+      );
+
+      // 3. Llama al notificador de autenticación
+      final notifier = ref.read(authNotifierProvider.notifier);
+      final session = await notifier.login(request);
+
       state = state.copyWith(isLoading: false);
-    } else {
-      state = state.copyWith(isLoading: false, error: result.message);
+
+      // 4. Devuelve el resultado a la UI para la navegación
+      return session.user.isAffiliate;
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: e.toString());
+      return null;
     }
-
-    return result;
-  }
-
-  void clearError() {
-    state = state.copyWith(error: null);
   }
 }
 
-// Actualiza el provider para inyectar la dependencia
 final loginControllerProvider =
-    StateNotifierProvider<LoginController, LoginState>((ref) {
-      final loginService = ref.watch(loginServiceProvider);
-      return LoginController(loginService);
-    });
+    StateNotifierProvider<LoginController, LoginState>(
+      (ref) => LoginController(ref),
+    );

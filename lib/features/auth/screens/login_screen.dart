@@ -91,13 +91,11 @@ class LoginScreen extends ConsumerWidget {
     String password,
   ) async {
     final controller = ref.read(loginControllerProvider.notifier);
-    final result = await controller.login(username, password);
+    final isAffiliate = await controller.login(username, password);
 
     if (!context.mounted) return;
 
-    if (result.success) {
-      final isAffiliate = result.data;
-
+    if (isAffiliate != null) {
       // Guardar el último rol para el inicio con huella
       final bio = ref.read(biometricServiceProvider);
       await bio.saveLastIsAffiliate(isAffiliate);
@@ -120,15 +118,6 @@ class LoginScreen extends ConsumerWidget {
 
       final route = isAffiliate ? '/dashboard' : '/admin/dashboard';
       context.go(route);
-    } else {
-      // Si el login falla, muestra un error.
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Credenciales incorrectas o error de conexión.'),
-          backgroundColor: Theme.of(context).colorScheme.error,
-        ),
-      );
     }
   }
 }
