@@ -5,7 +5,7 @@ import '../data/models/session_model.dart';
 import '../data/dtos/users_affiliates_dto.dart';
 import '../data/request/request_user_auth.dart';
 import '../errors/exceptions.dart';
-import '../services/auth_service.dart';
+import '../services/api/auth_service.dart';
 
 const _kSessionKey = 'user_session_v1';
 

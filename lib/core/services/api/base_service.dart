@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../config/environments.dart';
+import '../../config/environments.dart';
 
 /// Servicio base para centralizar baseUrl, cliente HTTP y headers comunes.
 abstract class BaseService {

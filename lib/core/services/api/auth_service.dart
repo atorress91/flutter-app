@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import '../data/models/api_response.dart';
-import '../data/request/request_user_auth.dart';
-import '../config/environments.dart';
+import '../../data/models/api_response.dart';
+import '../../data/request/request_user_auth.dart';
+import '../../config/environments.dart';
 import 'base_service.dart';
 
 class AuthService extends BaseService {

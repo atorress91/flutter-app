@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/services/biometric_service.dart';
+import '../../../../core/services/platform/biometric_service.dart';
 
 class BiometricLoginButton extends StatelessWidget {
   final WidgetRef ref;

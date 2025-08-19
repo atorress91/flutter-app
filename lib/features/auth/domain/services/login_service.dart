@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/data/models/api_response.dart';
 import '../../../../core/data/request/request_user_auth.dart';
 import '../../../../core/providers/auth_providers.dart';
-import '../../../../core/services/device_info_service.dart';
-import '../../../../core/services/network_service.dart';
+import '../../../../core/services/platform/device_info_service.dart';
+import '../../../../core/services/platform/network_service.dart';
 
 abstract class LoginService {
   Future<ApiResponse<bool>> performLogin(String username, String password);

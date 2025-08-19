@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:local_auth/local_auth.dart';
 
-import '../providers/auth_providers.dart';
+import '../../providers/auth_providers.dart';
 
 const _kBiometricsEnabledKey = 'biometrics_enabled_v1';
 const _kLastIsAffiliateKey = 'biometrics_last_is_affiliate_v1';
