@@ -13,11 +13,11 @@ class ProfileHeader extends ConsumerWidget {
 
     final displayName = () {
       if (user == null) return '';
-      final name = user.name;
-      final last = user.lastName;
-      if (name != null && name.isNotEmpty) {
-        return last != null && last.isNotEmpty ? '$name $last' : name;
+
+      if (user.fullName != null && user.fullName!.isNotEmpty) {
+        return user.fullName!;
       }
+
       if (user.userName.isNotEmpty) return user.userName;
       return user.email;
     }();
@@ -28,7 +28,7 @@ class ProfileHeader extends ConsumerWidget {
       return user.email;
     }();
 
-    final imageUrl = user?.imageProfileUrl;
+    final imageUrl = user?.imageUrl;
 
     return Column(
       children: [
@@ -36,12 +36,12 @@ class ProfileHeader extends ConsumerWidget {
           tag: 'user_avatar',
           child: CircleAvatar(
             radius: 50,
-            backgroundColor: Theme.of(context)
-                .colorScheme
-                .primary
-                .withAlpha((255 * 0.15).toInt()),
-            backgroundImage:
-                (imageUrl != null && imageUrl.isNotEmpty) ? NetworkImage(imageUrl) : null,
+            backgroundColor: Theme.of(
+              context,
+            ).colorScheme.primary.withAlpha((255 * 0.15).toInt()),
+            backgroundImage: (imageUrl != null && imageUrl.isNotEmpty)
+                ? NetworkImage(imageUrl)
+                : null,
             child: (imageUrl == null || imageUrl.isEmpty)
                 ? Text(
                     _initialsFrom(displayName),
@@ -60,7 +60,9 @@ class ProfileHeader extends ConsumerWidget {
             width: 140,
             height: 24,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.onSurface.withAlpha((255 * 0.08).toInt()),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withAlpha((255 * 0.08).toInt()),
               borderRadius: BorderRadius.circular(6),
             ),
           )
@@ -70,7 +72,10 @@ class ProfileHeader extends ConsumerWidget {
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
             softWrap: false,
-            style: GoogleFonts.poppins(fontSize: 24, fontWeight: FontWeight.bold),
+            style: GoogleFonts.poppins(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         const SizedBox(height: 4),
         Text(
@@ -80,7 +85,9 @@ class ProfileHeader extends ConsumerWidget {
           softWrap: false,
           style: GoogleFonts.poppins(
             fontSize: 16,
-            color: Theme.of(context).colorScheme.onSurface.withAlpha((255 * 0.6).toInt()),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withAlpha((255 * 0.6).toInt()),
           ),
         ),
       ],

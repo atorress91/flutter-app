@@ -1,5 +1,3 @@
-import 'package:my_app/features/auth/domain/entities/user.dart';
-
 class UsersAffiliatesDto {
   final int id;
   final String userName;
@@ -48,16 +46,4 @@ class UsersAffiliatesDto {
     'image_profile_url': imageProfileUrl,
     'created_at': createdAt.toIso8601String(),
   };
-
-  User toEntity() {
-    return User(
-      id: id,
-      userName: userName,
-      email: email,
-      fullName: (name != null && lastName != null) ? '$name $lastName' : name,
-      imageUrl: imageProfileUrl,
-      isActive: status,
-      createdAt: createdAt,
-    );
-  }
 }

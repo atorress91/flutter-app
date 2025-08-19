@@ -55,7 +55,7 @@ class LoginServiceImpl implements LoginService {
         );
       }
 
-      final isAffiliate = session.user.isAffiliate == 1;
+      final isAffiliate = session.user.isAffiliate;
 
       return ApiResponse<bool>(
         success: true,

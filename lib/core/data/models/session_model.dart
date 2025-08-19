@@ -1,14 +1,14 @@
-import '../dtos/users_affiliates_dto.dart';
+import '../../../features/auth/domain/entities/user.dart';
 
 class SessionModel {
-  final UsersAffiliatesDto user;
+  final User user;
   final DateTime loggedAt;
 
   const SessionModel({required this.user, required this.loggedAt});
 
   factory SessionModel.fromJson(Map<String, dynamic> json) {
     return SessionModel(
-      user: UsersAffiliatesDto.fromJson(json['user'] as Map<String, dynamic>),
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
       loggedAt: DateTime.parse(json['loggedAt'] as String),
     );
   }

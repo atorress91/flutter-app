@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import '../../features/auth/domain/entities/user.dart';
 import '../data/models/session_model.dart';
-import '../data/dtos/users_affiliates_dto.dart';
 import '../data/request/request_user_auth.dart';
 import '../errors/exceptions.dart';
 import '../services/api/auth_service.dart';
@@ -10,15 +11,13 @@ import '../services/api/auth_service.dart';
 const _kSessionKey = 'user_session_v1';
 
 final secureStorageProvider = Provider<FlutterSecureStorage>(
-  (ref) => const FlutterSecureStorage(),
+      (ref) => const FlutterSecureStorage(),
 );
 
 final authServiceProvider = Provider<AuthService>((ref) => AuthService());
 
-/// Estado de autenticación
 class AuthNotifier extends AsyncNotifier<SessionModel?> {
   FlutterSecureStorage get _storage => ref.read(secureStorageProvider);
-
   AuthService get _service => ref.read(authServiceProvider);
 
   @override
@@ -27,15 +26,16 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
     if (raw == null) return null;
     try {
       final map = jsonDecode(raw) as Map<String, dynamic>;
+
       return SessionModel.fromJson(map);
     } catch (_) {
+      await _storage.delete(key: _kSessionKey);
       return null;
     }
   }
 
   bool get isLoggedIn => state.value != null;
-
-  UsersAffiliatesDto? get currentUser => state.value?.user;
+  User? get currentUser => state.value?.user;
 
   Future<SessionModel> login(RequestUserAuth req) async {
     state = const AsyncLoading();
@@ -47,11 +47,7 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
         throw ApiException(apiResponse.message ?? 'Login fallido');
       }
 
-      final data = apiResponse.data;
-      final userPayload =
-          (data['affiliate'] ?? data['user'] ?? data) as Map<String, dynamic>;
-
-      final user = UsersAffiliatesDto.fromJson(userPayload);
+      final user = apiResponse.data;
       final session = SessionModel(user: user, loggedAt: DateTime.now());
 
       await _storage.write(
@@ -62,6 +58,11 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
     });
 
     state = result;
+
+    if (result.hasError) {
+      throw result.error!;
+    }
+
     return result.value!;
   }
 
@@ -86,5 +87,5 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
 }
 
 final authNotifierProvider = AsyncNotifierProvider<AuthNotifier, SessionModel?>(
-  () => AuthNotifier(),
+      () => AuthNotifier(),
 );

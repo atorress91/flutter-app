@@ -18,21 +18,21 @@ class SidebarHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncSession = ref.watch(authNotifierProvider);
-    final user = asyncSession.value?.user; // UsersAffiliatesDto?
+    final user = asyncSession.value?.user;
 
-    String displayName() {
+    final displayName = () {
       if (user == null) return '';
-      final name = user.name;
-      final last = user.lastName;
-      if (name != null && name.isNotEmpty) {
-        return (last != null && last.isNotEmpty) ? '$name $last' : name;
+
+      if (user.fullName != null && user.fullName!.isNotEmpty) {
+        return user.fullName!;
       }
+
       if (user.userName.isNotEmpty) return user.userName;
       return user.email;
-    }
+    }();
 
     final secondaryText = user?.email ?? '';
-    final imageUrl = user?.imageProfileUrl;
+    final imageUrl = user?.imageUrl;
 
     final textTheme = Theme.of(context).textTheme;
     final width = MediaQuery.of(context).size.width;
@@ -49,7 +49,7 @@ class SidebarHeader extends ConsumerWidget {
             child: _buildHeaderContent(
               context,
               textTheme,
-              displayName(),
+              displayName,
               secondaryText,
               imageUrl,
             ),
@@ -76,7 +76,13 @@ class SidebarHeader extends ConsumerWidget {
             FadeTransition(opacity: animation, child: child),
         child: isCollapsed
             ? _buildCollapsedHeader(context, name, imageUrl)
-            : _buildExpandedHeader(context, textTheme, name, subtitle, imageUrl),
+            : _buildExpandedHeader(
+                context,
+                textTheme,
+                name,
+                subtitle,
+                imageUrl,
+              ),
       ),
     );
   }
@@ -99,10 +105,12 @@ class SidebarHeader extends ConsumerWidget {
           tag: 'user_avatar',
           child: CircleAvatar(
             radius: avatarRadiusCollapsed,
-            backgroundColor:
-                Theme.of(context).colorScheme.primary.withAlpha((255 * 0.15).toInt()),
-            backgroundImage:
-                (imageUrl != null && imageUrl.isNotEmpty) ? NetworkImage(imageUrl) : null,
+            backgroundColor: Theme.of(
+              context,
+            ).colorScheme.primary.withAlpha((255 * 0.15).toInt()),
+            backgroundImage: (imageUrl != null && imageUrl.isNotEmpty)
+                ? NetworkImage(imageUrl)
+                : null,
             child: (imageUrl == null || imageUrl.isEmpty)
                 ? Text(
                     _initialsFrom(name),
@@ -141,10 +149,9 @@ class SidebarHeader extends ConsumerWidget {
               tag: 'user_avatar',
               child: CircleAvatar(
                 radius: avatarRadiusExpanded,
-                backgroundColor: Theme.of(context)
-                    .colorScheme
-                    .primary
-                    .withAlpha((255 * 0.15).toInt()),
+                backgroundColor: Theme.of(
+                  context,
+                ).colorScheme.primary.withAlpha((255 * 0.15).toInt()),
                 backgroundImage: (imageUrl != null && imageUrl.isNotEmpty)
                     ? NetworkImage(imageUrl)
                     : null,
@@ -173,10 +180,9 @@ class SidebarHeader extends ConsumerWidget {
         Text(
           subtitle,
           style: textTheme.bodyMedium?.copyWith(
-            color: Theme.of(context)
-                .colorScheme
-                .onSurface
-                .withAlpha((255 * 0.6).toInt()),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withAlpha((255 * 0.6).toInt()),
           ),
           overflow: TextOverflow.ellipsis,
         ),
@@ -193,10 +199,9 @@ class SidebarHeader extends ConsumerWidget {
         child: IconButton(
           icon: Icon(
             Icons.close,
-            color: Theme.of(context)
-                .colorScheme
-                .onSurface
-                .withAlpha((255 * 0.7).toInt()),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withAlpha((255 * 0.7).toInt()),
           ),
           onPressed: onRequestClose,
         ),

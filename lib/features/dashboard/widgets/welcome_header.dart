@@ -12,21 +12,20 @@ class WelcomeHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncSession = ref.watch(authNotifierProvider);
-    final user = asyncSession.value?.user; // UsersAffiliatesDto?
+    final user = asyncSession.value?.user;
 
     final displayName = () {
       if (user == null) return '';
-      final name = user.name;
-      final last = user.lastName;
-      if (name != null && name.isNotEmpty) {
-        return last != null && last.isNotEmpty ? '$name $last' : name;
+
+      if (user.fullName != null && user.fullName!.isNotEmpty) {
+        return user.fullName!;
       }
-      // fallback a username o email
+
       if (user.userName.isNotEmpty) return user.userName;
       return user.email;
     }();
 
-    final imageUrl = user?.imageProfileUrl;
+    final imageUrl = user?.imageUrl;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -48,7 +47,6 @@ class WelcomeHeader extends ConsumerWidget {
                 softWrap: false,
               ),
               const SizedBox(height: 4),
-              // Si aún no hay usuario, mostramos un shimmer ligero con contenedor
               if (user == null) ...[
                 Container(
                   width: 120,
@@ -76,7 +74,6 @@ class WelcomeHeader extends ConsumerWidget {
             ],
           ),
         ),
-        // Envolvemos el CircleAvatar para hacerlo táctil
         GestureDetector(
           onTap: () {
             Navigator.push(
