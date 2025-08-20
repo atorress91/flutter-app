@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
+import 'package:my_app/features/dashboard/data/providers/balance_providers.dart';
+import 'package:my_app/features/dashboard/domain/entities/balance_information.dart';
+import '../../domain/entities/balance_state.dart';
+
 import 'package:my_app/features/dashboard/presentation/widgets/balance_info.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/contract_details.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/performance_chart.dart';
@@ -10,51 +15,35 @@ import 'package:my_app/features/dashboard/presentation/widgets/recent_activity.d
 import 'package:my_app/features/dashboard/presentation/widgets/stats_carousel/stats_carousel.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/welcome_header.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  // PASO 2: estado de carga y lógica de recarga
-  bool _isLoading = false;
+class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   void initState() {
     super.initState();
-    _loadInitialData();
+
+    Future.microtask(
+      () =>
+          ref.read(balanceControllerProvider.notifier).getBalanceInformation(),
+    );
   }
 
-  Future<void> _loadInitialData() async {
-    setState(() {
-      _isLoading = true;
-    });
-    await _handleRefresh();
-    // Verificamos si el widget sigue montado antes de actualizar el estado
-    if (mounted) {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
-
+  // El método _handleRefresh ahora puede re-llamar al controller.
   Future<void> _handleRefresh() async {
-    // llamada a API
-    await Future.delayed(const Duration(seconds: 2));
-
-    if (mounted) {
-      // setState(() {
-      //   // Aquí actualizas tus variables con los nuevos datos
-      // });
-    }
-    // print('Datos actualizados.');
+    // 5. Llama al método del controller para recargar los datos
+    await ref.read(balanceControllerProvider.notifier).getBalanceInformation();
   }
 
   @override
   Widget build(BuildContext context) {
     final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
+    final balanceState = ref.watch(balanceControllerProvider);
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -62,14 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
         child: RefreshIndicator(
           onRefresh: _handleRefresh,
           color: Theme.of(context).colorScheme.primary,
-          child: _isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                ) // Muestra un loader en la carga inicial
+          child: balanceState.isLoading && balanceState.balance == null
+              ? const Center(child: CircularProgressIndicator())
               : AnimationLimiter(
                   child: SingleChildScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
-                    // Asegura que el scroll siempre esté activo
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,57 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          // dentro del build, donde antes estaba BalanceInfo():
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: BalanceChart(
-                              currencySymbol: '\$',
-                              data: [
-                                // Datos de ejemplo con recycoins incluidos
-                                BalancePoint(
-                                  date: DateTime(2025, 1, 1),
-                                  available: 2500,
-                                  locked: 300,
-                                  recycoins: 120,
-                                ),
-                                BalancePoint(
-                                  date: DateTime(2025, 1, 8),
-                                  available: 2750,
-                                  locked: 280,
-                                  recycoins: 135,
-                                ),
-                                BalancePoint(
-                                  date: DateTime(2025, 1, 15),
-                                  available: 3200,
-                                  locked: 260,
-                                  recycoins: 145,
-                                ),
-                                BalancePoint(
-                                  date: DateTime(2025, 1, 22),
-                                  available: 3400,
-                                  locked: 260,
-                                  recycoins: 160,
-                                ),
-                                BalancePoint(
-                                  date: DateTime(2025, 2, 1),
-                                  available: 3600,
-                                  locked: 240,
-                                  recycoins: 175,
-                                ),
-                                BalancePoint(
-                                  date: DateTime(2025, 2, 8),
-                                  available: 3550,
-                                  locked: 220,
-                                  recycoins: 185,
-                                ),
-                                BalancePoint(
-                                  date: DateTime(2025, 2, 15),
-                                  available: 3800,
-                                  locked: 210,
-                                  recycoins: 200,
-                                ),
-                              ],
-                            ),
+                            child: _buildBalanceContent(balanceState),
                           ),
                           const SizedBox(height: 30),
                           Padding(
@@ -183,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           const PerformanceChart(),
                           const SizedBox(height: 30),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 24),
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
                             child: Text(
                               AppLocalizations.of(context).homeQuickActions,
                               style: textTheme.titleLarge?.copyWith(
@@ -221,5 +159,47 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  // 9. Widget helper para renderizar el contenido del balance según el estado
+  Widget _buildBalanceContent(BalanceState state) {
+    // Si hay un error, lo mostramos
+    if (state.error != null && state.balance == null) {
+      return Center(
+        child: Text(
+          'Error al cargar el balance:\n${state.error}',
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Theme.of(context).colorScheme.error),
+        ),
+      );
+    }
+
+    // Si tenemos datos (aunque esté recargando), mostramos el gráfico.
+    if (state.balance != null) {
+      return BalanceChart(
+        currencySymbol: '\$',
+        // Transformamos la entidad de balance a una lista de puntos para el gráfico
+        data: _transformBalanceToChartData(state.balance!),
+      );
+    }
+
+    // Por defecto (en el primer frame de carga), un loader más pequeño.
+    return const Center(heightFactor: 5, child: CircularProgressIndicator());
+  }
+
+  // 10. Método para transformar los datos del API al formato que espera el gráfico
+  List<BalancePoint> _transformBalanceToChartData(BalanceInformation balance) {
+    // La API devuelve un único objeto con los saldos actuales.
+    // Creamos un punto en el gráfico para representar este estado.
+    return [
+      BalancePoint(
+        date: DateTime.now(), // Usamos la fecha actual
+        available: balance.availableBalance,
+        locked: balance.reverseBalance,
+        recycoins: balance.bonusAmount,
+      ),
+      // Si en el futuro tu API devolviera un historial de saldos,
+      // podrías mapear esa lista aquí para mostrar una línea de tiempo.
+    ];
   }
 }
