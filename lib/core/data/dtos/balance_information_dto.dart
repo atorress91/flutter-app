@@ -20,7 +20,7 @@ class BalanceInformationDto {
       reverseBalance: (json['reverseBalance'] ?? 0).toDouble(),
       totalAcquisitions: (json['totalAcquisitions'] ?? 0).toDouble(),
       availableBalance: (json['availableBalance'] ?? 0).toDouble(),
-      totalCommissionsPaid: (json['totalCommissions_paid'] ?? 0).toDouble(),
+      totalCommissionsPaid: (json['totalCommissionsPaid'] ?? 0).toDouble(),
       serviceBalance: (json['serviceBalance'] ?? 0).toDouble(),
       bonusAmount: (json['bonusAmount'] ?? 0).toDouble(),
     );

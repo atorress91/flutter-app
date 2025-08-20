@@ -23,7 +23,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -195,8 +194,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       BalancePoint(
         date: DateTime.now(), // Usamos la fecha actual
         available: balance.availableBalance,
-        locked: balance.reverseBalance,
-        recycoins: balance.bonusAmount,
+        locked: balance.totalCommissionsPaid,
+        recycoins: balance.totalAcquisitions,
       ),
       // Si en el futuro tu API devolviera un historial de saldos,
       // podrías mapear esa lista aquí para mostrar una línea de tiempo.
