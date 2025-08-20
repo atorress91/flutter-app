@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_app/features/auth/screens/login_screen.dart';
-import 'package:my_app/features/dashboard/layout/dashboard_layout.dart';
-import 'package:my_app/features/dashboard/screens/home_screen.dart';
-import 'package:my_app/features/dashboard/screens/my_wallet_screen.dart';
-import 'package:my_app/features/dashboard/screens/purchases_screen.dart';
-import 'package:my_app/features/admin/layout/admin_layout.dart';
-import 'package:my_app/features/admin/screens/admin_dashboard_screen.dart';
-import 'package:my_app/features/dashboard/screens/request_payment_screen.dart';
-
-import '../features/auth/screens/landing_screen.dart';
-import '../features/dashboard/screens/clients_screen.dart';
+import 'package:my_app/features/admin/presentation/screens/admin_dashboard_screen.dart';
+import 'package:my_app/features/admin/presentation/screens/admin_screen.dart';
+import 'package:my_app/features/auth/presentation/screens/landing_screen.dart';
+import 'package:my_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:my_app/features/dashboard/presentation/screens/clients_screen.dart';
+import 'package:my_app/features/dashboard/presentation/screens/dashboard_screen.dart';
+import 'package:my_app/features/dashboard/presentation/screens/home_screen.dart';
+import 'package:my_app/features/dashboard/presentation/screens/my_wallet_screen.dart';
+import 'package:my_app/features/dashboard/presentation/screens/purchases_screen.dart';
+import 'package:my_app/features/dashboard/presentation/screens/request_payment_screen.dart';
 
 // 1. GlobalKey para el ShellNavigator
 // Esto nos permite mantener el estado del layout (navbar/sidebar) mientras cambiamos de pantalla.
@@ -36,7 +35,7 @@ final GoRouter appRouter = GoRouter(
       navigatorKey: _dashboardShellNavigatorKey,
       builder: (context, state, child) {
         // El DashboardLayout envuelve todas las pantallas del cliente
-        return DashboardLayout(child: child);
+        return DashboardScreen(child: child);
       },
       routes: [
         GoRoute(
@@ -70,7 +69,7 @@ final GoRouter appRouter = GoRouter(
       navigatorKey: _adminShellNavigatorKey,
       builder: (context, state, child) {
         // El AdminLayout envuelve todas las pantallas de admin
-        return AdminLayout(child: child);
+        return AdminScreen(child: child);
       },
       routes: [
         GoRoute(
