@@ -5,27 +5,27 @@ class HomeData {
   static List<Map<String, dynamic>> getStatsData() {
     return [
       {
-        'titleKey': 'statsTotalSales',
+        'titleKey': 'statsRecycoinTotal',
         'value': '\$24,5k',
-        'icon': Icons.trending_up,
+        'icon': Icons.recycling,
         'color': const Color(0xFF00F5D4),
       },
       {
-        'titleKey': 'statsActiveUsers',
+        'titleKey': 'statsBonusTokens',
         'value': '1,247',
-        'icon': Icons.people,
+        'icon': Icons.stars,
         'color': const Color(0xFF00A8E8),
       },
       {
-        'titleKey': 'statsNewOrders',
+        'titleKey': 'statsMonthlyCommission',
         'value': '218',
-        'icon': Icons.shopping_cart,
+        'icon': Icons.calendar_month,
         'color': const Color(0xFFFF5733),
       },
       {
-        'titleKey': 'statsRevenue',
+        'titleKey': 'statsReferrals',
         'value': '\$18,7k',
-        'icon': Icons.account_balance_wallet,
+        'icon': Icons.group_add,
         'color': const Color(0xFF9B5DE5),
       },
     ];

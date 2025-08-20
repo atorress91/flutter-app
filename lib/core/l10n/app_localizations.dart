@@ -93,7 +93,8 @@ class AppLocalizations {
       'passwordTooShort': 'Password is too short',
       // Biometric prompt
       'enableBiometricsTitle': 'Enable Biometric Login?',
-      'enableBiometricsContent': 'Would you like to use your fingerprint for faster logins next time?',
+      'enableBiometricsContent':
+          'Would you like to use your fingerprint for faster logins next time?',
       'cancelButtonLabel': 'Cancel',
       'enableButtonLabel': 'Enable',
       // Home screen
@@ -102,10 +103,10 @@ class AppLocalizations {
       'homeQuickActions': 'Quick Actions',
       'homeRecentActivity': 'Recent Activity',
       // Stats
-      'statsTotalSales': 'Total Sales',
-      'statsActiveUsers': 'Active Users',
-      'statsNewOrders': 'New Orders',
-      'statsRevenue': 'Revenue',
+      'statsRecycoinTotal': 'Total Recycoin',
+      'statsBonusTokens': 'Bonus Tokens',
+      'statsMonthlyCommission': 'Monthly Commission',
+      'statsReferrals': 'Referrals',
       // Quick actions
       'quickCreate': 'Create',
       'quickReports': 'Reports',
@@ -142,7 +143,8 @@ class AppLocalizations {
       'passwordTooShort': 'La contraseña es muy corta',
       // Biometric prompt
       'enableBiometricsTitle': '¿Activar inicio biométrico?',
-      'enableBiometricsContent': '¿Te gustaría usar tu huella para iniciar sesión más rápido la próxima vez?',
+      'enableBiometricsContent':
+          '¿Te gustaría usar tu huella para iniciar sesión más rápido la próxima vez?',
       'cancelButtonLabel': 'Cancelar',
       'enableButtonLabel': 'Activar',
       // Home screen
@@ -151,10 +153,10 @@ class AppLocalizations {
       'homeQuickActions': 'Acciones Rápidas',
       'homeRecentActivity': 'Actividad Reciente',
       // Stats
-      'statsTotalSales': 'Ventas Totales',
-      'statsActiveUsers': 'Usuarios Activos',
-      'statsNewOrders': 'Nuevos Pedidos',
-      'statsRevenue': 'Ingresos',
+      'statsTotalSales': 'Recycoin totales',
+      'statsActiveUsers': 'Bonos tokens',
+      'statsNewOrders': 'Comisión mensual',
+      'statsRevenue': 'Referidos',
       // Quick actions
       'quickCreate': 'Crear',
       'quickReports': 'Reportes',
@@ -191,19 +193,26 @@ class AppLocalizations {
   String get appTitle => _t('appTitle');
 
   String get loginScreenTitle => _t('loginScreenTitle');
-  
+
   String get passwordLabel => _t('passwordLabel');
+
   String get signInButtonLabel => _t('signInButtonLabel');
 
   // Biometric prompt
   String get enableBiometricsTitle => _t('enableBiometricsTitle');
+
   String get enableBiometricsContent => _t('enableBiometricsContent');
+
   String get cancelButtonLabel => _t('cancelButtonLabel');
+
   String get enableButtonLabel => _t('enableButtonLabel');
 
   String get usernameOrEmailLabel => _t('usernameOrEmailLabel');
+
   String get usernameOrEmailRequired => _t('usernameOrEmailRequired');
+
   String get passwordRequired => _t('passwordRequired');
+
   String get passwordTooShort => _t('passwordTooShort');
 
   String get loginAsClient => _t('loginAsClient');
