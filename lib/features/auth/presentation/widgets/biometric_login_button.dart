@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_app/core/errors/exceptions.dart';
 import '../../../../core/services/platform/biometric_service.dart';
 import '../../domain/use_cases/login_with_biometrics_use_case.dart';
 

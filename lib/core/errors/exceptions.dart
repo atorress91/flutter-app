@@ -6,3 +6,13 @@ class ApiException implements Exception {
   @override
   String toString() => message;
 }
+
+// Excepción personalizada para manejar errores de autenticación
+class AuthException implements Exception {
+  final String message;
+
+  AuthException(this.message);
+
+  @override
+  String toString() => message;
+}

@@ -1,12 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_app/core/errors/exceptions.dart';
 import 'package:my_app/core/services/platform/biometric_service.dart';
 
 /// Caso de Uso para el flujo de login biométrico.
 class LoginWithBiometricsUseCase {
   final BiometricService _biometricService;
-  final ProviderContainer _container;
 
-  LoginWithBiometricsUseCase(this._biometricService, this._container);
+  // Se elimina la dependencia del ProviderContainer
+  LoginWithBiometricsUseCase(this._biometricService);
 
   /// Ejecuta el flujo de login biométrico.
   /// Devuelve la ruta a la que se debe navegar.
@@ -36,19 +37,8 @@ class LoginWithBiometricsUseCase {
 final loginWithBiometricsUseCaseProvider = Provider<LoginWithBiometricsUseCase>(
   (ref) {
     final biometricService = ref.watch(biometricServiceProvider);
-    return LoginWithBiometricsUseCase(
-      biometricService,
-      ref as ProviderContainer,
-    );
+    return LoginWithBiometricsUseCase(biometricService);
   },
 );
 
-// Excepción personalizada para manejar errores de autenticación
-class AuthException implements Exception {
-  final String message;
 
-  AuthException(this.message);
-
-  @override
-  String toString() => message;
-}
