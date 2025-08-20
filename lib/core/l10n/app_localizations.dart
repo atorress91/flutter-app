@@ -91,6 +91,11 @@ class AppLocalizations {
       'usernameOrEmailRequired': 'Enter your username or email',
       'passwordRequired': 'Enter your password',
       'passwordTooShort': 'Password is too short',
+      // Biometric prompt
+      'enableBiometricsTitle': 'Enable Biometric Login?',
+      'enableBiometricsContent': 'Would you like to use your fingerprint for faster logins next time?',
+      'cancelButtonLabel': 'Cancel',
+      'enableButtonLabel': 'Enable',
       // Home screen
       'homeWelcomeBack': 'Welcome back,',
       'homeAnnualPerformance': 'Annual Performance',
@@ -135,6 +140,11 @@ class AppLocalizations {
       'usernameOrEmailRequired': 'Ingresa tu usuario o email',
       'passwordRequired': 'Ingresa tu contraseña',
       'passwordTooShort': 'La contraseña es muy corta',
+      // Biometric prompt
+      'enableBiometricsTitle': '¿Activar inicio biométrico?',
+      'enableBiometricsContent': '¿Te gustaría usar tu huella para iniciar sesión más rápido la próxima vez?',
+      'cancelButtonLabel': 'Cancelar',
+      'enableButtonLabel': 'Activar',
       // Home screen
       'homeWelcomeBack': 'Bienvenido de nuevo,',
       'homeAnnualPerformance': 'Rendimiento Anual',
@@ -184,6 +194,12 @@ class AppLocalizations {
   
   String get passwordLabel => _t('passwordLabel');
   String get signInButtonLabel => _t('signInButtonLabel');
+
+  // Biometric prompt
+  String get enableBiometricsTitle => _t('enableBiometricsTitle');
+  String get enableBiometricsContent => _t('enableBiometricsContent');
+  String get cancelButtonLabel => _t('cancelButtonLabel');
+  String get enableButtonLabel => _t('enableButtonLabel');
 
   String get usernameOrEmailLabel => _t('usernameOrEmailLabel');
   String get usernameOrEmailRequired => _t('usernameOrEmailRequired');

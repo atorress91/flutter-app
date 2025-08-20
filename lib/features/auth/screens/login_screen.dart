@@ -82,8 +82,6 @@ class LoginScreen extends ConsumerWidget {
     );
   }
 
-  // login_screen.dart
-
   Future<void> _handleLogin(
     BuildContext context,
     WidgetRef ref,
@@ -107,6 +105,7 @@ class LoginScreen extends ConsumerWidget {
         final available = await bio.isBiometricAvailable();
         if (available) {
           if (!context.mounted) return;
+
           final shouldEnable = await askEnableBiometrics(context);
           if (shouldEnable == true) {
             await bio.setEnabled(true);
@@ -119,5 +118,26 @@ class LoginScreen extends ConsumerWidget {
       final route = isAffiliate ? '/dashboard' : '/admin/dashboard';
       context.go(route);
     }
+  }
+
+  Future<bool?> askEnableBiometrics(BuildContext context) {
+    final strings = AppLocalizations.of(context);
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(strings.enableBiometricsTitle),
+        content: Text(strings.enableBiometricsContent),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(strings.cancelButtonLabel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(strings.enableButtonLabel),
+          ),
+        ],
+      ),
+    );
   }
 }
