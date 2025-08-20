@@ -24,7 +24,7 @@ class Environment {
       Microservice.account: 'https://account.recycoin.net/api/v1',
       Microservice.systemConfiguration: 'http://localhost:3001',
       Microservice.inventory: 'http://localhost:3002',
-      Microservice.wallet: 'http://localhost:3003',
+      Microservice.wallet: 'https://wallet.recycoin.net/api/v1',
     },
     clientId: 'eco-keyhFvQoUOk=r6/F!chia2Fe1-8OU?4YNWqAVWlaiN!tYrWIdvoUMv8Q6d6',
     serviceKeys: const {}, // por defecto vacío
@@ -35,7 +35,7 @@ class Environment {
       Microservice.account: 'https://account.recycoin.net/api/v1',
       Microservice.systemConfiguration: 'https://api.example.com/system',
       Microservice.inventory: 'https://api.example.com/inventory',
-      Microservice.wallet: 'https://api.example.com/wallet',
+      Microservice.wallet: 'https://wallet.recycoin.net/api/v1',
     },
     clientId: 'eco-keyhFvQoUOk=r6/F!chia2Fe1-8OU?4YNWqAVWlaiN!tYrWIdvoUMv8Q6d6',
     serviceKeys: const {}, // por defecto vacío
@@ -59,7 +59,7 @@ class Environment {
           Microservice.account: 'https://account.recycoin.net/api/v1',
           Microservice.systemConfiguration: 'http://localhost:3001',
           Microservice.inventory: 'http://localhost:3002',
-          Microservice.wallet: 'http://localhost:3003',
+          Microservice.wallet: 'https://wallet.recycoin.net/api/v1',
         },
         clientId:
             'eco-keyhFvQoUOk=r6/F!chia2Fe1-8OU?4YNWqAVWlaiN!tYrWIdvoUMv8Q6d6',
@@ -86,7 +86,7 @@ class Environment {
           Microservice.account: 'https://account.recycoin.net/api/v1',
           Microservice.systemConfiguration: 'https://api.example.com/system',
           Microservice.inventory: 'https://api.example.com/inventory',
-          Microservice.wallet: 'https://api.example.com/wallet',
+          Microservice.wallet: 'https://wallet.recycoin.net/api/v1',
         },
         clientId:
             'eco-keyhFvQoUOk=r6/F!chia2Fe1-8OU?4YNWqAVWlaiN!tYrWIdvoUMv8Q6d6',

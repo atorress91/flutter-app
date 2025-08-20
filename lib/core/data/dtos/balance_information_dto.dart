@@ -17,12 +17,12 @@ class BalanceInformationDto {
 
   factory BalanceInformationDto.fromJson(Map<String, dynamic> json) {
     return BalanceInformationDto(
-      reverseBalance: (json['reverse_balance'] ?? 0).toDouble(),
-      totalAcquisitions: (json['total_acquisitions'] ?? 0).toDouble(),
-      availableBalance: (json['available_balance'] ?? 0).toDouble(),
-      totalCommissionsPaid: (json['total_commissions_paid'] ?? 0).toDouble(),
-      serviceBalance: (json['service_balance'] ?? 0).toDouble(),
-      bonusAmount: (json['bonus_amount'] ?? 0).toDouble(),
+      reverseBalance: (json['reverseBalance'] ?? 0).toDouble(),
+      totalAcquisitions: (json['totalAcquisitions'] ?? 0).toDouble(),
+      availableBalance: (json['availableBalance'] ?? 0).toDouble(),
+      totalCommissionsPaid: (json['totalCommissions_paid'] ?? 0).toDouble(),
+      serviceBalance: (json['serviceBalance'] ?? 0).toDouble(),
+      bonusAmount: (json['bonusAmount'] ?? 0).toDouble(),
     );
   }
 
