@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:my_app/core/providers/auth_providers.dart';
+import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 
 class ProfileInfoCard extends ConsumerWidget {
   const ProfileInfoCard({super.key});
@@ -30,12 +30,7 @@ class ProfileInfoCard extends ConsumerWidget {
       ),
       child: Column(
         children: [
-          _buildInfoRow(
-            context,
-            Icons.phone_outlined,
-            'Teléfono',
-            phone,
-          ),
+          _buildInfoRow(context, Icons.phone_outlined, 'Teléfono', phone),
           const Divider(),
           _buildInfoRow(
             context,
@@ -44,12 +39,7 @@ class ProfileInfoCard extends ConsumerWidget {
             address,
           ),
           const Divider(),
-          _buildInfoRow(
-            context,
-            Icons.email_outlined,
-            'Correo',
-            email,
-          ),
+          _buildInfoRow(context, Icons.email_outlined, 'Correo', email),
           const Divider(),
           _buildInfoRow(
             context,

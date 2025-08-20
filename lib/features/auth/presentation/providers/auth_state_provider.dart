@@ -1,25 +1,15 @@
 import 'dart:convert';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-import 'package:my_app/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:my_app/core/data/models/session_model.dart';
+import 'package:my_app/core/data/request/request_user_auth.dart';
+import 'package:my_app/features/auth/domain/entities/user.dart';
 import 'package:my_app/features/auth/domain/repositories/auth_repository.dart';
-import '../../features/auth/domain/entities/user.dart';
-import '../data/models/session_model.dart';
-import '../data/request/request_user_auth.dart';
-import '../services/api/auth_service.dart';
+
+import '../../data/providers/auth_providers.dart';
 
 const _kSessionKey = 'user_session_v1';
-
-final secureStorageProvider = Provider<FlutterSecureStorage>(
-  (ref) => const FlutterSecureStorage(),
-);
-
-final authServiceProvider = Provider<AuthService>((ref) => AuthService());
-
-final authRepositoryProvider = Provider<AuthRepository>(
-  (ref) => AuthRepositoryImpl(ref.watch(authServiceProvider)),
-);
 
 class AuthNotifier extends AsyncNotifier<SessionModel?> {
   FlutterSecureStorage get _storage => ref.read(secureStorageProvider);
@@ -46,7 +36,6 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
   Future<SessionModel> login(RequestUserAuth req) async {
     state = const AsyncLoading();
     final result = await AsyncValue.guard(() async {
-      // El notificador se comunica con el repositorio
       final user = await _repository.login(req);
       final session = SessionModel(user: user, loggedAt: DateTime.now());
 

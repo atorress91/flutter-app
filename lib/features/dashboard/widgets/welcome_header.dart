@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
-import 'package:my_app/core/providers/auth_providers.dart';
+import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 
 import '../screens/profile_screen.dart';
 

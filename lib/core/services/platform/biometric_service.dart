@@ -2,8 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:local_auth/local_auth.dart';
-
-import '../../providers/auth_providers.dart';
+import 'package:my_app/features/auth/data/providers/auth_providers.dart';
 
 const _kBiometricsEnabledKey = 'biometrics_enabled_v1';
 const _kLastIsAffiliateKey = 'biometrics_last_is_affiliate_v1';
@@ -25,7 +24,9 @@ class BiometricService {
     }
   }
 
-  Future<bool> authenticate({String reason = 'Autentícate con tu huella'}) async {
+  Future<bool> authenticate({
+    String reason = 'Autentícate con tu huella',
+  }) async {
     try {
       final didAuth = await _auth.authenticate(
         localizedReason: reason,
@@ -51,7 +52,10 @@ class BiometricService {
   }
 
   Future<void> saveLastIsAffiliate(bool isAffiliate) async {
-    await _storage.write(key: _kLastIsAffiliateKey, value: isAffiliate ? '1' : '0');
+    await _storage.write(
+      key: _kLastIsAffiliateKey,
+      value: isAffiliate ? '1' : '0',
+    );
   }
 
   Future<bool?> getLastIsAffiliate() async {

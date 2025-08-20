@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_app/features/auth/data/providers/auth_providers.dart';
+import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 import '../../../../core/data/request/request_user_auth.dart';
-import '../../../../core/providers/auth_providers.dart';
+
 import '../../../../core/services/platform/device_info_service.dart';
 import '../../../../core/services/platform/network_service.dart';
 import '../entities/user.dart';
