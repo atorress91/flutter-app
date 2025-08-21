@@ -173,7 +173,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       );
     }
 
-    // Si tenemos datos (aunque esté recargando), mostramos el gráfico.
+    // Si tenemos datos mostramos el gráfico.
     if (state.balance != null) {
       return BalanceChart(
         currencySymbol: '\$',
@@ -182,23 +182,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       );
     }
 
-    // Por defecto (en el primer frame de carga), un loader más pequeño.
     return const Center(heightFactor: 5, child: CircularProgressIndicator());
   }
 
   // 10. Método para transformar los datos del API al formato que espera el gráfico
   List<BalancePoint> _transformBalanceToChartData(BalanceInformation balance) {
-    // La API devuelve un único objeto con los saldos actuales.
-    // Creamos un punto en el gráfico para representar este estado.
     return [
       BalancePoint(
-        date: DateTime.now(), // Usamos la fecha actual
+        date: DateTime.now(),
         available: balance.availableBalance,
         locked: balance.totalCommissionsPaid,
         recycoins: balance.totalAcquisitions,
       ),
-      // Si en el futuro tu API devolviera un historial de saldos,
-      // podrías mapear esa lista aquí para mostrar una línea de tiempo.
     ];
   }
 }
