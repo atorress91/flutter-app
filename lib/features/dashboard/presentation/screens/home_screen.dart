@@ -4,10 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/dashboard/data/providers/balance_providers.dart';
-import 'package:my_app/features/dashboard/domain/entities/balance_information.dart';
+import 'package:my_app/features/dashboard/presentation/mappers/balance_chart_mapper.dart';
+import 'package:my_app/features/dashboard/presentation/widgets/balance_chart/balance_chart.dart';
 import '../../domain/entities/balance_state.dart';
 
-import 'package:my_app/features/dashboard/presentation/widgets/balance_info.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/contract_details.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/performance_chart.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/quick_actions/quick_actions.dart';
@@ -176,25 +176,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     // Si tenemos datos mostramos el gráfico.
     if (state.balance != null) {
-      return BalanceChart(
-        currencySymbol: '\$',
-        // Transformamos la entidad de balance a una lista de puntos para el gráfico
-        data: _transformBalanceToChartData(state.balance!),
-      );
+      final viewModel = BalanceChartMapper.fromEntity(state.balance!);
+      return BalanceChart(viewModel: viewModel);
     }
 
     return const Center(heightFactor: 5, child: CircularProgressIndicator());
-  }
-
-  // 10. Método para transformar los datos del API al formato que espera el gráfico
-  List<BalancePoint> _transformBalanceToChartData(BalanceInformation balance) {
-    return [
-      BalancePoint(
-        date: DateTime.now(),
-        available: balance.availableBalance,
-        locked: balance.totalCommissionsPaid,
-        recycoins: balance.totalAcquisitions,
-      ),
-    ];
   }
 }
