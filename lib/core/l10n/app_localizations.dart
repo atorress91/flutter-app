@@ -153,10 +153,10 @@ class AppLocalizations {
       'homeQuickActions': 'Acciones Rápidas',
       'homeRecentActivity': 'Actividad Reciente',
       // Stats
-      'statsTotalSales': 'Recycoin totales',
-      'statsActiveUsers': 'Bonos tokens',
-      'statsNewOrders': 'Comisión mensual',
-      'statsRevenue': 'Referidos',
+      'statsRecycoinTotal': 'Recycoin totales',
+      'statsBonusTokens': 'Bonos tokens',
+      'statsMonthlyCommission': 'Comisión mensual',
+      'statsReferrals': 'Referidos',
       // Quick actions
       'quickCreate': 'Crear',
       'quickReports': 'Reportes',
@@ -249,13 +249,13 @@ class AppLocalizations {
   String get homeRecentActivity => _t('homeRecentActivity');
 
   // Stats
-  String get statsTotalSales => _t('statsTotalSales');
+  String get statsRecycoinTotal => _t('statsRecycoinTotal');
 
-  String get statsActiveUsers => _t('statsActiveUsers');
+  String get statsBonusTokens => _t('statsBonusTokens');
 
-  String get statsNewOrders => _t('statsNewOrders');
+  String get statsMonthlyCommission => _t('statsMonthlyCommission');
 
-  String get statsRevenue => _t('statsRevenue');
+  String get statsReferrals => _t('statsReferrals');
 
   // Quick actions
   String get quickCreate => _t('quickCreate');
