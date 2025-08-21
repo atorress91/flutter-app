@@ -36,7 +36,7 @@ class _BalanceChartState extends State<BalanceChart>
     with TickerProviderStateMixin {
   int touchedIndex = -1;
   AnimationController?
-  _pulseController; // antes: late AnimationController _pulseController;
+  _pulseController;
 
   @override
   void initState() {
@@ -47,11 +47,9 @@ class _BalanceChartState extends State<BalanceChart>
     )..repeat(reverse: true);
   }
 
-  // Opcional pero útil en debug: asegura el controlador tras hot reload
   @override
   void reassemble() {
     super.reassemble();
-    // Re-crear para que el pulso siga activo tras hot reload
     _pulseController?.dispose();
     _pulseController = AnimationController(
       duration: const Duration(milliseconds: 1500),
@@ -61,7 +59,7 @@ class _BalanceChartState extends State<BalanceChart>
 
   @override
   void dispose() {
-    _pulseController?.dispose(); // antes: _pulseController.dispose();
+    _pulseController?.dispose();
     super.dispose();
   }
 
@@ -70,7 +68,7 @@ class _BalanceChartState extends State<BalanceChart>
       case 0:
         return 'Saldo Disponible';
       case 1:
-        return 'Saldo Bloqueado';
+        return 'Saldo Pagado';
       case 2:
         return 'Mis Recycoins';
       default:
@@ -81,11 +79,11 @@ class _BalanceChartState extends State<BalanceChart>
   String _getSectionDescription(int index) {
     switch (index) {
       case 0:
-        return 'Disponible para retiro';
+        return 'Disponible para compras';
       case 1:
         return 'En proceso de liberación';
       case 2:
-        return 'Recompensas ecológicas';
+        return 'Recompensas';
       default:
         return 'Balance total';
     }
@@ -104,17 +102,15 @@ class _BalanceChartState extends State<BalanceChart>
     final recycoinsNow = latest.recycoins;
     final totalNow = latest.total;
 
-    // Colores diferenciados con tu color personalizado para Recycoins
-    final colorAvailable = const Color(0xFF00F5D4); // Verde rico
-    final colorLocked = const Color(0xFFE53935); // Rojo vibrante
+    final colorAvailable = const Color(0xFF00F5D4);
+    final colorLocked = const Color(0xFFE53935);
     final colorRecoins = const Color.fromRGBO(
       197,
       252,
       68,
       1.0,
-    ); // Tu color verde lima
+    );
 
-    // Contenedor limpio sin shadow ni bordes
     return Column(
       children: [
         SizedBox(
@@ -131,7 +127,7 @@ class _BalanceChartState extends State<BalanceChart>
               return Stack(
                 alignment: Alignment.center,
                 children: [
-                  // Glow effect cuando se toca (protegido si el controller es null)
+
                   if (touchedIndex != -1 && _pulseController != null)
                     AnimatedBuilder(
                       animation: _pulseController!,
@@ -186,7 +182,6 @@ class _BalanceChartState extends State<BalanceChart>
                               });
                             }
                           }
-                          // Ignoramos otros eventos para no limpiar la selección
                         },
                       ),
                       sections: _buildSections(
@@ -201,7 +196,6 @@ class _BalanceChartState extends State<BalanceChart>
                     ),
                   ),
 
-                  // Contenido del centro mejorado
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 300),
                     transitionBuilder: (child, animation) {
@@ -359,7 +353,7 @@ class _BalanceChartState extends State<BalanceChart>
         ),
         _LegendItem(
           color: colorLocked,
-          label: 'Bloqueado',
+          label: 'Pagado',
           value: '${widget.currencySymbol}${_formatNumber(latest.locked)}',
           icon: Icons.lock_rounded,
         ),
