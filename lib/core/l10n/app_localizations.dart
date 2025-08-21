@@ -105,7 +105,7 @@ class AppLocalizations {
       // Stats
       'statsRecycoinTotal': 'Total Recycoin',
       'statsBonusTokens': 'Bonus Tokens',
-      'statsMonthlyCommission': 'Monthly Commission',
+      'statsMonthlyCommission': 'Commission',
       'statsReferrals': 'Referrals',
       // Quick actions
       'quickCreate': 'Create',
