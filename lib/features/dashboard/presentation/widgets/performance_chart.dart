@@ -7,48 +7,101 @@ class PerformanceChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 180,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 24.0, left: 12.0),
-        child: LineChart(
-          LineChartData(
-            gridData: const FlGridData(show: false),
-            titlesData: const FlTitlesData(
-              leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              bottomTitles: AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
-              rightTitles: AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
-            ),
-            borderData: FlBorderData(show: false),
-            lineBarsData: [
-              LineChartBarData(
-                spots: HomeData.getPerformanceData(),
-                isCurved: true,
-                color: const Color(0xFF00F5D4),
-                barWidth: 4,
-                isStrokeCapRound: true,
-                dotData: const FlDotData(show: false),
-                belowBarData: BarAreaData(
-                  show: true,
-                  gradient: LinearGradient(
-                    colors: [
-                      const Color(0xFF00F5D4).withAlpha((255 * 0.3).toInt()),
-                      const Color(0xFF00F5D4).withAlpha((255 * 0.0).toInt()),
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
+    return Column(
+      children: [
+        SizedBox(
+          height: 180,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 24.0, left: 12.0),
+            child: LineChart(
+              LineChartData(
+                gridData: const FlGridData(show: false),
+                titlesData: FlTitlesData(
+                  leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: (value, meta) {
+                        const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                                      'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                        if (value.toInt() >= 0 && value.toInt() < months.length) {
+                          return Text(months[value.toInt()], 
+                            style: const TextStyle(fontSize: 12));
+                        }
+                        return const Text('');
+                      },
+                    ),
+                  ),
+                  rightTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
                   ),
                 ),
+                borderData: FlBorderData(show: false),
+                lineBarsData: [
+                  // Línea para Año 1 (2023)
+                  LineChartBarData(
+                    spots: HomeData.getPurchaseDataYear1(),
+                    isCurved: true,
+                    color: const Color(0xFF00F5D4),
+                    barWidth: 4,
+                    isStrokeCapRound: true,
+                    dotData: const FlDotData(show: false),
+                    belowBarData: BarAreaData(show: false),
+                  ),
+                  // Línea para Año 2 (2024)
+                  LineChartBarData(
+                    spots: HomeData.getPurchaseDataYear2(),
+                    isCurved: true,
+                    color: const Color(0xFF00A8E8),
+                    barWidth: 4,
+                    isStrokeCapRound: true,
+                    dotData: const FlDotData(show: false),
+                    belowBarData: BarAreaData(show: false),
+                  ),
+                ],
               ),
+            ),
+          ),
+        ),
+        // Leyenda personalizada
+        const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildLegendItem('2023', const Color(0xFF00F5D4)),
+              const SizedBox(width: 24),
+              _buildLegendItem('2024', const Color(0xFF00A8E8)),
             ],
           ),
         ),
-      ),
+      ],
+    );
+  }
+
+  Widget _buildLegendItem(String label, Color color) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 16,
+          height: 3,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(2),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -52,6 +52,43 @@ class HomeData {
     ];
   }
 
+  // Nuevos métodos para datos de compras por año
+  static List<FlSpot> getPurchaseDataYear1() {
+    // Datos de compras para el primer año (enero a diciembre)
+    return const [
+      FlSpot(0, 1200),  // Enero
+      FlSpot(1, 1500),  // Febrero
+      FlSpot(2, 1100),  // Marzo
+      FlSpot(3, 1800),  // Abril
+      FlSpot(4, 1400),  // Mayo
+      FlSpot(5, 2000),  // Junio
+      FlSpot(6, 2200),  // Julio
+      FlSpot(7, 1900),  // Agosto
+      FlSpot(8, 2500),  // Septiembre
+      FlSpot(9, 2100),  // Octubre
+      FlSpot(10, 2800), // Noviembre
+      FlSpot(11, 3000), // Diciembre
+    ];
+  }
+
+  static List<FlSpot> getPurchaseDataYear2() {
+    // Datos de compras para el segundo año (enero a diciembre)
+    return const [
+      FlSpot(0, 1400),  // Enero
+      FlSpot(1, 1700),  // Febrero
+      FlSpot(2, 1300),  // Marzo
+      FlSpot(3, 2000),  // Abril
+      FlSpot(4, 1600),  // Mayo
+      FlSpot(5, 2200),  // Junio
+      FlSpot(6, 2400),  // Julio
+      FlSpot(7, 2100),  // Agosto
+      FlSpot(8, 2700),  // Septiembre
+      FlSpot(9, 2300),  // Octubre
+      FlSpot(10, 3000), // Noviembre
+      FlSpot(11, 3200), // Diciembre
+    ];
+  }
+
   static List<Map<String, dynamic>> getQuickActionsData() {
     return [
       {

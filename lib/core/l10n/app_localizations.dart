@@ -99,7 +99,7 @@ class AppLocalizations {
       'enableButtonLabel': 'Enable',
       // Home screen
       'homeWelcomeBack': 'Welcome back,',
-      'homeAnnualPerformance': 'Annual Performance',
+      'homeAnnualPerformance': 'Network Purchases',
       'homeQuickActions': 'Quick Actions',
       'homeRecentActivity': 'Recent Activity',
       // Stats
@@ -149,7 +149,7 @@ class AppLocalizations {
       'enableButtonLabel': 'Activar',
       // Home screen
       'homeWelcomeBack': 'Bienvenido de nuevo,',
-      'homeAnnualPerformance': 'Rendimiento Anual',
+      'homeAnnualPerformance': 'Compras en red',
       'homeQuickActions': 'Acciones Rápidas',
       'homeRecentActivity': 'Actividad Reciente',
       // Stats
