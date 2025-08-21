@@ -14,19 +14,19 @@ _SectionData getSectionData(int index, BalancePoint balance) {
   switch (index) {
     case 0:
       return _SectionData(
-        color: const Color(0xFF42A5F5),
+        color: const Color(0xFF00F5D4), // Disponible: verde-agua
         title: 'Disponible',
         value: balance.available.toStringAsFixed(2),
       );
     case 1:
       return _SectionData(
-        color: const Color(0xFFEF5350),
+        color: const Color(0xFFE53935), // Bloqueado: rojo vibrante
         title: 'Bloqueado',
         value: balance.locked.toStringAsFixed(2),
       );
     case 2:
       return _SectionData(
-        color: const Color.fromRGBO(197, 252, 68, 1.0),
+        color: const Color.fromRGBO(197, 252, 68, 1.0), // Recycoins: lima
         title: 'Recycoins',
         value: balance.recycoins.toStringAsFixed(2),
       );
@@ -41,30 +41,17 @@ PieChartSectionData buildChartSection({
   required int touchedIndex,
 }) {
   final isTouched = index == touchedIndex;
-  final fontSize = isTouched ? 20.0 : 16.0;
   final radius = isTouched ? 100.0 : 90.0;
   final color = getSectionData(index, balance).color;
-  final value = getSectionData(index, balance).value;
-
-  // No mostrar la sección si el valor es cero o negativo
-  if (double.tryParse(value)! <= 0) {
-    return PieChartSectionData(
-      value: 0,
-      showTitle: false,
-      color: Colors.transparent,
-    );
-  }
+  final valueStr = getSectionData(index, balance).value;
+  final parsed = double.tryParse(valueStr) ?? 0.0;
+  final value = parsed > 0 ? parsed : 0.001; // mantener visible
 
   return PieChartSectionData(
-    color: color,
-    value: double.parse(value),
-    title: value,
+    color: color.withOpacity(isTouched ? 1.0 : 0.85),
+    value: value,
+    title: '', // ocultar títulos en las secciones
+    showTitle: false,
     radius: radius,
-    titleStyle: TextStyle(
-      fontSize: fontSize,
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
-      shadows: const [Shadow(color: Colors.black26, blurRadius: 2)],
-    ),
   );
 }

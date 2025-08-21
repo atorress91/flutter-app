@@ -5,8 +5,13 @@ import 'balance_chart_section.dart';
 
 class BalanceChartLegend extends StatelessWidget {
   final BalancePoint balance;
+  final String currencySymbol;
 
-  const BalanceChartLegend({super.key, required this.balance});
+  const BalanceChartLegend({
+    super.key,
+    required this.balance,
+    required this.currencySymbol,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +22,17 @@ class BalanceChartLegend extends StatelessWidget {
           // Obtenemos el color desde la misma fuente que el gráfico
           color: getSectionData(0, balance).color,
           text: 'Disponible',
-          amount: balance.available,
+          amountText: '$currencySymbol${balance.available.toStringAsFixed(2)}',
         ),
         _LegendItem(
           color: getSectionData(1, balance).color,
           text: 'Bloqueado',
-          amount: balance.locked,
+          amountText: '$currencySymbol${balance.locked.toStringAsFixed(2)}',
         ),
         _LegendItem(
           color: getSectionData(2, balance).color,
           text: 'Recycoins',
-          amount: balance.recycoins,
+          amountText: '${balance.recycoins.toStringAsFixed(2)} RC',
         ),
       ],
     );
@@ -37,12 +42,12 @@ class BalanceChartLegend extends StatelessWidget {
 class _LegendItem extends StatelessWidget {
   final Color color;
   final String text;
-  final double amount;
+  final String amountText;
 
   const _LegendItem({
     required this.color,
     required this.text,
-    required this.amount,
+    required this.amountText,
   });
 
   @override
@@ -69,7 +74,7 @@ class _LegendItem extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-          '\$${amount.toStringAsFixed(2)}',
+          amountText,
           style: textTheme.bodySmall?.copyWith(
             fontWeight: FontWeight.w600,
             color: color.withAlpha((255 * 0.8).toInt()),

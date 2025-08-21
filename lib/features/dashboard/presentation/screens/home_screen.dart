@@ -83,7 +83,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 28),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24),
                             child: _buildBalanceContent(balanceState),

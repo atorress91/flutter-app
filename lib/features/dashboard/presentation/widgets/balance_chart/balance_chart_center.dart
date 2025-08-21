@@ -6,11 +6,13 @@ import 'balance_chart_section.dart';
 class BalanceChartCenter extends StatelessWidget {
   final int touchedIndex;
   final BalanceChartViewModel viewModel;
+  final BalancePoint? animatedBalance;
 
   const BalanceChartCenter({
     super.key,
     required this.touchedIndex,
     required this.viewModel,
+    this.animatedBalance,
   });
 
   @override
@@ -20,15 +22,30 @@ class BalanceChartCenter extends StatelessWidget {
     final String amount;
     final Color color;
 
+    final balanceForDisplay = animatedBalance ?? viewModel.latestBalance;
+
     if (touchedIndex == -1) {
       title = 'Balance Total';
       amount =
-          '${viewModel.currencySymbol}${viewModel.latestBalance.total.toStringAsFixed(2)}';
+          '${viewModel.currencySymbol}${balanceForDisplay.total.toStringAsFixed(2)}';
       color = Theme.of(context).textTheme.bodyLarge!.color!;
     } else {
       final sectionData = getSectionData(touchedIndex, viewModel.latestBalance);
       title = sectionData.title;
-      amount = '${viewModel.currencySymbol}${sectionData.value}';
+      // Para Recycoins mostramos "RC" en lugar del símbolo de moneda
+      switch (touchedIndex) {
+        case 0:
+          amount = '${viewModel.currencySymbol}${balanceForDisplay.available.toStringAsFixed(2)}';
+          break;
+        case 1:
+          amount = '${viewModel.currencySymbol}${balanceForDisplay.locked.toStringAsFixed(2)}';
+          break;
+        case 2:
+          amount = '${balanceForDisplay.recycoins.toStringAsFixed(2)} RC';
+          break;
+        default:
+          amount = '${viewModel.currencySymbol}${balanceForDisplay.total.toStringAsFixed(2)}';
+      }
       color = sectionData.color;
     }
 
