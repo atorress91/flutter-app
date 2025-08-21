@@ -26,13 +26,13 @@ class BalanceChartLegend extends StatelessWidget {
         ),
         _LegendItem(
           color: getSectionData(1, balance).color,
-          text: 'Bloqueado',
+          text: 'Pagado',
           amountText: '$currencySymbol${balance.locked.toStringAsFixed(2)}',
         ),
         _LegendItem(
           color: getSectionData(2, balance).color,
           text: 'Recycoins',
-          amountText: '${balance.recycoins.toStringAsFixed(2)} RC',
+          amountText: '${balance.recycoins} RC',
         ),
       ],
     );

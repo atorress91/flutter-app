@@ -21,7 +21,7 @@ _SectionData getSectionData(int index, BalancePoint balance) {
     case 1:
       return _SectionData(
         color: const Color(0xFFE53935), // Bloqueado: rojo vibrante
-        title: 'Bloqueado',
+        title: 'Pagado',
         value: balance.locked.toStringAsFixed(2),
       );
     case 2:
