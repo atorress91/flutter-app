@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:my_app/core/utils/currency_utils.dart';
+import 'package:my_app/features/dashboard/domain/entities/balance_information.dart';
 
 class HomeData {
-  static List<Map<String, dynamic>> getStatsData() {
+  static List<Map<String, dynamic>> getStatsData(BalanceInformation balance) {
     return [
       {
         'titleKey': 'statsRecycoinTotal',
-        'value': '\$24,5k',
-        'icon': Icons.recycling,
+        'value': CurrencyUtils.formatWithoutDecimals(
+          (balance.totalAcquisitions + balance.bonusAmount),
+        ),
+        'icon': Icons.toll_outlined,
         'color': const Color(0xFF00F5D4),
       },
       {
         'titleKey': 'statsBonusTokens',
-        'value': '1,247',
-        'icon': Icons.stars,
+        'value': CurrencyUtils.formatWithoutDecimals(balance.bonusAmount),
+        'icon': Icons.token_outlined,
         'color': const Color(0xFF00A8E8),
       },
       {
         'titleKey': 'statsMonthlyCommission',
-        'value': '218',
+        'value': '\$0',
         'icon': Icons.calendar_month,
         'color': const Color(0xFFFF5733),
       },
       {
         'titleKey': 'statsReferrals',
-        'value': '\$18,7k',
+        'value': '\$0',
         'icon': Icons.group_add,
         'color': const Color(0xFF9B5DE5),
       },

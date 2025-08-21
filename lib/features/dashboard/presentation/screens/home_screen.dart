@@ -70,7 +70,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             child: WelcomeHeader(),
                           ),
                           const SizedBox(height: 30),
-                          const StatsCarousel(),
+                          if (balanceState.balance != null)
+                            StatsCarousel(balance: balanceState.balance!),
                           const SizedBox(height: 30),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24),

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/dashboard/data/home_data.dart';
+import 'package:my_app/features/dashboard/domain/entities/balance_information.dart';
 
 import 'stat_card.dart';
 
 class StatsCarousel extends StatelessWidget {
-  const StatsCarousel({super.key});
+  final BalanceInformation balance;
+
+  const StatsCarousel({super.key,required this.balance});
 
   @override
   Widget build(BuildContext context) {
-    final stats = HomeData.getStatsData();
+    final stats = HomeData.getStatsData(balance);
 
     return SizedBox(
       height: 130,
