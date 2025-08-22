@@ -47,20 +47,28 @@ abstract class BaseService {
       final Map<String, dynamic> body =
           jsonDecode(response.body) as Map<String, dynamic>;
 
+      // Verificar primero si la respuesta fue exitosa
+      final bool success = body['success'] is bool
+          ? body['success'] as bool
+          : true; // por defecto true si no existe el campo
+
+      // Si no es exitoso, retornar directamente sin parsear los datos
+      if (!success) {
+        return ApiResponse<T?>(
+          success: false,
+          message: body['message']?.toString() ?? 'La solicitud a la API falló.',
+          statusCode: response.statusCode,
+          data: null, // No intentar parsear datos cuando hay error
+        );
+      }
+
+      // Solo si es exitoso, intentar parsear los datos
       final apiResponse = ApiResponse.fromEnvelope(
         envelope: body,
         parseData: fromJson,
         statusCode: response.statusCode,
       );
 
-      if (!apiResponse.success) {
-        return ApiResponse<T?>(
-          success: false,
-          message: apiResponse.message ?? 'La solicitud a la API falló.',
-          statusCode: response.statusCode,
-          data: apiResponse.data,
-        );
-      }
       return ApiResponse<T?>(
         success: apiResponse.success,
         message: apiResponse.message,

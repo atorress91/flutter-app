@@ -4,7 +4,6 @@ import 'package:my_app/core/errors/exceptions.dart';
 import 'package:my_app/core/services/api/auth_service.dart';
 import 'package:my_app/features/auth/domain/entities/user.dart';
 import 'package:my_app/features/auth/domain/repositories/auth_repository.dart';
-import 'package:my_app/core/data/mappers/error_mapper.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthService _authService;
@@ -18,7 +17,8 @@ class AuthRepositoryImpl implements AuthRepository {
     if (response.success && response.data != null) {
       return UserMapper.fromDto(response.data!);
     } else {
-      throw ErrorMapper.mapApiError(response, context: 'autenticación');
+
+      throw ApiException(response.message ?? 'Error de autenticación');
     }
   }
 

@@ -11,10 +11,14 @@ class AuthService extends BaseService {
   Future<ApiResponse<UsersAffiliatesDto?>> login(
     RequestUserAuth request,
   ) async {
-    return postJson<UsersAffiliatesDto>(
+    return postJson<UsersAffiliatesDto?>(
       '/auth/login',
       request.toJson(),
       fromJson: (json) {
+        if (json == null) {
+          return null;
+        }
+
         final userPayload =
             (json as Map<String, dynamic>?)?['affiliate'] ??
             json?['user'] ??
@@ -24,8 +28,8 @@ class AuthService extends BaseService {
           return UsersAffiliatesDto.fromJson(userPayload);
         }
 
-        throw Exception(
-          'No se encontraron datos de usuario válidos en la respuesta.',
+        throw const FormatException(
+          'Payload de usuario no encontrado en la respuesta.',
         );
       },
     );

@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_app/core/data/mappers/error_mapper.dart';
+import 'package:my_app/core/errors/exceptions.dart';
 
 import '../../domain/entities/login_state.dart';
 import '../../domain/use_cases/perform_login_use_case.dart';
@@ -15,16 +17,23 @@ class LoginController extends StateNotifier<LoginState> {
     state = state.copyWith(obscurePassword: !state.obscurePassword);
   }
 
-  /// Delega el proceso de login al Caso de Uso.
   Future<bool?> login(String username, String password) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
       final user = await _performLoginUseCase.execute(username, password);
       state = state.copyWith(isLoading: false);
-
       return user.isAffiliate;
+    } on ApiException catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        error: ErrorMapper.getMessage(e),
+      );
+      return null;
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        error: 'Ocurrió un error inesperado. Inténtalo de nuevo.',
+      );
       return null;
     }
   }
