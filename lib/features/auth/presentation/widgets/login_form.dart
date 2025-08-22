@@ -107,7 +107,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
             ),
           ),
           // widget reutilizable
-          ErrorDisplay(errorMessage: 'El usuario o contraseña son incorrectos.'),
+          ErrorDisplay(errorMessage: loginState.error),
         ],
       ),
     );
