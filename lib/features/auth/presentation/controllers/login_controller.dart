@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_app/core/data/mappers/error_mapper.dart';
 import 'package:my_app/core/errors/exceptions.dart';
 
 import '../../domain/entities/login_state.dart';
@@ -24,10 +23,7 @@ class LoginController extends StateNotifier<LoginState> {
       state = state.copyWith(isLoading: false);
       return user.isAffiliate;
     } on ApiException catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: ErrorMapper.getMessage(e),
-      );
+      state = state.copyWith(isLoading: false, error: e.message);
       return null;
     } catch (e) {
       state = state.copyWith(

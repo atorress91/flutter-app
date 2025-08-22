@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_app/core/common/widgets/error_display.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
 
 import '../controllers/login_controller.dart';
@@ -31,7 +32,6 @@ class _LoginFormState extends ConsumerState<LoginForm> {
 
   void _handleSubmit() {
     if (_validateForm()) {
-      // Entregar valores al padre
       widget.onSubmit(_userController.text, _passwordController.text);
     }
   }
@@ -106,22 +106,10 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                   : Text(strings.signInButtonLabel),
             ),
           ),
-          if (loginState.error != null) ...[
-            const SizedBox(height: 12),
-            Text(
-              loginState.error!,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.error,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
+          // widget reutilizable
+          ErrorDisplay(errorMessage: 'El usuario o contraseña son incorrectos.'),
         ],
       ),
     );
   }
-
-  String get username => _userController.text;
-
-  String get password => _passwordController.text;
 }

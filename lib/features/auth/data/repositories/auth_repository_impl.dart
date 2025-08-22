@@ -18,7 +18,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return UserMapper.fromDto(response.data!);
     } else {
 
-      throw ApiException(response.message ?? 'Error de autenticación');
+      throw ApiException(response.message ?? 'Error de autenticación desconocido');
     }
   }
 
