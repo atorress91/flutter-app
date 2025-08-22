@@ -24,19 +24,19 @@ class WalletService extends BaseService {
     );
   }
 
-  Future<ApiResponse<List<PurchaseDto>?>> getPurchasesInMyNetwork(
-    int userId,
-  ) async {
-    return get<List<PurchaseDto>>(
-      '/wallet/getPurchasesMadeInMyNetwork/$userId',
-      fromJson: (json) {
-        if (json is List) {
-          return json
-              .map((item) => PurchaseMapper.fromDto(PurchaseDto.fromJson(item)))
-              .toList();
-        }
-        throw Exception('Invalid data format for purchases');
-      },
-    );
-  }
+  // Future<ApiResponse<List<PurchaseDto>?>> getPurchasesInMyNetwork(
+  //   int userId,
+  // ) async {
+  //   return get<List<PurchaseDto>>(
+  //     '/wallet/getPurchasesMadeInMyNetwork/$userId',
+  //     fromJson: (json) {
+  //       if (json is List) {
+  //         return json
+  //             .map((item) => PurchaseMapper.fromDto(PurchaseDto.fromJson(item)))
+  //             .toList();
+  //       }
+  //       throw Exception('Invalid data format for purchases');
+  //     },
+  //   );
+  // }
 }
