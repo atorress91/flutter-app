@@ -1,17 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:my_app/core/config/environments.dart';
+import 'package:my_app/core/data/models/api_response.dart';
 
-import '../../config/environments.dart';
-
-/// Servicio base para centralizar baseUrl, cliente HTTP y headers comunes.
 abstract class BaseService {
   final http.Client client;
   final Microservice microservice;
 
   BaseService({http.Client? client, required this.microservice})
     : client = client ?? http.Client();
-
-  // Eliminamos la noción de token dinámico aquí y usamos la llave por microservicio desde Environment
 
   String get baseUrl => Environment.baseUrlFor(microservice);
 
@@ -41,74 +38,130 @@ abstract class BaseService {
     };
   }
 
-  Future<http.Response> get(
+  Future<ApiResponse<T?>> _handleResponse<T>(
+    Future<http.Response> Function() request, {
+    required T Function(dynamic json) fromJson,
+  }) async {
+    try {
+      final response = await request();
+      final Map<String, dynamic> body =
+          jsonDecode(response.body) as Map<String, dynamic>;
+
+      final apiResponse = ApiResponse.fromEnvelope(
+        envelope: body,
+        parseData: fromJson,
+        statusCode: response.statusCode,
+      );
+
+      if (!apiResponse.success) {
+        return ApiResponse<T?>(
+          success: false,
+          message: apiResponse.message ?? 'La solicitud a la API falló.',
+          statusCode: response.statusCode,
+          data: apiResponse.data,
+        );
+      }
+      return ApiResponse<T?>(
+        success: apiResponse.success,
+        message: apiResponse.message,
+        statusCode: apiResponse.statusCode,
+        data: apiResponse.data,
+      );
+    } catch (e) {
+      return ApiResponse<T?>(
+        success: false,
+        message: 'Error al procesar la respuesta: $e',
+        data: null,
+      );
+    }
+  }
+
+  Future<ApiResponse<T?>> get<T>(
     String path, {
+    required T Function(dynamic json) fromJson,
     Map<String, String>? headers,
     Map<String, String>? query,
     Microservice? service,
   }) {
-    return client.get(
-      buildUri(path, query: query, service: service),
-      headers: defaultHeaders(headers),
+    return _handleResponse<T>(
+      () => client.get(
+        buildUri(path, query: query, service: service),
+        headers: defaultHeaders(headers),
+      ),
+      fromJson: fromJson,
     );
   }
 
-  Future<http.Response> post(
+  Future<ApiResponse<T?>> post<T>(
     String path, {
+    required T Function(dynamic json) fromJson,
     Object? body,
     Map<String, String>? headers,
     Map<String, String>? query,
     Microservice? service,
   }) {
-    return client.post(
-      buildUri(path, query: query, service: service),
-      headers: defaultHeaders(headers),
-      body: body,
+    return _handleResponse<T>(
+      () => client.post(
+        buildUri(path, query: query, service: service),
+        headers: defaultHeaders(headers),
+        body: body,
+      ),
+      fromJson: fromJson,
     );
   }
 
-  Future<http.Response> put(
+  Future<ApiResponse<T?>> put<T>(
     String path, {
+    required T Function(dynamic json) fromJson,
     Object? body,
     Map<String, String>? headers,
     Map<String, String>? query,
     Microservice? service,
   }) {
-    return client.put(
-      buildUri(path, query: query, service: service),
-      headers: defaultHeaders(headers),
-      body: body,
+    return _handleResponse<T>(
+      () => client.put(
+        buildUri(path, query: query, service: service),
+        headers: defaultHeaders(headers),
+        body: body,
+      ),
+      fromJson: fromJson,
     );
   }
 
-  Future<http.Response> delete(
+  Future<ApiResponse<T?>> delete<T>(
     String path, {
+    required T Function(dynamic json) fromJson,
     Object? body,
     Map<String, String>? headers,
     Map<String, String>? query,
     Microservice? service,
   }) {
-    return client.delete(
-      buildUri(path, query: query, service: service),
-      headers: defaultHeaders(headers),
-      body: body,
+    return _handleResponse<T>(
+      () => client.delete(
+        buildUri(path, query: query, service: service),
+        headers: defaultHeaders(headers),
+        body: body,
+      ),
+      fromJson: fromJson,
     );
   }
 
   /// Helper para enviar JSON sin repetir jsonEncode ni content-type.
-  Future<http.Response> postJson(
+  Future<ApiResponse<T?>> postJson<T>(
     String path,
     Map<String, dynamic> payload, {
+    required T Function(dynamic json) fromJson,
     Map<String, String>? headers,
     Map<String, String>? query,
     Microservice? service,
   }) {
-    return post(
-      path,
-      body: jsonEncode(payload),
-      headers: defaultHeaders(headers),
-      query: query,
-      service: service,
+    return _handleResponse<T>(
+      () => client.post(
+        buildUri(path, query: query, service: service),
+        headers: defaultHeaders(headers),
+        body: jsonEncode(payload),
+      ),
+      fromJson: fromJson,
     );
   }
 }
