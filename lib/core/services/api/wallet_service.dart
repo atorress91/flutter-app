@@ -12,14 +12,20 @@ class WalletService extends BaseService {
   Future<ApiResponse<BalanceInformation?>> getBalanceInformationByUserId(
     int userId,
   ) async {
-    return get<BalanceInformation>(
+    return get<BalanceInformation?>(
       '/wallet/GetBalanceInformationByAffiliateId/$userId',
       fromJson: (json) {
+        if (json == null) {
+          return null;
+        }
         if (json is Map<String, dynamic>) {
           final balanceDto = BalanceInformationDto.fromJson(json);
           return BalanceInformationMapper.fromDto(balanceDto);
         }
-        throw Exception('Invalid data format for balance information');
+
+        throw Exception(
+          'Formato de datos inválido para la información del balance',
+        );
       },
     );
   }

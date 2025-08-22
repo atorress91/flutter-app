@@ -11,11 +11,12 @@ class BalanceRepositoryImpl implements BalanceRepository {
   @override
   Future<BalanceInformation> getBalanceInformation(int userId) async {
     final response = await _walletService.getBalanceInformationByUserId(userId);
+
     if (response.success && response.data != null) {
       return response.data!;
     } else {
       throw ApiException(
-        response.message ?? 'Error fetching balance information',
+        response.message ?? 'Error al obtener la información del balance',
       );
     }
   }
