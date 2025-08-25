@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/dashboard/data/providers/balance_providers.dart';
+import 'package:my_app/features/dashboard/data/providers/network_purchase_providers.dart';
 import 'package:my_app/features/dashboard/presentation/mappers/balance_chart_mapper.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/balance_chart/balance_chart.dart';
 import '../../domain/entities/balance_state.dart';
@@ -27,22 +28,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
 
-    Future.microtask(
-      () =>
-          ref.read(balanceControllerProvider.notifier).getBalanceInformation(),
-    );
+    Future.microtask(() {
+      ref.read(balanceControllerProvider.notifier).getBalanceInformation();
+      ref.read(networkPurchaseControllerProvider.notifier).getNetworkPurchases();
+    });
   }
 
   // El método _handleRefresh ahora puede re-llamar al controller.
   Future<void> _handleRefresh() async {
-    // 5. Llama al método del controller para recargar los datos
     await ref.read(balanceControllerProvider.notifier).getBalanceInformation();
+    await ref.read(networkPurchaseControllerProvider.notifier).getNetworkPurchases();
   }
 
   @override
   Widget build(BuildContext context) {
     final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
     final balanceState = ref.watch(balanceControllerProvider);
+    final networkPurchaseState = ref.watch(networkPurchaseControllerProvider);
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -118,7 +120,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          const PerformanceChart(),
+                          PerformanceChart(purchases: networkPurchaseState.purchases),
                           const SizedBox(height: 30),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24),

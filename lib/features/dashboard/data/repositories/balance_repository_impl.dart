@@ -1,4 +1,4 @@
-import 'package:my_app/core/data/mappers/balance_information_mapper.dart';
+import 'package:my_app/features/dashboard/data/mappers/balance_information_mapper.dart';
 import 'package:my_app/core/errors/exceptions.dart';
 import 'package:my_app/core/services/api/wallet_service.dart';
 import 'package:my_app/features/dashboard/domain/entities/balance_information.dart';

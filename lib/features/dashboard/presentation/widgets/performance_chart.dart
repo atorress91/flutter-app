@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:my_app/features/dashboard/data/home_data.dart';
+import 'package:my_app/features/dashboard/domain/entities/network_purchase.dart';
 
 class PerformanceChart extends StatelessWidget {
-  const PerformanceChart({super.key});
+  final List<NetworkPurchase> purchases;
+
+  const PerformanceChart({super.key, required this.purchases});
 
   @override
   Widget build(BuildContext context) {
+    final purchaseDataYear1 = purchases
+        .where((p) => p.year == 2023)
+        .map((p) => FlSpot(p.month.toDouble() - 1, p.totalPurchases.toDouble()))
+        .toList();
+
+    final purchaseDataYear2 = purchases
+        .where((p) => p.year == 2024)
+        .map((p) => FlSpot(p.month.toDouble() - 1, p.totalPurchases.toDouble()))
+        .toList();
+
     return Column(
       children: [
         SizedBox(
@@ -17,17 +29,36 @@ class PerformanceChart extends StatelessWidget {
               LineChartData(
                 gridData: const FlGridData(show: false),
                 titlesData: FlTitlesData(
-                  leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  leftTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  topTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
                   bottomTitles: AxisTitles(
                     sideTitles: SideTitles(
                       showTitles: true,
                       getTitlesWidget: (value, meta) {
-                        const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
-                                      'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                        if (value.toInt() >= 0 && value.toInt() < months.length) {
-                          return Text(months[value.toInt()], 
-                            style: const TextStyle(fontSize: 12));
+                        const months = [
+                          'Ene',
+                          'Feb',
+                          'Mar',
+                          'Abr',
+                          'May',
+                          'Jun',
+                          'Jul',
+                          'Ago',
+                          'Sep',
+                          'Oct',
+                          'Nov',
+                          'Dic',
+                        ];
+                        if (value.toInt() >= 0 &&
+                            value.toInt() < months.length) {
+                          return Text(
+                            months[value.toInt()],
+                            style: const TextStyle(fontSize: 12),
+                          );
                         }
                         return const Text('');
                       },
@@ -39,9 +70,8 @@ class PerformanceChart extends StatelessWidget {
                 ),
                 borderData: FlBorderData(show: false),
                 lineBarsData: [
-                  // Línea para Año 1 (2023)
                   LineChartBarData(
-                    spots: HomeData.getPurchaseDataYear1(),
+                    spots: purchaseDataYear1,
                     isCurved: true,
                     color: const Color(0xFF00F5D4),
                     barWidth: 4,
@@ -49,9 +79,8 @@ class PerformanceChart extends StatelessWidget {
                     dotData: const FlDotData(show: false),
                     belowBarData: BarAreaData(show: false),
                   ),
-                  // Línea para Año 2 (2024)
                   LineChartBarData(
-                    spots: HomeData.getPurchaseDataYear2(),
+                    spots: purchaseDataYear2,
                     isCurved: true,
                     color: const Color(0xFF00A8E8),
                     barWidth: 4,
@@ -64,7 +93,6 @@ class PerformanceChart extends StatelessWidget {
             ),
           ),
         ),
-        // Leyenda personalizada
         const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -96,10 +124,7 @@ class PerformanceChart extends StatelessWidget {
         const SizedBox(width: 8),
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
         ),
       ],
     );

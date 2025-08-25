@@ -1,7 +1,7 @@
-import 'package:my_app/core/data/mappers/user_mapper.dart';
 import 'package:my_app/core/data/request/request_user_auth.dart';
 import 'package:my_app/core/errors/exceptions.dart';
 import 'package:my_app/core/services/api/auth_service.dart';
+import 'package:my_app/features/auth/data/mappers/user_mapper.dart';
 import 'package:my_app/features/auth/domain/entities/user.dart';
 import 'package:my_app/features/auth/domain/repositories/auth_repository.dart';
 
@@ -17,8 +17,9 @@ class AuthRepositoryImpl implements AuthRepository {
     if (response.success && response.data != null) {
       return UserMapper.fromDto(response.data!);
     } else {
-
-      throw ApiException(response.message ?? 'Error de autenticación desconocido');
+      throw ApiException(
+        response.message ?? 'Error de autenticación desconocido',
+      );
     }
   }
 
