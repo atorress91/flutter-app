@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/core/errors/exceptions.dart';
 
-import '../../domain/entities/login_state.dart';
+import '../states/login_state.dart';
 import '../../domain/use_cases/perform_login_use_case.dart';
 
 class LoginController extends StateNotifier<LoginState> {

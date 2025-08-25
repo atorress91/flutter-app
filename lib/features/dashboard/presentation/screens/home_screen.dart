@@ -7,7 +7,7 @@ import 'package:my_app/features/dashboard/data/providers/balance_providers.dart'
 import 'package:my_app/features/dashboard/data/providers/network_purchase_providers.dart';
 import 'package:my_app/features/dashboard/presentation/mappers/balance_chart_mapper.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/balance_chart/balance_chart.dart';
-import '../../domain/entities/balance_state.dart';
+import '../states/balance_state.dart';
 
 import 'package:my_app/features/dashboard/presentation/widgets/contract_details.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/performance_chart.dart';

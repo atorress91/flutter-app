@@ -4,7 +4,7 @@ import 'package:my_app/features/dashboard/data/repositories/network_purchase_rep
 import 'package:my_app/features/dashboard/domain/repositories/network_purchase_repository.dart';
 import 'package:my_app/features/dashboard/domain/use_cases/get_network_purchases_use_case.dart';
 import 'package:my_app/features/dashboard/presentation/controllers/network_purchase_controller.dart';
-import 'package:my_app/features/dashboard/domain/entities/network_purchase_state.dart';
+import 'package:my_app/features/dashboard/presentation/states/network_purchase_state.dart';
 
 final networkPurchaseRepositoryProvider = Provider<NetworkPurchaseRepository>(
   (ref) => NetworkPurchaseRepositoryImpl(ref.watch(walletServiceProvider)),

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/core/errors/exceptions.dart';
 import 'package:my_app/features/dashboard/data/providers/network_purchase_providers.dart';
-import 'package:my_app/features/dashboard/domain/entities/network_purchase_state.dart';
+import 'package:my_app/features/dashboard/presentation/states/network_purchase_state.dart';
 import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 
 class NetworkPurchaseController extends StateNotifier<NetworkPurchaseState> {
