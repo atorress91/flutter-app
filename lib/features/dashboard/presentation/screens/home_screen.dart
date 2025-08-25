@@ -107,21 +107,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             child: ContractDetails(),
                           ),
                           const SizedBox(height: 30),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: Text(
-                              AppLocalizations.of(
-                                context,
-                              ).homeAnnualPerformance,
-                              style: textTheme.titleLarge?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontWeight: FontWeight.bold,
+                          if (networkPurchaseState.purchases.isNotEmpty) ...[
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 24),
+                              child: Text(
+                                AppLocalizations.of(
+                                  context,
+                                ).homeAnnualPerformance,
+                                style: textTheme.titleLarge?.copyWith(
+                                  color: Theme.of(context).colorScheme.onSurface,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                          PerformanceChart(purchases: networkPurchaseState.purchases),
-                          const SizedBox(height: 30),
+                            const SizedBox(height: 20),
+                            PerformanceChart(purchases: networkPurchaseState.purchases),
+                            const SizedBox(height: 30),
+                          ],
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24),
                             child: Text(

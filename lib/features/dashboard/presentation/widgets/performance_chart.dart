@@ -9,6 +9,10 @@ class PerformanceChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (purchases.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     final currentYear = DateTime.now().year;
     final previousYear = currentYear - 1;
 
@@ -102,10 +106,7 @@ class PerformanceChart extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildLegendItem(
-                previousYear.toString(),
-                const Color(0xFF00F5D4),
-              ),
+              _buildLegendItem(previousYear.toString(), const Color(0xFF00F5D4)),
               const SizedBox(width: 24),
               _buildLegendItem(currentYear.toString(), const Color(0xFF00A8E8)),
             ],
