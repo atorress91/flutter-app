@@ -1,5 +1,5 @@
-import '../../../features/auth/domain/entities/user.dart';
-import '../dtos/users_affiliates_dto.dart';
+import 'package:my_app/core/data/dtos/users_affiliates_dto.dart';
+import 'package:my_app/features/auth/domain/entities/user.dart';
 
 class UserMapper {
   static User fromDto(UsersAffiliatesDto dto) {

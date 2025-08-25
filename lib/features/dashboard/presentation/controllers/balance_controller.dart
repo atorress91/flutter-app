@@ -16,17 +16,7 @@ class BalanceController extends StateNotifier<BalanceState> {
       final balance = await getBalanceUseCase.execute();
       state = state.copyWith(isLoading: false, balance: balance);
     } on ApiException catch (e) {
-      final backendMessage = e.message;
-      String errorMessage;
-
-      if (backendMessage.toLowerCase().contains('user_not_found')) {
-        errorMessage = 'No se pudo encontrar la información del usuario.';
-      } else {
-        errorMessage =
-            'No se pudo cargar el balance. Inténtalo de nuevo más tarde.';
-      }
-
-      state = state.copyWith(isLoading: false, error: errorMessage);
+      state = state.copyWith(isLoading: false, error: e.message);
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
