@@ -1,5 +1,6 @@
 import 'package:my_app/core/config/environments.dart';
-import 'package:my_app/core/data/dtos/purchase_dto.dart';
+import 'package:my_app/core/data/dtos/network_info_dto.dart';
+
 import 'package:my_app/core/data/models/api_response.dart';
 import 'package:my_app/core/services/api/base_service.dart';
 import 'package:my_app/features/dashboard/domain/entities/balance_information.dart';
@@ -30,19 +31,17 @@ class WalletService extends BaseService {
     );
   }
 
-  // Future<ApiResponse<List<PurchaseDto>?>> getPurchasesInMyNetwork(
-  //   int userId,
-  // ) async {
-  //   return get<List<PurchaseDto>>(
-  //     '/wallet/getPurchasesMadeInMyNetwork/$userId',
-  //     fromJson: (json) {
-  //       if (json is List) {
-  //         return json
-  //             .map((item) => PurchaseMapper.fromDto(PurchaseDto.fromJson(item)))
-  //             .toList();
-  //       }
-  //       throw Exception('Invalid data format for purchases');
-  //     },
-  //   );
-  // }
+  Future<ApiResponse<NetworkInfoDto?>> getPurchasesInMyNetwork(
+    int userId,
+  ) async {
+    return get<NetworkInfoDto?>(
+      '/wallet/getPurchasesMadeInMyNetwork/$userId',
+      fromJson: (json) {
+        if (json is Map<String, dynamic>) {
+          return NetworkInfoDto.fromJson(json);
+        }
+        throw Exception('Invalid data format for purchases');
+      },
+    );
+  }
 }
