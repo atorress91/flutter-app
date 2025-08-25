@@ -11,9 +11,10 @@ final balanceRepositoryProvider = Provider<BalanceRepository>(
 );
 
 final getBalanceInformationUseCaseProvider =
-    Provider<GetBalanceInformationUseCase>(
-      (ref) => GetBalanceInformationUseCase(ref),
-    );
+    Provider<GetBalanceInformationUseCase>((ref) {
+      final balanceRepository = ref.watch(balanceRepositoryProvider);
+      return GetBalanceInformationUseCase(balanceRepository);
+    });
 
 final balanceControllerProvider =
     StateNotifierProvider<BalanceController, BalanceState>(

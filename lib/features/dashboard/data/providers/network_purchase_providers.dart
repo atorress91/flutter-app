@@ -10,9 +10,11 @@ final networkPurchaseRepositoryProvider = Provider<NetworkPurchaseRepository>(
   (ref) => NetworkPurchaseRepositoryImpl(ref.watch(walletServiceProvider)),
 );
 
-final getNetworkPurchasesUseCaseProvider = Provider<GetNetworkPurchasesUseCase>(
-  (ref) => GetNetworkPurchasesUseCase(ref),
-);
+final getNetworkPurchasesUseCaseProvider =
+    Provider<GetNetworkPurchasesUseCase>((ref){
+      final networkPurchaseRepository = ref.watch(networkPurchaseRepositoryProvider);
+      return GetNetworkPurchasesUseCase(networkPurchaseRepository);
+    });
 
 final networkPurchaseControllerProvider =
     StateNotifierProvider<NetworkPurchaseController, NetworkPurchaseState>(
