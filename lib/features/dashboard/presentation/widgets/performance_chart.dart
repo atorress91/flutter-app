@@ -9,13 +9,16 @@ class PerformanceChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final purchaseDataYear1 = purchases
-        .where((p) => p.year == 2023)
+    final currentYear = DateTime.now().year;
+    final previousYear = currentYear - 1;
+
+    final purchaseDataCurrentYear = purchases
+        .where((p) => p.year == currentYear)
         .map((p) => FlSpot(p.month.toDouble() - 1, p.totalPurchases.toDouble()))
         .toList();
 
-    final purchaseDataYear2 = purchases
-        .where((p) => p.year == 2024)
+    final purchaseDataPreviousYear = purchases
+        .where((p) => p.year == previousYear)
         .map((p) => FlSpot(p.month.toDouble() - 1, p.totalPurchases.toDouble()))
         .toList();
 
@@ -71,7 +74,7 @@ class PerformanceChart extends StatelessWidget {
                 borderData: FlBorderData(show: false),
                 lineBarsData: [
                   LineChartBarData(
-                    spots: purchaseDataYear1,
+                    spots: purchaseDataPreviousYear,
                     isCurved: true,
                     color: const Color(0xFF00F5D4),
                     barWidth: 4,
@@ -80,7 +83,7 @@ class PerformanceChart extends StatelessWidget {
                     belowBarData: BarAreaData(show: false),
                   ),
                   LineChartBarData(
-                    spots: purchaseDataYear2,
+                    spots: purchaseDataCurrentYear,
                     isCurved: true,
                     color: const Color(0xFF00A8E8),
                     barWidth: 4,
@@ -99,9 +102,12 @@ class PerformanceChart extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildLegendItem('2023', const Color(0xFF00F5D4)),
+              _buildLegendItem(
+                previousYear.toString(),
+                const Color(0xFF00F5D4),
+              ),
               const SizedBox(width: 24),
-              _buildLegendItem('2024', const Color(0xFF00A8E8)),
+              _buildLegendItem(currentYear.toString(), const Color(0xFF00A8E8)),
             ],
           ),
         ),
