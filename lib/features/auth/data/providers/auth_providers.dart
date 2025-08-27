@@ -5,6 +5,7 @@ import 'package:my_app/core/providers/api_providers.dart';
 import 'package:my_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:my_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:my_app/features/auth/domain/use_cases/perform_login_use_case.dart';
+import 'package:my_app/features/auth/domain/use_cases/perform_registration_use_case.dart';
 
 final secureStorageProvider = Provider<FlutterSecureStorage>(
   (ref) => const FlutterSecureStorage(),
@@ -16,4 +17,8 @@ final authRepositoryProvider = Provider<AuthRepository>(
 
 final performLoginUseCaseProvider = Provider<PerformLoginUseCase>(
   (ref) => PerformLoginUseCase(),
+);
+
+final performRegistrationUseCaseProvider = Provider<PerformRegistrationUseCase>(
+  (ref) => PerformRegistrationUseCase(),
 );

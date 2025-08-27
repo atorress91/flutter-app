@@ -71,6 +71,18 @@ class LoginScreen extends ConsumerWidget {
                         onSubmit: (username, password) =>
                             _handleLogin(context, ref, username, password),
                       ),
+                      const SizedBox(height: 16),
+                      // Link para ir al registro
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('¿No tienes cuenta? '),
+                          TextButton(
+                            onPressed: () => context.go('/auth/register'),
+                            child: const Text('Crear Cuenta'),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

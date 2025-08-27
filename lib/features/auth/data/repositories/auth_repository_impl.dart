@@ -1,4 +1,5 @@
 import 'package:my_app/core/data/request/request_user_auth.dart';
+import 'package:my_app/core/data/request/request_user_registration.dart';
 import 'package:my_app/core/errors/exceptions.dart';
 import 'package:my_app/core/services/api/auth_service.dart';
 import 'package:my_app/features/auth/data/mappers/user_mapper.dart';
@@ -20,6 +21,17 @@ class AuthRepositoryImpl implements AuthRepository {
       throw ApiException(
         response.message ?? 'Error de autenticación desconocido',
       );
+    }
+  }
+
+  @override
+  Future<User> register(RequestUserRegistration request) async {
+    final response = await _authService.register(request);
+
+    if (response.success && response.data != null) {
+      return UserMapper.fromDto(response.data!);
+    } else {
+      throw ApiException(response.message ?? 'Error de registro desconocido');
     }
   }
 

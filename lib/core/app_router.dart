@@ -4,6 +4,7 @@ import 'package:my_app/features/admin/presentation/screens/admin_dashboard_scree
 import 'package:my_app/features/admin/presentation/screens/admin_screen.dart';
 import 'package:my_app/features/auth/presentation/screens/landing_screen.dart';
 import 'package:my_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:my_app/features/auth/presentation/screens/registration_screen.dart';
 import 'package:my_app/features/dashboard/presentation/screens/clients_screen.dart';
 import 'package:my_app/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:my_app/features/dashboard/presentation/screens/home_screen.dart';
@@ -28,6 +29,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/auth/login',
       builder: (context, state) => const LoginScreen(),
+    ),
+    GoRoute(
+      path: '/auth/register',
+      builder: (context, state) => const RegistrationScreen(),
     ),
 
     // --- Rutas del Dashboard del Cliente (con layout) ---
@@ -76,7 +81,7 @@ final GoRouter appRouter = GoRouter(
           path: '/admin/dashboard',
           builder: (context, state) => const AdminDashboardScreen(),
         ),
-        // Puedes añadir más rutas de admin aquí
+        // más rutas de admin aquí
         // GoRoute(
         //   path: '/admin/users',
         //   builder: (context, state) => const UserManagementScreen(),
@@ -84,11 +89,8 @@ final GoRouter appRouter = GoRouter(
       ],
     ),
   ],
-  // Lógica de redirección (ejemplo básico)
-  // Si el usuario no está logueado, lo mandas a /auth/login
-  // Si está logueado y va a /auth/login, lo mandas a /dashboard
   redirect: (context, state) {
-    // Aquí iría tu lógica de autenticación
+    // lógica de autenticación
     // bool isLoggedIn = ...;
     // final bool isLoggingIn = state.matchedLocation == '/auth/login';
     // if (!isLoggedIn && !isLoggingIn) return '/auth/login';

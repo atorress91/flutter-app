@@ -2,6 +2,7 @@ import 'package:my_app/core/config/environments.dart';
 import 'package:my_app/core/data/dtos/users_affiliates_dto.dart';
 import 'package:my_app/core/data/models/api_response.dart';
 import 'package:my_app/core/data/request/request_user_auth.dart';
+import 'package:my_app/core/data/request/request_user_registration.dart';
 
 import 'base_service.dart';
 
@@ -13,6 +14,33 @@ class AuthService extends BaseService {
   ) async {
     return postJson<UsersAffiliatesDto?>(
       '/auth/login',
+      request.toJson(),
+      fromJson: (json) {
+        if (json == null) {
+          return null;
+        }
+
+        final userPayload =
+            (json as Map<String, dynamic>?)?['affiliate'] ??
+            json?['user'] ??
+            json;
+
+        if (userPayload is Map<String, dynamic>) {
+          return UsersAffiliatesDto.fromJson(userPayload);
+        }
+
+        throw const FormatException(
+          'Payload de usuario no encontrado en la respuesta.',
+        );
+      },
+    );
+  }
+
+  Future<ApiResponse<UsersAffiliatesDto?>> register(
+    RequestUserRegistration request,
+  ) async {
+    return postJson<UsersAffiliatesDto?>(
+      '/auth/register',
       request.toJson(),
       fromJson: (json) {
         if (json == null) {

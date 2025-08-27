@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:my_app/core/data/models/session_model.dart';
 import 'package:my_app/core/data/request/request_user_auth.dart';
+import 'package:my_app/core/data/request/request_user_registration.dart';
 import 'package:my_app/features/auth/domain/entities/user.dart';
 import 'package:my_app/features/auth/domain/repositories/auth_repository.dart';
 
@@ -37,6 +38,23 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
     state = const AsyncLoading();
     final result = await AsyncValue.guard(() async {
       final user = await _repository.login(req);
+      final session = SessionModel(user: user, loggedAt: DateTime.now());
+
+      await ref
+          .read(secureStorageProvider)
+          .write(key: _kSessionKey, value: jsonEncode(session.toJson()));
+      return session;
+    });
+
+    state = result;
+    if (result.hasError) throw result.error!;
+    return result.value!;
+  }
+
+  Future<SessionModel> register(RequestUserRegistration req) async {
+    state = const AsyncLoading();
+    final result = await AsyncValue.guard(() async {
+      final user = await _repository.register(req);
       final session = SessionModel(user: user, loggedAt: DateTime.now());
 
       await ref
