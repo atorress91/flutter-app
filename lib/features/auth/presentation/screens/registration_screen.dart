@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_app/core/common/widgets/error_display.dart';
 import 'package:my_app/features/auth/presentation/controllers/registration_controller.dart';
-import 'package:my_app/features/auth/presentation/widgets/registration_form.dart';
+import 'package:my_app/features/auth/presentation/widgets/registration/registration_step_1.dart';
+import 'package:my_app/features/auth/presentation/widgets/registration/registration_step_2.dart';
+import 'package:my_app/features/auth/presentation/widgets/registration/registration_step_3.dart';
 
 // Provider para manejar el paso actual del formulario
 final registrationStepProvider = StateProvider.autoDispose<int>((ref) => 1);
