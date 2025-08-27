@@ -13,15 +13,20 @@ class LoginScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final strings = AppLocalizations.of(context);
+    final theme = Theme.of(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFF0F0F1F), Color(0xFF1A1A2E), Color(0xFF22344D)],
+            colors: [
+              theme.scaffoldBackgroundColor,
+              theme.colorScheme.surface,
+              theme.colorScheme.surface.withAlpha((255 * 0.8).toInt()),
+            ],
           ),
         ),
         child: Center(
@@ -29,7 +34,8 @@ class LoginScreen extends ConsumerWidget {
             constraints: const BoxConstraints(maxWidth: 420),
             child: Card(
               elevation: 10,
-              shadowColor: Colors.black54,
+              shadowColor: theme.shadowColor.withAlpha((255 * 0.5).toInt()),
+              color: theme.cardColor.withAlpha((255 * 0.9).toInt()),
               margin: const EdgeInsets.all(24),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -56,7 +62,7 @@ class LoginScreen extends ConsumerWidget {
                       const SizedBox(height: 8),
                       Text(
                         strings.loginScreenTitle,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        style: theme.textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.w700,
                         ),
                         textAlign: TextAlign.center,
@@ -76,7 +82,14 @@ class LoginScreen extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('¿No tienes cuenta? '),
+                          Text(
+                            '¿No tienes cuenta? ',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: theme.colorScheme.onSurface.withAlpha(
+                                (255 * 0.7).toInt(),
+                              ),
+                            ),
+                          ),
                           TextButton(
                             onPressed: () => context.go('/auth/register'),
                             child: const Text('Crear Cuenta'),
