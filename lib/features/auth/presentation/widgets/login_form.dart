@@ -1,113 +1,147 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_app/core/common/widgets/error_display.dart';
-import 'package:my_app/core/l10n/app_localizations.dart';
+import 'package:my_app/core/common/widgets/custom_text_field.dart';
+import 'package:my_app/core/common/widgets/primary_button.dart';
 
-import '../controllers/login_controller.dart';
-
-class LoginForm extends ConsumerStatefulWidget {
-  final void Function(String username, String password) onSubmit;
+class LoginForm extends StatefulWidget {
+  final Function(String username, String password) onSubmit;
 
   const LoginForm({super.key, required this.onSubmit});
 
   @override
-  ConsumerState<LoginForm> createState() => _LoginFormState();
+  State<LoginForm> createState() => _LoginFormState();
 }
 
-class _LoginFormState extends ConsumerState<LoginForm> {
+class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
-  final _userController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  bool _showPassword = false;
+  bool _isLoading = false;
 
   @override
   void dispose() {
-    _userController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  bool _validateForm() {
-    return _formKey.currentState?.validate() ?? false;
+  void _handleSubmit() {
+    if (_formKey.currentState?.validate() == true) {
+      setState(() => _isLoading = true);
+
+      // Llamar a la función onSubmit pasada desde el parent
+      widget.onSubmit(
+        _usernameController.text.trim(),
+        _passwordController.text,
+      );
+
+      // El estado de loading se manejará desde el parent/controller
+      // pero lo reseteamos aquí por si hay error
+      Future.delayed(const Duration(seconds: 2), () {
+        if (mounted) {
+          setState(() => _isLoading = false);
+        }
+      });
+    }
   }
 
-  void _handleSubmit() {
-    if (_validateForm()) {
-      widget.onSubmit(_userController.text, _passwordController.text);
-    }
+  void _togglePasswordVisibility() {
+    setState(() {
+      _showPassword = !_showPassword;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final strings = AppLocalizations.of(context);
-    final loginState = ref.watch(loginControllerProvider);
-    final controller = ref.read(loginControllerProvider.notifier);
+    final theme = Theme.of(context);
 
     return Form(
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          TextFormField(
-            controller: _userController,
-            enabled: !loginState.isLoading,
-            decoration: InputDecoration(
-              labelText: strings.usernameOrEmailLabel,
-              prefixIcon: const Icon(Icons.person_outline),
-            ),
+          // Campo de usuario/email
+          CustomTextField(
+            controller: _usernameController,
+            labelText: 'Usuario o Email',
+            icon: Icons.person_outline,
+            keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
-            validator: (v) {
-              if (v == null || v.trim().isEmpty) {
-                return strings.usernameOrEmailRequired;
+            textCapitalization: TextCapitalization.none,
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Por favor ingresa tu usuario o email';
               }
               return null;
             },
           ),
-          const SizedBox(height: 12),
-          TextFormField(
+
+          const SizedBox(height: 16),
+
+          // Campo de contraseña
+          CustomTextField(
             controller: _passwordController,
-            enabled: !loginState.isLoading,
-            decoration: InputDecoration(
-              labelText: strings.passwordLabel,
-              prefixIcon: const Icon(Icons.lock_outline),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  loginState.obscurePassword
-                      ? Icons.visibility
-                      : Icons.visibility_off,
+            labelText: 'Contraseña',
+            icon: Icons.lock_outline,
+            obscureText: !_showPassword,
+            textInputAction: TextInputAction.done,
+            suffixIcon: IconButton(
+              icon: Icon(
+                _showPassword ? Icons.visibility_off : Icons.visibility,
+                color: theme.colorScheme.onSurface.withAlpha(
+                  (255 * 0.7).toInt(),
                 ),
-                onPressed: loginState.isLoading
-                    ? null
-                    : controller.togglePasswordVisibility,
+                size: 20,
+              ),
+              onPressed: _togglePasswordVisibility,
+              tooltip: _showPassword
+                  ? 'Ocultar contraseña'
+                  : 'Mostrar contraseña',
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor ingresa tu contraseña';
+              }
+              if (value.length < 6) {
+                return 'La contraseña debe tener al menos 6 caracteres';
+              }
+              return null;
+            },
+            onFieldSubmitted: (_) => _handleSubmit(),
+          ),
+
+          const SizedBox(height: 24),
+
+          // Botón de iniciar sesión
+          PrimaryButton(
+            text: 'Iniciar Sesión',
+            isLoading: _isLoading,
+            onPressed: _handleSubmit,
+          ),
+
+          const SizedBox(height: 12),
+
+          // Link de "¿Olvidaste tu contraseña?"
+          TextButton(
+            onPressed: () {
+              // TODO: Implementar recuperación de contraseña
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'Función de recuperación de contraseña próximamente',
+                  ),
+                ),
+              );
+            },
+            child: Text(
+              '¿Olvidaste tu contraseña?',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.primary,
+                decoration: TextDecoration.underline,
               ),
             ),
-            obscureText: loginState.obscurePassword,
-            onFieldSubmitted: (_) => _handleSubmit(),
-            validator: (v) {
-              if (v == null || v.isEmpty) {
-                return strings.passwordRequired;
-              }
-              if (v.length < 4) {
-                return strings.passwordTooShort;
-              }
-              return null;
-            },
           ),
-          const SizedBox(height: 20),
-          SizedBox(
-            height: 48,
-            child: ElevatedButton(
-              onPressed: loginState.isLoading ? null : _handleSubmit,
-              child: loginState.isLoading
-                  ? const SizedBox(
-                      width: 22,
-                      height: 22,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : Text(strings.signInButtonLabel),
-            ),
-          ),
-          // widget reutilizable
-          ErrorDisplay(errorMessage: loginState.error),
         ],
       ),
     );
