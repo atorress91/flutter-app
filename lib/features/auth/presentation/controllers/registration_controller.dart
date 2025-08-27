@@ -77,7 +77,7 @@ class RegistrationController extends StateNotifier<RegistrationState> {
         referralUserName: referralUserName,
       );
 
-      final session = await ref.read(authNotifierProvider.notifier).register(request);
+      final _ = await ref.read(authNotifierProvider.notifier).register(request);
 
       state = state.copyWith(isLoading: false);
       return true;
