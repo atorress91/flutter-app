@@ -8,30 +8,39 @@ import 'package:my_app/features/auth/presentation/screens/registration_screen.da
 InputDecoration customInputDecoration({
   required String labelText,
   required IconData icon,
+  required BuildContext context,
   Widget? suffixIcon,
 }) {
+  final theme = Theme.of(context);
+
   return InputDecoration(
     labelText: labelText,
-    labelStyle: const TextStyle(color: Colors.white70),
-    prefixIcon: Icon(icon, color: Colors.white70, size: 20),
+    labelStyle: theme.textTheme.bodyMedium?.copyWith(
+      color: theme.colorScheme.onSurface.withAlpha((255 * 0.7).toInt()),
+    ),
+    prefixIcon: Icon(
+      icon,
+      color: theme.colorScheme.onSurface.withAlpha((255 * 0.7).toInt()),
+      size: 20,
+    ),
     suffixIcon: suffixIcon,
     filled: true,
-    fillColor: Colors.black.withAlpha((255 * 0.2).toInt()),
+    fillColor: theme.colorScheme.surface.withAlpha((255 * 0.2).toInt()),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12.0),
       borderSide: BorderSide.none,
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12.0),
-      borderSide: const BorderSide(color: Colors.blueAccent, width: 1.5),
+      borderSide: BorderSide(color: theme.colorScheme.primary, width: 1.5),
     ),
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12.0),
-      borderSide: BorderSide(color: Colors.red.shade400, width: 1.5),
+      borderSide: BorderSide(color: theme.colorScheme.error, width: 1.5),
     ),
     focusedErrorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12.0),
-      borderSide: BorderSide(color: Colors.red.shade400, width: 2),
+      borderSide: BorderSide(color: theme.colorScheme.error, width: 2),
     ),
   );
 }
@@ -51,26 +60,30 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return SizedBox(
       width: double.infinity,
       height: 50,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          backgroundColor: theme.colorScheme.primary,
+          foregroundColor: theme.colorScheme.onPrimary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          textStyle: theme.textTheme.labelLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         ),
         onPressed: isLoading ? null : onPressed,
         child: isLoading
-            ? const SizedBox(
+            ? SizedBox(
                 width: 24,
                 height: 24,
                 child: CircularProgressIndicator(
                   strokeWidth: 3,
-                  color: Colors.white,
+                  color: theme.colorScheme.onPrimary,
                 ),
               )
             : Text(text),
@@ -133,6 +146,7 @@ class _RegistrationStep1State extends ConsumerState<RegistrationStep1> {
   Widget build(BuildContext context) {
     final registrationState = ref.watch(registrationControllerProvider);
     final notifier = ref.read(registrationControllerProvider.notifier);
+    final theme = Theme.of(context);
 
     return Form(
       key: _formKey,
@@ -141,10 +155,11 @@ class _RegistrationStep1State extends ConsumerState<RegistrationStep1> {
         children: [
           TextFormField(
             controller: _userNameController,
-            style: const TextStyle(color: Colors.white),
+            style: theme.textTheme.bodyLarge,
             decoration: customInputDecoration(
               labelText: 'Nombre de usuario',
               icon: Icons.person_outline,
+              context: context,
             ),
             validator: (v) => (v == null || v.trim().length < 3)
                 ? 'Mínimo 3 caracteres'
@@ -153,11 +168,12 @@ class _RegistrationStep1State extends ConsumerState<RegistrationStep1> {
           const SizedBox(height: 16),
           TextFormField(
             controller: _emailController,
-            style: const TextStyle(color: Colors.white),
+            style: theme.textTheme.bodyLarge,
             keyboardType: TextInputType.emailAddress,
             decoration: customInputDecoration(
               labelText: 'Correo electrónico',
               icon: Icons.email_outlined,
+              context: context,
             ),
             validator: (v) =>
                 (v == null ||
@@ -169,16 +185,19 @@ class _RegistrationStep1State extends ConsumerState<RegistrationStep1> {
           TextFormField(
             controller: _passwordController,
             obscureText: registrationState.obscurePassword,
-            style: const TextStyle(color: Colors.white),
+            style: theme.textTheme.bodyLarge,
             decoration: customInputDecoration(
               labelText: 'Contraseña',
               icon: Icons.lock_outline,
+              context: context,
               suffixIcon: IconButton(
                 icon: Icon(
                   registrationState.obscurePassword
                       ? Icons.visibility
                       : Icons.visibility_off,
-                  color: Colors.white54,
+                  color: theme.colorScheme.onSurface.withAlpha(
+                    (255 * 0.7).toInt(),
+                  ),
                 ),
                 onPressed: notifier.togglePasswordVisibility,
               ),
@@ -190,16 +209,19 @@ class _RegistrationStep1State extends ConsumerState<RegistrationStep1> {
           TextFormField(
             controller: _confirmPasswordController,
             obscureText: registrationState.obscureConfirmPassword,
-            style: const TextStyle(color: Colors.white),
+            style: theme.textTheme.bodyLarge,
             decoration: customInputDecoration(
               labelText: 'Confirmar contraseña',
               icon: Icons.lock_outline,
+              context: context,
               suffixIcon: IconButton(
                 icon: Icon(
                   registrationState.obscureConfirmPassword
                       ? Icons.visibility
                       : Icons.visibility_off,
-                  color: Colors.white54,
+                  color: theme.colorScheme.onSurface.withAlpha(
+                    (255 * 0.7).toInt(),
+                  ),
                 ),
                 onPressed: notifier.toggleConfirmPasswordVisibility,
               ),
@@ -280,9 +302,9 @@ class _RegistrationStep2State extends ConsumerState<RegistrationStep2> {
       ref.read(registrationStepProvider.notifier).state++;
     } else if (_selectedCountry == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Debes seleccionar un país'),
-          backgroundColor: Colors.orange,
+        SnackBar(
+          content: const Text('Debes seleccionar un país'),
+          backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
     }
@@ -290,6 +312,8 @@ class _RegistrationStep2State extends ConsumerState<RegistrationStep2> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Form(
       key: _formKey,
       child: Column(
@@ -297,11 +321,12 @@ class _RegistrationStep2State extends ConsumerState<RegistrationStep2> {
         children: [
           TextFormField(
             controller: _firstNameController,
-            style: const TextStyle(color: Colors.white),
+            style: theme.textTheme.bodyLarge,
             textCapitalization: TextCapitalization.words,
             decoration: customInputDecoration(
               labelText: 'Nombre',
               icon: Icons.badge_outlined,
+              context: context,
             ),
             validator: (v) => (v == null || v.trim().isEmpty)
                 ? 'El nombre es requerido'
@@ -310,11 +335,12 @@ class _RegistrationStep2State extends ConsumerState<RegistrationStep2> {
           const SizedBox(height: 16),
           TextFormField(
             controller: _lastNameController,
-            style: const TextStyle(color: Colors.white),
+            style: theme.textTheme.bodyLarge,
             textCapitalization: TextCapitalization.words,
             decoration: customInputDecoration(
               labelText: 'Apellido',
               icon: Icons.badge_outlined,
+              context: context,
             ),
             validator: (v) => (v == null || v.trim().isEmpty)
                 ? 'El apellido es requerido'
@@ -327,21 +353,23 @@ class _RegistrationStep2State extends ConsumerState<RegistrationStep2> {
                 .map((c) => DropdownMenuItem(value: c, child: Text(c)))
                 .toList(),
             onChanged: (value) => setState(() => _selectedCountry = value),
-            style: const TextStyle(color: Colors.white),
-            dropdownColor: const Color(0xFF1A1A2E),
+            style: theme.textTheme.bodyLarge,
+            dropdownColor: theme.colorScheme.surface,
             decoration: customInputDecoration(
               labelText: 'País',
               icon: Icons.public,
+              context: context,
             ),
           ),
           const SizedBox(height: 16),
           TextFormField(
             controller: _phoneController,
-            style: const TextStyle(color: Colors.white),
+            style: theme.textTheme.bodyLarge,
             keyboardType: TextInputType.phone,
             decoration: customInputDecoration(
               labelText: 'Número de teléfono',
               icon: Icons.phone_outlined,
+              context: context,
             ),
             validator: (v) => (v == null || v.trim().isEmpty)
                 ? 'El teléfono es requerido'
@@ -355,8 +383,8 @@ class _RegistrationStep2State extends ConsumerState<RegistrationStep2> {
                   onPressed: () =>
                       ref.read(registrationStepProvider.notifier).state--,
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    side: const BorderSide(color: Colors.white54),
+                    foregroundColor: theme.colorScheme.onSurface,
+                    side: BorderSide(color: theme.colorScheme.outline),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -409,9 +437,9 @@ class _RegistrationStep3State extends ConsumerState<RegistrationStep3> {
   Future<void> _submitRegistration() async {
     if (!_acceptedTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Debes aceptar los términos y condiciones'),
-          backgroundColor: Colors.orange,
+        SnackBar(
+          content: const Text('Debes aceptar los términos y condiciones'),
+          backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
       return;
@@ -449,30 +477,34 @@ class _RegistrationStep3State extends ConsumerState<RegistrationStep3> {
   @override
   Widget build(BuildContext context) {
     final registrationState = ref.watch(registrationControllerProvider);
+    final theme = Theme.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TextFormField(
           controller: _referralController,
-          style: const TextStyle(color: Colors.white),
+          style: theme.textTheme.bodyLarge,
           decoration: customInputDecoration(
             labelText: 'Usuario referidor (opcional)',
             icon: Icons.person_add_alt_1_outlined,
+            context: context,
           ),
         ),
         const SizedBox(height: 16),
         CheckboxListTile(
           value: _acceptedTerms,
           onChanged: (value) => setState(() => _acceptedTerms = value ?? false),
-          title: const Text(
+          title: Text(
             'Acepto los términos y condiciones',
-            style: TextStyle(color: Colors.white70, fontSize: 14),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurface.withAlpha((255 * 0.7).toInt()),
+            ),
           ),
           controlAffinity: ListTileControlAffinity.leading,
           contentPadding: EdgeInsets.zero,
-          activeColor: Theme.of(context).colorScheme.primary,
-          checkColor: Colors.white,
+          activeColor: theme.colorScheme.primary,
+          checkColor: theme.colorScheme.onPrimary,
         ),
         const SizedBox(height: 24),
         Row(
@@ -482,8 +514,8 @@ class _RegistrationStep3State extends ConsumerState<RegistrationStep3> {
                 onPressed: () =>
                     ref.read(registrationStepProvider.notifier).state--,
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.white54),
+                  foregroundColor: theme.colorScheme.onSurface,
+                  side: BorderSide(color: theme.colorScheme.outline),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),

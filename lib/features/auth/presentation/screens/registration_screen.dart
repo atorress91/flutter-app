@@ -9,7 +9,8 @@ import 'package:my_app/features/auth/presentation/widgets/registration_form.dart
 final registrationStepProvider = StateProvider.autoDispose<int>((ref) => 1);
 
 // Provider para almacenar los datos del formulario entre pasos
-final registrationDataProvider = StateProvider.autoDispose<Map<String, dynamic>>((ref) => {});
+final registrationDataProvider =
+    StateProvider.autoDispose<Map<String, dynamic>>((ref) => {});
 
 class RegistrationScreen extends ConsumerWidget {
   final String? referralUserName;
@@ -20,15 +21,20 @@ class RegistrationScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentStep = ref.watch(registrationStepProvider);
     final registrationState = ref.watch(registrationControllerProvider);
+    final theme = Theme.of(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFF0F0F1F), Color(0xFF1A1A2E), Color(0xFF22344D)],
+            colors: [
+              theme.scaffoldBackgroundColor,
+              theme.colorScheme.surface,
+              theme.colorScheme.surface.withAlpha((255 * 0.8).toInt()),
+            ],
           ),
         ),
         child: Center(
@@ -36,9 +42,8 @@ class RegistrationScreen extends ConsumerWidget {
             constraints: const BoxConstraints(maxWidth: 420),
             child: Card(
               elevation: 10,
-              shadowColor: Colors.black54,
-              color: const Color(0xFF1F2A40).withAlpha((255 * 0.8).toInt()),
-              // Un color de tarjeta más oscuro
+              shadowColor: theme.shadowColor.withAlpha((255 * 0.5).toInt()),
+              color: theme.cardColor.withAlpha((255 * 0.9).toInt()),
               margin: const EdgeInsets.all(24),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -62,9 +67,8 @@ class RegistrationScreen extends ConsumerWidget {
                       const SizedBox(height: 8),
                       Text(
                         'Crear Cuenta',
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        style: theme.textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: Colors.white,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -99,9 +103,13 @@ class RegistrationScreen extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
+                          Text(
                             '¿Ya tienes cuenta?',
-                            style: TextStyle(color: Colors.white70),
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: theme.colorScheme.onSurface.withAlpha(
+                                (255 * 0.7).toInt(),
+                              ),
+                            ),
                           ),
                           TextButton(
                             onPressed: () => context.go('/auth/login'),
@@ -140,6 +148,8 @@ class RegistrationScreen extends ConsumerWidget {
   }
 
   Widget _buildStepIndicator(BuildContext context, int currentStep) {
+    final theme = Theme.of(context);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(3, (index) {
@@ -151,8 +161,8 @@ class RegistrationScreen extends ConsumerWidget {
           width: isActive ? 24 : 12,
           decoration: BoxDecoration(
             color: isActive
-                ? Theme.of(context).colorScheme.primary
-                : Colors.grey.shade600,
+                ? theme.colorScheme.primary
+                : theme.colorScheme.onSurface.withAlpha((255 * 0.3).toInt()),
             borderRadius: BorderRadius.circular(12),
           ),
         );
@@ -161,20 +171,38 @@ class RegistrationScreen extends ConsumerWidget {
   }
 
   Widget _buildSocialLogin(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Column(
       children: [
         const SizedBox(height: 24),
         Row(
           children: [
-            const Expanded(child: Divider(color: Colors.white30)),
+            Expanded(
+              child: Divider(
+                color: theme.colorScheme.onSurface.withAlpha(
+                  (255 * 0.7).toInt(),
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 'O regístrate con',
-                style: TextStyle(color: Colors.grey.shade400),
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurface.withAlpha(
+                    (255 * 0.6).toInt(),
+                  ),
+                ),
               ),
             ),
-            const Expanded(child: Divider(color: Colors.white30)),
+            Expanded(
+              child: Divider(
+                color: theme.colorScheme.onSurface.withAlpha(
+                  (255 * 0.3).toInt(),
+                ),
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 24),
@@ -188,11 +216,11 @@ class RegistrationScreen extends ConsumerWidget {
               style: OutlinedButton.styleFrom(
                 shape: const CircleBorder(),
                 padding: const EdgeInsets.all(16),
-                side: const BorderSide(color: Colors.white30),
+                side: BorderSide(color: theme.colorScheme.outline),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.g_mobiledata,
-                color: Colors.white,
+                color: theme.colorScheme.onSurface,
                 size: 28,
               ), // Placeholder for Google Icon
             ),
@@ -204,9 +232,13 @@ class RegistrationScreen extends ConsumerWidget {
               style: OutlinedButton.styleFrom(
                 shape: const CircleBorder(),
                 padding: const EdgeInsets.all(16),
-                side: const BorderSide(color: Colors.white30),
+                side: BorderSide(color: theme.colorScheme.outline),
               ),
-              child: const Icon(Icons.apple, color: Colors.white, size: 28),
+              child: Icon(
+                Icons.apple,
+                color: theme.colorScheme.onSurface,
+                size: 28,
+              ),
             ),
           ],
         ),
