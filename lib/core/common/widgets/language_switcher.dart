@@ -15,16 +15,14 @@ class LanguageSwitcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
       height: 40,
       decoration: BoxDecoration(
-        color: const Color(0xFF2C2C4E),
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? Colors.white.withAlpha((255 * 0.1).toInt())
-              : Colors.black.withAlpha((255 * 0.1).toInt()),
-        ),
+        border: Border.all(color: theme.colorScheme.outline),
       ),
       child: Row(
         children: [
@@ -46,12 +44,12 @@ class LanguageSwitcher extends StatelessWidget {
   }
 
   Widget _buildLanguageOption(
-      BuildContext context, {
-        required String label,
-        required bool isSelected,
-        required VoidCallback onTap,
-      }) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    BuildContext context, {
+    required String label,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    final theme = Theme.of(context);
 
     return GestureDetector(
       onTap: onTap,
@@ -59,7 +57,7 @@ class LanguageSwitcher extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF00F5D4) : Colors.transparent,
+          color: isSelected ? theme.colorScheme.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Center(
@@ -68,8 +66,8 @@ class LanguageSwitcher extends StatelessWidget {
             style: GoogleFonts.poppins(
               fontWeight: FontWeight.bold,
               color: isSelected
-                  ? const Color(0xFF1A1A2E)
-                  : (isDark ? Colors.white70 : Colors.black54),
+                  ? theme.colorScheme.onPrimary
+                  : theme.colorScheme.onSurfaceVariant,
               fontSize: 14,
             ),
           ),

@@ -16,7 +16,7 @@ class ThemeIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
 
     return Tooltip(
       message: tooltip,
@@ -27,15 +27,15 @@ class ThemeIconButton extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: isSelected ? const Color(0xFF00F5D4) : Colors.transparent,
+            color: isSelected ? theme.colorScheme.primary : Colors.transparent,
             shape: BoxShape.circle,
           ),
           child: Icon(
             icon,
             size: 22,
             color: isSelected
-                ? const Color(0xFF1A1A2E)
-                : (isDark ? Colors.white70 : Colors.black54),
+                ? theme.colorScheme.onPrimary
+                : theme.colorScheme.onSurfaceVariant,
           ),
         ),
       ),

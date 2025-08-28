@@ -7,7 +7,7 @@ class NotificationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
 
     return Padding(
       padding: const EdgeInsets.only(left: 12),
@@ -17,17 +17,15 @@ class NotificationButton extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: const Color(0xFF2C2C4E),
+            color: theme.cardColor,
             shape: BoxShape.circle,
             border: Border.all(
-              color: isDark
-                  ? Colors.white.withAlpha((255 * 0.1).toInt())
-                  : Colors.black.withAlpha((255 * 0.1).toInt()),
+              color: theme.colorScheme.outline,
             ),
           ),
           child: Icon(
             Icons.notifications_none_rounded,
-            color: isDark ? Colors.white70 : Colors.black54,
+            color: theme.colorScheme.onSurfaceVariant,
             size: 22,
           ),
         ),

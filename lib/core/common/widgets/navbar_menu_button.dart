@@ -9,13 +9,7 @@ class NavbarMenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(
-        Icons.menu_rounded,
-        color: Theme.of(context).brightness == Brightness.dark
-            ? Colors.white
-            : Colors.black87,
-        size: 28,
-      ),
+      icon: const Icon(Icons.menu_rounded, size: 28),
       onPressed: onPressed,
       tooltip: AppLocalizations.of(context).menuTooltip,
     );

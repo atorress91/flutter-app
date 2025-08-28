@@ -10,8 +10,6 @@ class AppNavbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
       title: const Text(''),
       centerTitle: true,
       leading: NavbarMenuButton(onPressed: onMenuPressed),

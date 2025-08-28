@@ -10,17 +10,15 @@ class ThemeToggle extends StatelessWidget {
     return ValueListenableBuilder<ThemeMode>(
       valueListenable: AppTheme.themeMode,
       builder: (context, mode, _) {
+        final theme = Theme.of(context);
         final isDark = mode == ThemeMode.dark;
-        final borderColor = Theme.of(context).brightness == Brightness.dark
-            ? Colors.white.withAlpha((255 * 0.1).toInt())
-            : Colors.black.withAlpha((255 * 0.1).toInt());
 
         return Container(
           height: 40,
           decoration: BoxDecoration(
-            color: const Color(0xFF2C2C4E),
+            color: theme.cardColor,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: borderColor),
+            border: Border.all(color: theme.colorScheme.outline),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
