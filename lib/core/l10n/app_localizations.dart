@@ -74,7 +74,7 @@ class AppLocalizations {
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
       'appTitle': 'Modular App',
-      'loginScreenTitle': 'Login Screen',
+      'loginScreenTitle': 'Login',
       'loginAsClient': 'Login as Client',
       'loginAsAdmin': 'Login as Admin',
       'adminDashboard': 'Admin Dashboard',
@@ -124,7 +124,7 @@ class AppLocalizations {
     },
     'es': {
       'appTitle': 'App Modular',
-      'loginScreenTitle': 'Pantalla de Inicio de Sesión',
+      'loginScreenTitle': 'Inicio de Sesión',
       'loginAsClient': 'Login como Cliente',
       'loginAsAdmin': 'Login como Admin',
       'adminDashboard': 'Panel de Administración',
