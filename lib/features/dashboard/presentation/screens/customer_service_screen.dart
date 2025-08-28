@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/features/dashboard/data/support_ticket_data.dart';
 import 'package:my_app/features/dashboard/domain/entities/support_ticket.dart';
+import 'package:my_app/features/dashboard/presentation/widgets/customer_service/create_ticket_modal.dart';
 import '../widgets/customer_service/ticket_card.dart';
 
 class CustomerServiceScreen extends StatefulWidget {
@@ -13,6 +14,22 @@ class CustomerServiceScreen extends StatefulWidget {
 
 class _CustomerServiceScreenState extends State<CustomerServiceScreen> {
   late List<SupportTicket> _tickets;
+
+  void _showCreateTicketModal() {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: Theme.of(context).cardColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: const CreateTicketModal(),
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
@@ -54,9 +71,7 @@ class _CustomerServiceScreenState extends State<CustomerServiceScreen> {
                     ),
                   ),
                   FilledButton.icon(
-                    onPressed: () {
-                      // Lógica para crear un nuevo ticket
-                    },
+                    onPressed: _showCreateTicketModal,
                     icon: const Icon(Icons.add),
                     label: const Text('Crear Ticket'),
                   ),
