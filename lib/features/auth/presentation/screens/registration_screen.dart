@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_app/core/common/widgets/error_display.dart';
+import 'package:my_app/core/theme/app_theme.dart';
 import 'package:my_app/features/auth/presentation/controllers/registration_controller.dart';
 import 'package:my_app/features/auth/presentation/widgets/registration/registration_step_1.dart';
 import 'package:my_app/features/auth/presentation/widgets/registration/registration_step_2.dart';
@@ -60,7 +61,7 @@ class RegistrationScreen extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                         child: Image.asset(
-                          'assets/images/recycoin-banner.png',
+                          AppTheme.getLogoPath(context),
                           height: 64,
                           fit: BoxFit.contain,
                           semanticLabel: 'Recycoin',

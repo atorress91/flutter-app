@@ -8,8 +8,8 @@ class AppTheme {
   static const Color accentYellowColor = Color(0xFFC5FC44);
 
   // Logo paths for different themes
-  static const String darkThemeLogo = 'assets/images/yellow-logo.png';
-  static const String lightThemeLogo = 'assets/images/green-logo.png';
+  static const String darkBannerLogo = 'assets/images/recycoin-banner.png';
+  static const String lightBannerLogo = 'assets/images/recycoin-banner-green.png';
 
   // Global controller for theme mode
   static final ValueNotifier<ThemeMode> themeMode = ValueNotifier<ThemeMode>(
@@ -19,7 +19,7 @@ class AppTheme {
   // Method to get the appropriate logo based on current theme
   static String getLogoPath(BuildContext context) {
     final brightness = Theme.of(context).brightness;
-    return brightness == Brightness.dark ? darkThemeLogo : lightThemeLogo;
+    return brightness == Brightness.dark ? darkBannerLogo : lightBannerLogo;
   }
 
   static final ThemeData darkTheme = ThemeData(

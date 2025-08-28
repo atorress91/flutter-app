@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/core/services/platform/biometric_service.dart';
+import 'package:my_app/core/theme/app_theme.dart';
 import 'package:my_app/features/auth/presentation/controllers/login_controller.dart';
 import 'package:my_app/features/auth/presentation/widgets/biometric_login_button.dart';
 import 'package:my_app/features/auth/presentation/widgets/login_form.dart';
@@ -53,7 +54,7 @@ class LoginScreen extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                         child: Image.asset(
-                          'assets/images/recycoin-banner.png',
+                          AppTheme.getLogoPath(context),
                           height: 64,
                           fit: BoxFit.contain,
                           semanticLabel: 'Recycoin',
