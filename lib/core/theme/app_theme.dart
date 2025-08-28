@@ -3,13 +3,24 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static const Color primaryColor = Color(0xFF1A1A2E);
-  static const Color accentColor = Color(0xFF00F5D4);
   static const Color darkCardColor = Color(0xFF2C2C4E);
+  static const Color accentGreenColor = Color(0xFF00BD86);
+  static const Color accentYellowColor = Color(0xFFC5FC44);
+
+  // Logo paths for different themes
+  static const String darkThemeLogo = 'assets/images/yellow-logo.png';
+  static const String lightThemeLogo = 'assets/images/green-logo.png';
 
   // Global controller for theme mode
   static final ValueNotifier<ThemeMode> themeMode = ValueNotifier<ThemeMode>(
     ThemeMode.dark,
   );
+
+  // Method to get the appropriate logo based on current theme
+  static String getLogoPath(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    return brightness == Brightness.dark ? darkThemeLogo : lightThemeLogo;
+  }
 
   static final ThemeData darkTheme = ThemeData(
     useMaterial3: true,
@@ -19,7 +30,7 @@ class AppTheme {
     colorScheme: ColorScheme.fromSeed(
       seedColor: primaryColor,
       brightness: Brightness.dark,
-      primary: accentColor,
+      primary: accentYellowColor,
       surface: primaryColor,
       outline: Colors.white.withAlpha(30),
 
@@ -44,7 +55,7 @@ class AppTheme {
     colorScheme: ColorScheme.fromSeed(
       seedColor: primaryColor,
       brightness: Brightness.light,
-      primary: accentColor,
+      primary: accentGreenColor,
       onPrimary: primaryColor,
       surface: Colors.white,
       outline: Colors.black.withAlpha(30),
