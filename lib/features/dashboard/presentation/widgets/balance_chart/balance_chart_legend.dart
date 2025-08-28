@@ -20,17 +20,17 @@ class BalanceChartLegend extends StatelessWidget {
       children: [
         _LegendItem(
           // Obtenemos el color desde la misma fuente que el gráfico
-          color: getSectionData(0, balance).color,
+          color: getSectionData(context,0, balance).color,
           text: 'Disponible',
           amountText: '$currencySymbol${balance.available.toStringAsFixed(2)}',
         ),
         _LegendItem(
-          color: getSectionData(1, balance).color,
+          color: getSectionData(context,1, balance).color,
           text: 'Pagado',
           amountText: '$currencySymbol${balance.locked.toStringAsFixed(2)}',
         ),
         _LegendItem(
-          color: getSectionData(2, balance).color,
+          color: getSectionData(context,2, balance).color,
           text: 'Recycoins',
           amountText: '${balance.recycoins} RC',
         ),

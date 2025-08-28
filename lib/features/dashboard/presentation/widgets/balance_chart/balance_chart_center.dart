@@ -30,7 +30,7 @@ class BalanceChartCenter extends StatelessWidget {
           '${viewModel.currencySymbol}${balanceForDisplay.total.toStringAsFixed(2)}';
       color = Theme.of(context).textTheme.bodyLarge!.color!;
     } else {
-      final sectionData = getSectionData(touchedIndex, viewModel.latestBalance);
+      final sectionData = getSectionData(context,touchedIndex, viewModel.latestBalance);
       title = sectionData.title;
       // Para Recycoins mostramos "RC" en lugar del símbolo de moneda
       switch (touchedIndex) {

@@ -71,7 +71,7 @@ class _BalanceChartState extends State<BalanceChart>
                       animation: _pulseController!,
                       builder: (context, child) {
                         final color =
-                            getSectionData(touchedIndex, balance).color;
+                            getSectionData(context,touchedIndex, balance).color;
                         return Container(
                           width: 200 + (_pulseController!.value * 20),
                           height: 200 + (_pulseController!.value * 20),
@@ -112,16 +112,19 @@ class _BalanceChartState extends State<BalanceChart>
                       startDegreeOffset: -90 + (1 - t) * 15,
                       sections: [
                         buildChartSection(
+                          context: context,
                           index: 0,
                           balance: scaledBalance,
                           touchedIndex: touchedIndex,
                         ),
                         buildChartSection(
+                          context: context,
                           index: 1,
                           balance: scaledBalance,
                           touchedIndex: touchedIndex,
                         ),
                         buildChartSection(
+                          context: context,
                           index: 2,
                           balance: scaledBalance,
                           touchedIndex: touchedIndex,
