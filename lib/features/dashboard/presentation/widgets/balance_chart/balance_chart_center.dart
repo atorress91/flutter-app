@@ -30,21 +30,27 @@ class BalanceChartCenter extends StatelessWidget {
           '${viewModel.currencySymbol}${balanceForDisplay.total.toStringAsFixed(2)}';
       color = Theme.of(context).textTheme.bodyLarge!.color!;
     } else {
-      final sectionData = getSectionData(context,touchedIndex, viewModel.latestBalance);
+      final sectionData = getSectionData(
+        context,
+        touchedIndex,
+        viewModel.latestBalance,
+      );
       title = sectionData.title;
-      // Para Recycoins mostramos "RC" en lugar del símbolo de moneda
       switch (touchedIndex) {
         case 0:
-          amount = '${viewModel.currencySymbol}${balanceForDisplay.available.toStringAsFixed(2)}';
+          amount =
+              '${viewModel.currencySymbol}${balanceForDisplay.available.toStringAsFixed(2)}';
           break;
         case 1:
-          amount = '${viewModel.currencySymbol}${balanceForDisplay.locked.toStringAsFixed(2)}';
+          amount =
+              '${viewModel.currencySymbol}${balanceForDisplay.locked.toStringAsFixed(2)}';
           break;
         case 2:
           amount = '${balanceForDisplay.recycoins.toStringAsFixed(2)} RC';
           break;
         default:
-          amount = '${viewModel.currencySymbol}${balanceForDisplay.total.toStringAsFixed(2)}';
+          amount =
+              '${viewModel.currencySymbol}${balanceForDisplay.total.toStringAsFixed(2)}';
       }
       color = sectionData.color;
     }
