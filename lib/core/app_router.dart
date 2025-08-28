@@ -6,6 +6,7 @@ import 'package:my_app/features/auth/presentation/screens/landing_screen.dart';
 import 'package:my_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:my_app/features/auth/presentation/screens/registration_screen.dart';
 import 'package:my_app/features/dashboard/presentation/screens/clients_screen.dart';
+import 'package:my_app/features/dashboard/presentation/screens/customer_service_screen.dart';
 import 'package:my_app/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:my_app/features/dashboard/presentation/screens/home_screen.dart';
 import 'package:my_app/features/dashboard/presentation/screens/my_wallet_screen.dart';
@@ -48,7 +49,7 @@ final GoRouter appRouter = GoRouter(
           builder: (context, state) => const HomeScreen(),
           routes: [
             GoRoute(
-              path: 'purchases', // <-- path relativo:
+              path: 'purchases',
               builder: (context, state) => const PurchasesScreen(),
             ),
             GoRoute(
@@ -63,6 +64,10 @@ final GoRouter appRouter = GoRouter(
               path: 'my-wallet',
               builder: (context, state) => const MyWalletScreen(),
             ),
+            GoRoute(
+              path: 'customer-service',
+              builder: (context, state) => const CustomerServiceScreen(),
+            )
           ],
         ),
         // más rutas del dashboard aquí
