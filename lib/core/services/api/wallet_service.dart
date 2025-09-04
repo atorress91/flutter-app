@@ -1,5 +1,6 @@
 import 'package:my_app/core/config/environments.dart';
 import 'package:my_app/core/data/dtos/network_info_dto.dart';
+import 'package:my_app/core/data/dtos/wallet_dto.dart';
 
 import 'package:my_app/core/data/models/api_response.dart';
 import 'package:my_app/core/services/api/base_service.dart';
@@ -38,6 +39,20 @@ class WalletService extends BaseService {
           return NetworkInfoDto.fromJson(json);
         }
         throw Exception('Invalid data format for purchases');
+      },
+    );
+  }
+
+  Future<Future<ApiResponse<List<WalletDto>?>>> getWalletByAffiliateId(int userId) async {
+    return get<List<WalletDto>>(
+      '/wallet/GetWalletByAffiliateId/$userId',
+      fromJson: (json) {
+        if (json is List) {
+          return json
+              .map((e) => WalletDto.fromJson(e as Map<String, dynamic>))
+              .toList();
+        }
+        throw Exception('Invalid data format for wallet');
       },
     );
   }
