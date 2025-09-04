@@ -3,12 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
-import 'package:my_app/features/dashboard/data/providers/balance_providers.dart';
-import 'package:my_app/features/dashboard/data/providers/network_purchase_providers.dart';
+import 'package:my_app/features/dashboard/presentation/controllers/home_screen_controller.dart';
 import 'package:my_app/features/dashboard/presentation/mappers/balance_chart_mapper.dart';
+import 'package:my_app/features/dashboard/presentation/states/home_state.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/balance_chart/balance_chart.dart';
-import '../states/balance_state.dart';
-
 import 'package:my_app/features/dashboard/presentation/widgets/contract_details.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/performance_chart.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/quick_actions/quick_actions.dart';
@@ -29,22 +27,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     super.initState();
 
     Future.microtask(() {
-      ref.read(balanceControllerProvider.notifier).getBalanceInformation();
-      ref.read(networkPurchaseControllerProvider.notifier).getNetworkPurchases();
+      ref.read(homeScreenControllerProvider.notifier).loadInitialData();
     });
   }
 
-  // El método _handleRefresh ahora puede re-llamar al controller.
   Future<void> _handleRefresh() async {
-    await ref.read(balanceControllerProvider.notifier).getBalanceInformation();
-    await ref.read(networkPurchaseControllerProvider.notifier).getNetworkPurchases();
+    await ref.read(homeScreenControllerProvider.notifier).refresh();
   }
 
   @override
   Widget build(BuildContext context) {
     final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
-    final balanceState = ref.watch(balanceControllerProvider);
-    final networkPurchaseState = ref.watch(networkPurchaseControllerProvider);
+
+    // provider para todo el estado de la pantalla
+    final homeState = ref.watch(homeScreenControllerProvider);
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -52,7 +48,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: RefreshIndicator(
           onRefresh: _handleRefresh,
           color: Theme.of(context).colorScheme.primary,
-          child: balanceState.isLoading && balanceState.balance == null
+          child: homeState.isLoading && homeState.balance == null
               ? const Center(child: CircularProgressIndicator())
               : AnimationLimiter(
                   child: SingleChildScrollView(
@@ -72,8 +68,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             child: WelcomeHeader(),
                           ),
                           const SizedBox(height: 30),
-                          if (balanceState.balance != null)
-                            StatsCarousel(balance: balanceState.balance!),
+                          // Usamos los datos del homeState
+                          if (homeState.balance != null)
+                            StatsCarousel(balance: homeState.balance!),
                           const SizedBox(height: 30),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -88,7 +85,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           const SizedBox(height: 28),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: _buildBalanceContent(balanceState),
+                            child: _buildBalanceContent(homeState),
                           ),
                           const SizedBox(height: 30),
                           Padding(
@@ -107,21 +104,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             child: ContractDetails(),
                           ),
                           const SizedBox(height: 30),
-                          if (networkPurchaseState.purchases.isNotEmpty) ...[
+                          // Usamos los datos del homeState
+                          if (homeState.purchases.isNotEmpty) ...[
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 24),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
                               child: Text(
                                 AppLocalizations.of(
                                   context,
                                 ).homeAnnualPerformance,
                                 style: textTheme.titleLarge?.copyWith(
-                                  color: Theme.of(context).colorScheme.onSurface,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                             const SizedBox(height: 20),
-                            PerformanceChart(purchases: networkPurchaseState.purchases),
+                            PerformanceChart(purchases: homeState.purchases),
                             const SizedBox(height: 30),
                           ],
                           Padding(
@@ -165,9 +167,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  // 9. Widget helper para renderizar el contenido del balance según el estado
-  Widget _buildBalanceContent(BalanceState state) {
-    // Si hay un error, lo mostramos
+  // 4. El método helper ahora recibe el HomeState unificado
+  Widget _buildBalanceContent(HomeState state) {
     if (state.error != null && state.balance == null) {
       return Center(
         child: Text(
@@ -178,12 +179,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       );
     }
 
-    // Si tenemos datos mostramos el gráfico.
     if (state.balance != null) {
       final viewModel = BalanceChartMapper.fromEntity(state.balance!);
       return BalanceChart(viewModel: viewModel);
     }
 
+    // Muestra un loading si el balance aún no ha llegado pero la carga general sí empezó
     return const Center(heightFactor: 5, child: CircularProgressIndicator());
   }
 }
