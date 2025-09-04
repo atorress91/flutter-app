@@ -158,10 +158,10 @@ class AppLocalizations {
       'statsMonthlyCommission': 'Comisión mensual',
       'statsReferrals': 'Referidos',
       // Quick actions
-      'quickCreate': 'Crear',
+      'quickCreate': 'Retirar',
       'quickReports': 'Reportes',
       'quickInvoices': 'Facturas',
-      'quickSettings': 'Ajustes',
+      'quickSettings': 'Movimientos',
       // Recent activity items
       'activityNewSaleTitle': 'Nueva venta realizada',
       'activityNewSaleSubtitle': 'Producto #3452, por \$250',
