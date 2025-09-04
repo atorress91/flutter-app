@@ -43,8 +43,8 @@ class WalletService extends BaseService {
     );
   }
 
-  Future<Future<ApiResponse<List<WalletDto>?>>> getWalletByAffiliateId(int userId) async {
-    return get<List<WalletDto>>(
+  Future<ApiResponse<List<WalletDto>?>> getWalletByAffiliateId(int userId) async {
+    return get<List<WalletDto>?>(
       '/wallet/GetWalletByAffiliateId/$userId',
       fromJson: (json) {
         if (json is List) {
@@ -52,7 +52,7 @@ class WalletService extends BaseService {
               .map((e) => WalletDto.fromJson(e as Map<String, dynamic>))
               .toList();
         }
-        throw Exception('Invalid data format for wallet');
+        return null;
       },
     );
   }

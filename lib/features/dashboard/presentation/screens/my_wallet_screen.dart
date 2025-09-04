@@ -1,43 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:my_app/features/dashboard/data/wallet_data.dart';
-import 'package:my_app/features/dashboard/domain/entities/transaction.dart';
+import 'package:my_app/features/dashboard/presentation/controllers/my_wallet_screen_controller.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/wallet/transaction_history_list.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/wallet/wallet_summary_card.dart';
 
-class MyWalletScreen extends StatefulWidget {
+class MyWalletScreen extends ConsumerStatefulWidget {
   const MyWalletScreen({super.key});
 
   @override
-  State<MyWalletScreen> createState() => _MyWalletScreenState();
+  ConsumerState<MyWalletScreen> createState() => _MyWalletScreenState();
 }
 
-class _MyWalletScreenState extends State<MyWalletScreen> {
-  bool _isLoading = false;
-  List<Transaction> _transactions = [];
-
+class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
   @override
   void initState() {
     super.initState();
-    _loadInitialData();
-  }
-
-  Future<void> _loadInitialData() async {
-    setState(() => _isLoading = true);
-    await _handleRefresh();
-    if (mounted) {
-      setState(() => _isLoading = false);
-    }
+    // Llama al controlador para cargar los datos iniciales
+    Future.microtask(() {
+      ref.read(myWalletControllerProvider.notifier).loadTransactions();
+    });
   }
 
   Future<void> _handleRefresh() async {
-    await Future.delayed(const Duration(seconds: 1));
-    if (mounted) {
-      setState(() {
-        _transactions = WalletData.getSampleTransactions();
-      });
-    }
+    await ref.read(myWalletControllerProvider.notifier).refresh();
   }
 
   @override
@@ -48,12 +35,15 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
       symbol: 'USD ',
     );
 
+    // Observa el estado del controlador
+    final walletState = ref.watch(myWalletControllerProvider);
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: _handleRefresh,
-          child: _isLoading
+          child: (walletState.isLoading && walletState.transactions.isEmpty)
               ? const Center(child: CircularProgressIndicator())
               : ListView(
                   physics: const AlwaysScrollableScrollPhysics(),
@@ -114,7 +104,12 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    TransactionHistoryList(transactions: _transactions),
+                    if (walletState.error != null)
+                      Center(child: Text(walletState.error!))
+                    else
+                      TransactionHistoryList(
+                        transactions: walletState.transactions,
+                      ),
                   ],
                 ),
         ),

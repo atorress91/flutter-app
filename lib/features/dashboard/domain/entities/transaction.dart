@@ -1,3 +1,5 @@
+import 'package:my_app/core/data/dtos/wallet_dto.dart';
+
 enum TransactionStatus { atendido, pendiente, fallido }
 
 class Transaction {
@@ -18,4 +20,16 @@ class Transaction {
     required this.concept,
     required this.date,
   });
+
+  factory Transaction.fromDto(WalletDto dto) {
+    return Transaction(
+      responsibleUser: dto.adminUserName ?? 'N/A',
+      affiliate: dto.affiliateUserName ?? 'N/A',
+      credit: dto.credit,
+      debit: dto.debit,
+      status: dto.status ? TransactionStatus.atendido : TransactionStatus.pendiente,
+      concept: dto.concept ?? 'Sin concepto',
+      date: dto.date,
+    );
+  }
 }
