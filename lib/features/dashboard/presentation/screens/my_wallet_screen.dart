@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/features/dashboard/presentation/controllers/my_wallet_screen_controller.dart';
-import 'package:my_app/features/dashboard/presentation/widgets/wallet/transaction_history_list.dart';
+import 'package:my_app/features/dashboard/presentation/states/my_wallet_state.dart';
+import 'package:my_app/features/dashboard/presentation/widgets/wallet/filter_button.dart';
+import 'package:my_app/features/dashboard/presentation/widgets/wallet/transaction_card.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/wallet/wallet_summary_card.dart';
 
 class MyWalletScreen extends ConsumerStatefulWidget {
@@ -14,10 +16,10 @@ class MyWalletScreen extends ConsumerStatefulWidget {
 }
 
 class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
+
   @override
   void initState() {
     super.initState();
-    // Llama al controlador para cargar los datos iniciales
     Future.microtask(() {
       ref.read(myWalletControllerProvider.notifier).loadTransactions();
     });
@@ -30,37 +32,29 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
   @override
   Widget build(BuildContext context) {
     final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
-    final formatCurrency = NumberFormat.currency(
-      locale: 'en_US',
-      symbol: 'USD ',
-    );
-
-    // Observa el estado del controlador
+    final colorScheme = Theme.of(context).colorScheme;
+    final formatCurrency = NumberFormat.currency(locale: 'en_US', symbol: 'USD ');
     final walletState = ref.watch(myWalletControllerProvider);
+    final walletController = ref.read(myWalletControllerProvider.notifier);
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: _handleRefresh,
-          child: (walletState.isLoading && walletState.transactions.isEmpty)
-              ? const Center(child: CircularProgressIndicator())
-              : ListView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 20,
-                  ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Mi Billetera',
-                      style: textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 24),
-
-                    // --- SECCIÓN DE RESUMEN ---
                     SizedBox(
                       height: 160,
                       child: Row(
@@ -95,23 +89,84 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                       ),
                     ),
                     const SizedBox(height: 32),
+                    Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      runSpacing: 10.0,
+                      children: [
+                        FittedBox(
+                          child: Text(
+                            'Movimientos Recientes',
+                            style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
 
-                    // --- SECCIÓN DE MOVIMIENTOS ---
-                    Text(
-                      'Movimientos Recientes',
-                      style: textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                        Container(
+                          padding: const EdgeInsets.all(4.0),
+                          decoration: BoxDecoration(
+                            color: colorScheme.surfaceContainerHighest.withAlpha((255*0.3).toInt()),
+                            borderRadius: BorderRadius.circular(16.0),
+                            border: Border.all(
+                              color: colorScheme.outline.withAlpha((255*0.1).toInt()),
+                              width: 1,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              FilterButton(
+                                icon: Icons.apps_rounded,
+                                label: 'Todos',
+                                isSelected: walletState.filter == TransactionFilterType.all,
+                                onTap: () => walletController.setFilter(TransactionFilterType.all),
+                                colorScheme: colorScheme,
+                              ),
+                              const SizedBox(width: 4),
+                              FilterButton(
+                                icon: Icons.add_circle_outline_rounded,
+                                label: 'Ingresos',
+                                isSelected: walletState.filter == TransactionFilterType.credit,
+                                onTap: () => walletController.setFilter(TransactionFilterType.credit),
+                                colorScheme: colorScheme,
+                                selectedColor: Colors.green.shade600,
+                              ),
+                              const SizedBox(width: 4),
+                              FilterButton(
+                                icon: Icons.remove_circle_outline_rounded,
+                                label: 'Gastos',
+                                isSelected: walletState.filter == TransactionFilterType.debit,
+                                onTap: () => walletController.setFilter(TransactionFilterType.debit),
+                                colorScheme: colorScheme,
+                                selectedColor: Colors.red.shade600,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 16),
-                    if (walletState.error != null)
-                      Center(child: Text(walletState.error!))
-                    else
-                      TransactionHistoryList(
-                        transactions: walletState.transactions,
-                      ),
                   ],
                 ),
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: (walletState.isLoading && walletState.transactions.isEmpty)
+                    ? const Center(child: CircularProgressIndicator())
+                    : walletState.error != null
+                    ? Center(child: Text(walletState.error!))
+                    : ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  itemCount: walletState.filteredTransactions.length,
+                  itemBuilder: (context, index) {
+                    final transaction = walletState.filteredTransactions[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12.0),
+                      child: TransactionCard(transaction: transaction),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

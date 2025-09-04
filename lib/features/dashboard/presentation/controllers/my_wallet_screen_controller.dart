@@ -25,6 +25,10 @@ class MyWalletScreenController extends StateNotifier<MyWalletState> {
     }
   }
 
+  void setFilter(TransactionFilterType filter) {
+    state = state.copyWith(filter: filter);
+  }
+
   Future<void> refresh() async {
     await loadTransactions();
   }
