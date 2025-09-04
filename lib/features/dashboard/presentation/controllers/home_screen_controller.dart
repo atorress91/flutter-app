@@ -24,20 +24,27 @@ class HomeScreenController extends StateNotifier<HomeState> {
       final getBalanceUseCase = _ref.read(getBalanceInformationUseCaseProvider);
       final getPurchasesUseCase = _ref.read(getNetworkPurchasesUseCaseProvider);
 
-      final results = await Future.wait([
-        getBalanceUseCase.execute(userId: userId),
-        getPurchasesUseCase.execute(userId: userId),
-      ]);
+      BalanceInformation? balance;
+      List<NetworkPurchase> purchases = [];
+      String? error;
 
-      final [
-        balance as BalanceInformation,
-        purchases as List<NetworkPurchase>,
-      ] = results;
+      try {
+        balance = await getBalanceUseCase.execute(userId: userId);
+      } catch (e) {
+        error = 'Error al cargar el balance';
+      }
+
+      try {
+        purchases = await getPurchasesUseCase.execute(userId: userId);
+      } catch (e) {
+        //empty list
+      }
 
       state = state.copyWith(
         isLoading: false,
         balance: balance,
         purchases: purchases,
+        error: error,
       );
     } catch (e) {
       state = state.copyWith(
