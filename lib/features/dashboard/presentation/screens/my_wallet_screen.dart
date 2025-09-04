@@ -89,10 +89,8 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                       ),
                     ),
                     const SizedBox(height: 32),
-                    Wrap(
-                      alignment: WrapAlignment.spaceBetween,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      runSpacing: 10.0,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         FittedBox(
                           child: Text(
@@ -100,46 +98,48 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                             style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                           ),
                         ),
-
-                        Container(
-                          padding: const EdgeInsets.all(4.0),
-                          decoration: BoxDecoration(
-                            color: colorScheme.surfaceContainerHighest.withAlpha((255*0.3).toInt()),
-                            borderRadius: BorderRadius.circular(16.0),
-                            border: Border.all(
-                              color: colorScheme.outline.withAlpha((255*0.1).toInt()),
-                              width: 1,
+                        const SizedBox(height: 16),
+                        Center(
+                          child: Container(
+                            padding: const EdgeInsets.all(4.0),
+                            decoration: BoxDecoration(
+                              color: colorScheme.surfaceContainerHighest.withAlpha((255*0.3).toInt()),
+                              borderRadius: BorderRadius.circular(16.0),
+                              border: Border.all(
+                                color: colorScheme.outline.withAlpha((255*0.1).toInt()),
+                                width: 1,
+                              ),
                             ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              FilterButton(
-                                icon: Icons.apps_rounded,
-                                label: 'Todos',
-                                isSelected: walletState.filter == TransactionFilterType.all,
-                                onTap: () => walletController.setFilter(TransactionFilterType.all),
-                                colorScheme: colorScheme,
-                              ),
-                              const SizedBox(width: 4),
-                              FilterButton(
-                                icon: Icons.add_circle_outline_rounded,
-                                label: 'Ingresos',
-                                isSelected: walletState.filter == TransactionFilterType.credit,
-                                onTap: () => walletController.setFilter(TransactionFilterType.credit),
-                                colorScheme: colorScheme,
-                                selectedColor: Colors.green.shade600,
-                              ),
-                              const SizedBox(width: 4),
-                              FilterButton(
-                                icon: Icons.remove_circle_outline_rounded,
-                                label: 'Gastos',
-                                isSelected: walletState.filter == TransactionFilterType.debit,
-                                onTap: () => walletController.setFilter(TransactionFilterType.debit),
-                                colorScheme: colorScheme,
-                                selectedColor: Colors.red.shade600,
-                              ),
-                            ],
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                FilterButton(
+                                  icon: Icons.apps_rounded,
+                                  label: 'Todos',
+                                  isSelected: walletState.filter == TransactionFilterType.all,
+                                  onTap: () => walletController.setFilter(TransactionFilterType.all),
+                                  colorScheme: colorScheme,
+                                ),
+                                const SizedBox(width: 4),
+                                FilterButton(
+                                  icon: Icons.add_circle_outline_rounded,
+                                  label: 'Ingresos',
+                                  isSelected: walletState.filter == TransactionFilterType.credit,
+                                  onTap: () => walletController.setFilter(TransactionFilterType.credit),
+                                  colorScheme: colorScheme,
+                                  selectedColor: Colors.green.shade600,
+                                ),
+                                const SizedBox(width: 4),
+                                FilterButton(
+                                  icon: Icons.remove_circle_outline_rounded,
+                                  label: 'Gastos',
+                                  isSelected: walletState.filter == TransactionFilterType.debit,
+                                  onTap: () => walletController.setFilter(TransactionFilterType.debit),
+                                  colorScheme: colorScheme,
+                                  selectedColor: Colors.red.shade600,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
