@@ -6,7 +6,6 @@ class FilterButton extends StatelessWidget {
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
-  final ColorScheme colorScheme;
   final Color? selectedColor;
 
   const FilterButton({
@@ -15,12 +14,12 @@ class FilterButton extends StatelessWidget {
     required this.label,
     required this.isSelected,
     required this.onTap,
-    required this.colorScheme,
     this.selectedColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final effectiveSelectedColor = selectedColor ?? colorScheme.primary;
 
     return GestureDetector(
@@ -34,12 +33,12 @@ class FilterButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.0),
           boxShadow: isSelected
               ? [
-                  BoxShadow(
-                    color: effectiveSelectedColor.withAlpha((255*0.3).toInt()),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ]
+            BoxShadow(
+              color: effectiveSelectedColor.withAlpha((255*0.3).toInt()),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ]
               : null,
         ),
         child: Row(
@@ -52,8 +51,8 @@ class FilterButton extends StatelessWidget {
                 icon,
                 size: 18,
                 color: isSelected
-                    ? Colors.white
-                    : colorScheme.onSurface.withAlpha((255*0.7).toInt()),
+                    ? colorScheme.onPrimary
+                    : colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(width: 8),
@@ -63,8 +62,8 @@ class FilterButton extends StatelessWidget {
                 fontSize: 12,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                 color: isSelected
-                    ? Colors.white
-                    : colorScheme.onSurface.withAlpha((255*0.7).toInt()),
+                    ? colorScheme.onPrimary
+                    : colorScheme.onSurfaceVariant,
               ),
               child: Text(label),
             ),
