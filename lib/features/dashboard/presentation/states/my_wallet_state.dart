@@ -1,3 +1,4 @@
+import 'package:my_app/features/dashboard/domain/entities/balance_information.dart';
 import 'package:my_app/features/dashboard/domain/entities/transaction.dart';
 
 enum TransactionFilterType { all, credit, debit }
@@ -7,12 +8,14 @@ class MyWalletState {
   final String? error;
   final List<Transaction> transactions;
   final TransactionFilterType filter;
+  final BalanceInformation? balance;
 
   const MyWalletState({
     this.isLoading = false,
     this.error,
     this.transactions = const [],
     this.filter = TransactionFilterType.all,
+    this.balance,
   });
 
   List<Transaction> get filteredTransactions {
@@ -32,12 +35,14 @@ class MyWalletState {
     String? error,
     List<Transaction>? transactions,
     TransactionFilterType? filter,
+    BalanceInformation? balance,
   }) {
     return MyWalletState(
       isLoading: isLoading ?? this.isLoading,
       error: error,
       transactions: transactions ?? this.transactions,
       filter: filter ?? this.filter,
+      balance: balance ?? this.balance,
     );
   }
 }

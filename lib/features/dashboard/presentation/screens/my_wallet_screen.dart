@@ -63,7 +63,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                             child: WalletSummaryCard(
                               icon: Icons.account_balance_wallet_outlined,
                               title: 'Saldo Disponible',
-                              value: formatCurrency.format(78.59),
+                              value: formatCurrency.format(walletState.balance?.availableBalance ?? 0.0),
                               color: colorScheme.primary,
                             ),
                           ),
@@ -72,7 +72,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                             child: WalletSummaryCard(
                               icon: Icons.trending_up_rounded,
                               title: 'Saldo Ganado',
-                              value: formatCurrency.format(940.59),
+                              value: formatCurrency.format(walletState.balance?.totalCommissionsPaid ?? 0.0),
                               color: colorScheme.secondary,
                             ),
                           ),
@@ -81,7 +81,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                             child: WalletSummaryCard(
                               icon: Icons.star_border_rounded,
                               title: 'Tokens Bonos',
-                              value: '90',
+                              value: (walletState.balance?.bonusAmount ?? 0.0).toString(),
                               color: colorScheme.tertiary,
                             ),
                           ),
