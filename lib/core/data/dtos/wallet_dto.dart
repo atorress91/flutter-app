@@ -49,8 +49,8 @@ class WalletDto {
       support: json['support'] as int?,
       date: DateTime.parse(json['date'] as String),
       compression: (json['compression'] ?? 0) == 1,
-      createdAt: json['createdAt'] != null ? DateTime.parse(json['created_at'] as String) : null,
-      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updated_at'] as String) : null,
+      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt'] as String) : null,
+      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt'] as String) : null,
     );
   }
 
