@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/core/utils/currency_utils.dart';
 import 'package:my_app/core/utils/date_formatter.dart';
 import 'package:my_app/features/dashboard/domain/entities/purchase.dart';
 
@@ -67,15 +68,17 @@ class PurchaseCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   StatusChip(status: purchase.status),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 16,
-                    color: Colors.grey,
+                  Text(
+                    CurrencyUtils.format(purchase.monto, symbol: 'USD '),
+                    style: textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: colorScheme.onSurface,
+                    ),
                   ),
                 ],
               ),
