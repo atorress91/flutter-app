@@ -37,14 +37,14 @@ class PurchaseCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    purchase.noFa,
+                    '#${purchase.invoiceNo}',
                     style: textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: colorScheme.primary,
                     ),
                   ),
                   Text(
-                    DateFormatter.long(purchase.fecha),
+                    DateFormatter.long(purchase.date),
                     style: textTheme.bodySmall?.copyWith(
                       color: colorScheme.onSurfaceVariant,
                     ),
@@ -54,7 +54,7 @@ class PurchaseCard extends StatelessWidget {
               const Divider(height: 24),
 
               Text(
-                purchase.modelo,
+                purchase.model,
                 style: textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -62,7 +62,7 @@ class PurchaseCard extends StatelessWidget {
               const SizedBox(height: 4),
 
               Text(
-                purchase.detalle,
+                purchase.details,
                 style: textTheme.bodyMedium?.copyWith(
                   color: colorScheme.onSurfaceVariant,
                 ),
@@ -74,7 +74,7 @@ class PurchaseCard extends StatelessWidget {
                 children: [
                   StatusChip(status: purchase.status),
                   Text(
-                    CurrencyUtils.format(purchase.monto, symbol: 'USD '),
+                    CurrencyUtils.format(purchase.amount, symbol: 'USD '),
                     style: textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: colorScheme.onSurface,

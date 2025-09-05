@@ -4,19 +4,19 @@ import 'package:my_app/features/dashboard/domain/entities/invoice.dart';
 import 'purchase_status.dart';
 
 class Purchase {
-  final String noFa;
-  final DateTime fecha;
-  final String modelo;
-  final String detalle;
-  final double monto;
+  final String invoiceNo;
+  final DateTime date;
+  final String model;
+  final String details;
+  final double amount;
   final PurchaseStatus status;
 
   Purchase({
-    required this.noFa,
-    required this.fecha,
-    required this.modelo,
-    required this.detalle,
-    required this.monto,
+    required this.invoiceNo,
+    required this.date,
+    required this.model,
+    required this.details,
+    required this.amount,
     required this.status,
   });
 
@@ -24,12 +24,11 @@ class Purchase {
     return InvoiceMapper.toPurchase(invoice);
   }
 
-
   bool matchesQuery(String query) {
     final q = query.toLowerCase();
-    return noFa.toLowerCase().contains(q) ||
-        modelo.toLowerCase().contains(q) ||
-        detalle.toLowerCase().contains(q);
+    return invoiceNo.toLowerCase().contains(q) ||
+        model.toLowerCase().contains(q) ||
+        details.toLowerCase().contains(q);
   }
 
   bool isWithinDateRange(DateTimeRange? dateRange) {
@@ -37,7 +36,7 @@ class Purchase {
 
     final start = DateUtils.dateOnly(dateRange.start);
     final end = DateUtils.dateOnly(dateRange.end);
-    final purchaseDate = DateUtils.dateOnly(fecha);
+    final purchaseDate = DateUtils.dateOnly(date);
 
     return !purchaseDate.isBefore(start) && !purchaseDate.isAfter(end);
   }
