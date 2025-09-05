@@ -50,7 +50,7 @@ class AppTheme {
     useMaterial3: true,
     cardColor: Colors.white,
 
-    scaffoldBackgroundColor: const Color(0xFFF0F2F5),
+    scaffoldBackgroundColor: Colors.white,
 
     colorScheme: ColorScheme.fromSeed(
       seedColor: primaryColor,
