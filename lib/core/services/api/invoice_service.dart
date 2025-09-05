@@ -6,7 +6,7 @@ import 'package:my_app/core/services/api/base_service.dart';
 class InvoiceService extends BaseService {
   InvoiceService({super.client}) : super(microservice: Microservice.wallet);
 
-  Future<Future<ApiResponse<List<InvoiceDto>?>>> getAllInvoicesByUserId(
+  Future<ApiResponse<List<InvoiceDto>?>> getAllInvoicesByUserId(
     int userId,
   ) async {
     return get<List<InvoiceDto>>(
