@@ -18,63 +18,75 @@ class WalletSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Theme.of(context).dividerColor),
+        border: Border.all(
+          color: color.withAlpha((255 * 0.12).toInt()),
+          width: 1.2,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha((255 * 0.03).toInt()),
+            color: color.withAlpha((255 * 0.08).toInt()),
             blurRadius: 8,
             offset: const Offset(0, 2),
+          ),
+          BoxShadow(
+            color: Colors.black.withAlpha((255 * 0.02).toInt()),
+            blurRadius: 4,
+            offset: const Offset(0, 1),
           ),
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Fila superior con icono
-          CircleAvatar(
-            backgroundColor: color.withAlpha((255 * 0.1).toInt()),
-            radius: 20,
-            child: Icon(icon, color: color, size: 20),
-          ),
-
-          // Sección del valor - Sin Expanded para evitar overflow
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  value,
-                  style: textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: Theme.of(context).colorScheme.onSurface,
-                    letterSpacing: -0.2,
-                  ),
-                  maxLines: 1,
+              Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: color.withAlpha((255 * 0.1).toInt()),
+                  borderRadius: BorderRadius.circular(6),
                 ),
+                child: Icon(icon, color: color, size: 14),
               ),
-              const SizedBox(height: 4),
-              Text(
-                title,
-                style: textTheme.bodySmall?.copyWith(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withAlpha((255 * 0.65).toInt()),
-                  fontWeight: FontWeight.w500,
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  title,
+                  style: textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurface.withAlpha((255 * 0.6).toInt()),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 11,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
               ),
             ],
+          ),
+          const SizedBox(height: 8),
+          Flexible(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.center,
+              child: Text(
+                value,
+                style: textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: colorScheme.onSurface,
+                  letterSpacing: -0.2,
+                  fontSize: 16,
+                ),
+                maxLines: 1,
+              ),
+            ),
           ),
         ],
       ),

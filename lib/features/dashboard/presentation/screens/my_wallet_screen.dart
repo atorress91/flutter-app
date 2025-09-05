@@ -56,13 +56,13 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                     ),
                     const SizedBox(height: 24),
                     SizedBox(
-                      height: 160,
+                      height: 90,
                       child: Row(
                         children: [
                           Expanded(
                             child: WalletSummaryCard(
                               icon: Icons.account_balance_wallet_outlined,
-                              title: 'Saldo Disponible',
+                              title: 'Disponible',
                               value: formatCurrency.format(walletState.balance?.availableBalance ?? 0.0),
                               color: colorScheme.primary,
                             ),
@@ -71,7 +71,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                           Expanded(
                             child: WalletSummaryCard(
                               icon: Icons.trending_up_rounded,
-                              title: 'Saldo Ganado',
+                              title: 'Ganado',
                               value: formatCurrency.format(walletState.balance?.totalCommissionsPaid ?? 0.0),
                               color: colorScheme.secondary,
                             ),
@@ -80,7 +80,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                           Expanded(
                             child: WalletSummaryCard(
                               icon: Icons.star_border_rounded,
-                              title: 'Tokens Bonos',
+                              title: 'Tokens',
                               value: (walletState.balance?.bonusAmount ?? 0.0).toString(),
                               color: colorScheme.tertiary,
                             ),
