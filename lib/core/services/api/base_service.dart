@@ -27,44 +27,49 @@ abstract class BaseService {
     return query == null ? uri : uri.replace(queryParameters: query);
   }
 
-  /// Headers por defecto, incluyendo X-Client-Id y Authorization por microservicio.
+  /// Headers por defecto, incluye X-Client-Id y Authorization por microservicio.
   Map<String, String> defaultHeaders([Map<String, String>? extra]) {
     final key = Environment.serviceKeyFor(microservice);
     return {
       'Content-Type': 'application/json',
       'X-Client-Id': Environment.clientId,
-      if (key != null && key.isNotEmpty) 'Authorization': key, // sin "Bearer"
+      if (key != null && key.isNotEmpty) 'Authorization': key,
       if (extra != null) ...extra,
     };
   }
 
   Future<ApiResponse<T?>> _handleResponse<T>(
-    Future<http.Response> Function() request, {
-    required T Function(dynamic json) fromJson,
-  }) async {
+      Future<http.Response> Function() request, {
+        required T Function(dynamic json) fromJson,
+      }) async {
     try {
       final response = await request();
-      final Map<String, dynamic> body =
-          jsonDecode(response.body) as Map<String, dynamic>;
+      // 1. Decodifica el JSON sin forzar un tipo específico
+      final dynamic decodedBody = jsonDecode(response.body);
 
-      // Verificar primero si la respuesta fue exitosa
-      final bool success = body['success'] is bool
-          ? body['success'] as bool
-          : true; // por defecto true si no existe el campo
+      final Map<String, dynamic> envelope;
+      bool success = true;
 
-      // Si no es exitoso, retornar directamente sin parsear los datos
+      // 2. Comprueba si la respuesta es un objeto Map o una lista
+      if (decodedBody is Map<String, dynamic>) {
+        envelope = decodedBody;
+        success = envelope['success'] is bool ? envelope['success'] as bool : true;
+      } else {
+        // 3. Si es una lista, la envuelve en un mapa sintético para mantener la consistencia
+        envelope = {'success': true, 'data': decodedBody};
+      }
+
       if (!success) {
         return ApiResponse<T?>(
           success: false,
-          message: body['message']?.toString() ?? 'La solicitud a la API falló.',
+          message: envelope['message']?.toString() ?? 'La solicitud a la API falló.',
           statusCode: response.statusCode,
-          data: null, // No intentar parsear datos cuando hay error
+          data: null,
         );
       }
 
-      // Solo si es exitoso, intentar parsear los datos
       final apiResponse = ApiResponse.fromEnvelope(
-        envelope: body,
+        envelope: envelope,
         parseData: fromJson,
         statusCode: response.statusCode,
       );
