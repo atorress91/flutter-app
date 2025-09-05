@@ -7,10 +7,11 @@ class InvoiceService extends BaseService {
   InvoiceService({super.client}) : super(microservice: Microservice.wallet);
 
   Future<ApiResponse<List<InvoiceDto>?>> getAllInvoicesByUserId(
-    int userId,
-  ) async {
+      int userId,
+      ) async {
     return get<List<InvoiceDto>>(
-      '/invoice/GetAllInvoicesByUserId/$userId',
+      '/invoice/GetAllInvoicesByUserId',
+      query: {'id': userId.toString()},
       fromJson: (json) {
         if (json is List) {
           return json

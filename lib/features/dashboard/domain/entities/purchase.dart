@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:my_app/features/dashboard/data/mappers/invoice_mapper.dart';
+import 'package:my_app/features/dashboard/domain/entities/invoice.dart';
 import 'purchase_status.dart';
 
 class Purchase {
@@ -18,6 +19,11 @@ class Purchase {
     required this.monto,
     required this.status,
   });
+
+  factory Purchase.fromInvoice(Invoice invoice) {
+    return InvoiceMapper.toPurchase(invoice);
+  }
+
 
   bool matchesQuery(String query) {
     final q = query.toLowerCase();

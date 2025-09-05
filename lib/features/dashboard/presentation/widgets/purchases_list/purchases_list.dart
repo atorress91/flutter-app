@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/features/dashboard/domain/entities/invoice.dart';
 import 'package:my_app/features/dashboard/domain/entities/purchase.dart';
-
 import 'no_result_widget.dart';
 import 'purchase_card.dart';
 
 class PurchasesList extends StatelessWidget {
-  final List<Purchase> purchases;
+  final List<Invoice> invoices;
 
-  const PurchasesList({super.key, required this.purchases});
+  const PurchasesList({super.key, required this.invoices});
 
   @override
   Widget build(BuildContext context) {
-    if (purchases.isEmpty) {
+    if (invoices.isEmpty) {
       return const NoResultsWidget();
     }
 
     return Column(
-      children: purchases
+      children: invoices
           .map(
-            (purchase) => Padding(
+            (invoice) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-              child: PurchaseCard(purchase: purchase),
+              child: PurchaseCard(purchase: Purchase.fromInvoice(invoice)),
             ),
           )
           .toList(),

@@ -13,7 +13,7 @@ class InvoiceDetailDto {
   double binaryPoints;
   int? productPoints;
   double productDiscount;
-  DateTime date;
+  DateTime? date;
   int combinationId;
   bool productPack;
   double? baseAmount;
@@ -21,7 +21,7 @@ class InvoiceDetailDto {
   int? waitingDays;
   int daysToPayQuantity;
   bool productStart;
-  DateTime createdAt;
+  DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
 
@@ -40,7 +40,7 @@ class InvoiceDetailDto {
     required this.binaryPoints,
     this.productPoints,
     required this.productDiscount,
-    required this.date,
+    this.date,
     required this.combinationId,
     required this.productPack,
     this.baseAmount,
@@ -48,7 +48,7 @@ class InvoiceDetailDto {
     this.waitingDays,
     required this.daysToPayQuantity,
     required this.productStart,
-    required this.createdAt,
+    this.createdAt,
     this.updatedAt,
     this.deletedAt,
   });
@@ -69,7 +69,7 @@ class InvoiceDetailDto {
       binaryPoints: (json['binaryPoints'] ?? 0).toDouble(),
       productPoints: json['productPoints'],
       productDiscount: (json['productDiscount'] ?? 0).toDouble(),
-      date: DateTime.parse(json['date']),
+      date: json['date'] != null ? DateTime.parse(json['date']) : null,
       combinationId: json['combinationId'] ?? 0,
       productPack: json['productPack'] ?? false,
       baseAmount: json['baseAmount']?.toDouble(),
@@ -77,7 +77,7 @@ class InvoiceDetailDto {
       waitingDays: json['waitingDays'],
       daysToPayQuantity: json['daysToPayQuantity'] ?? 0,
       productStart: json['productStart'] ?? false,
-      createdAt: DateTime.parse(json['createdAt']),
+      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
       updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
       deletedAt: json['deletedAt'] != null ? DateTime.parse(json['deletedAt']) : null,
     );
@@ -99,7 +99,7 @@ class InvoiceDetailDto {
       'binaryPoints': binaryPoints,
       'productPoints': productPoints,
       'productDiscount': productDiscount,
-      'date': date.toIso8601String(),
+      'date': date?.toIso8601String(),
       'combinationId': combinationId,
       'productPack': productPack,
       'baseAmount': baseAmount,
@@ -107,7 +107,7 @@ class InvoiceDetailDto {
       'waitingDays': waitingDays,
       'daysToPayQuantity': daysToPayQuantity,
       'productStart': productStart,
-      'createdAt': createdAt.toIso8601String(),
+      'createdAt': createdAt?.toIso8601String(),
       'updatedAt': updatedAt?.toIso8601String(),
       'deletedAt': deletedAt?.toIso8601String(),
     };
