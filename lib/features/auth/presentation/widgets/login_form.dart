@@ -61,17 +61,17 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Campo de usuario/email
+          // Campo de usuario
           CustomTextField(
             controller: _usernameController,
-            labelText: 'Usuario o Email',
+            labelText: 'Usuario',
             icon: Icons.person_outline,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             textCapitalization: TextCapitalization.none,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'Por favor ingresa tu usuario o email';
+                return 'Por favor ingresa tu usuario';
               }
               return null;
             },
