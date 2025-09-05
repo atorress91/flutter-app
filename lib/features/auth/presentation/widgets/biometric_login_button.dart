@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_app/core/errors/exceptions.dart';
-import '../../../../core/services/platform/biometric_service.dart';
-import '../../domain/use_cases/login_with_biometrics_use_case.dart';
+import 'package:my_app/core/services/platform/biometric_service.dart';
+import 'package:my_app/features/auth/domain/use_cases/login_with_biometrics_use_case.dart';
+
+import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 
 class BiometricLoginButton extends ConsumerWidget {
   const BiometricLoginButton({super.key, required WidgetRef ref});
@@ -36,16 +38,20 @@ class BiometricLoginButton extends ConsumerWidget {
 
   Future<void> _onPressed(BuildContext context, WidgetRef ref) async {
     try {
-      // 1. Llama al Caso de Uso.
       final useCase = ref.read(loginWithBiometricsUseCaseProvider);
       final route = await useCase.execute();
 
+      // Verificar que el widget sigue montado antes de continuar
       if (!context.mounted) return;
-      // 2. Si tiene éxito, navega.
+
+      // Se añade esta línea para recargar la sesión desde el almacenamiento.
+      await ref.read(authNotifierProvider.notifier).reloadFromStorage();
+      // Verificar nuevamente después de la segunda operación async
+      if (!context.mounted) return;
+
       context.go(route);
     } on AuthException catch (e) {
       if (!context.mounted) return;
-      // 3. Si falla, muestra el error.
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(SnackBar(content: Text(e.message)));
