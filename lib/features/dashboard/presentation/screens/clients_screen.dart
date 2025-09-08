@@ -158,26 +158,29 @@ class _ClientsScreenState extends State<ClientsScreen> {
                       const SizedBox(height: 24),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: InfoCard(
-                                icon: Icons.person_outline,
-                                title: 'Clientes Directos',
-                                value: _directClients.length.toString(),
-                                color: const Color(0xFF00A8E8),
+                        child: SizedBox(
+                          height: 90,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: InfoCard(
+                                  icon: Icons.person_outline,
+                                  title: 'Clientes Directos',
+                                  value: _directClients.length.toString(),
+                                  color: const Color(0xFF00A8E8),
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: InfoCard(
-                                icon: Icons.groups_outlined,
-                                title: 'Clientes Indirectos',
-                                value: indirectClientsCount.toString(),
-                                color: const Color(0xFF9B5DE5),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: InfoCard(
+                                  icon: Icons.groups_outlined,
+                                  title: 'Clientes Indirectos',
+                                  value: indirectClientsCount.toString(),
+                                  color: const Color(0xFF9B5DE5),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(height: 24),
