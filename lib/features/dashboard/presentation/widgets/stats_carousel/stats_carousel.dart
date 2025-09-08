@@ -14,7 +14,7 @@ class StatsCarousel extends StatelessWidget {
     final stats = HomeData.getStatsData(balance);
 
     return SizedBox(
-      height: 130,
+      height:90,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 24),

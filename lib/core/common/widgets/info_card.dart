@@ -58,7 +58,7 @@ class InfoCard extends StatelessWidget {
                 child: Icon(icon, color: color, size: 14),
               ),
               const SizedBox(width: 8),
-              Expanded(
+              Flexible( // Use Flexible to allow the title to shrink and wrap
                 child: Text(
                   title,
                   style: textTheme.bodySmall?.copyWith(
@@ -72,7 +72,7 @@ class InfoCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          Flexible(
+          Expanded(
             child: FittedBox(
               fit: BoxFit.scaleDown,
               alignment: Alignment.center,
