@@ -121,24 +121,28 @@ class HomeData {
         'subtitleKey': 'activityNewSaleSubtitle',
         'icon': Icons.shopping_cart_checkout,
         'color': const Color(0xFF00F5D4),
+        'route': '/dashboard/purchases',
       },
       {
         'titleKey': 'activityUserRegisteredTitle',
         'subtitleKey': 'activityUserRegisteredSubtitle',
         'icon': Icons.person_add,
         'color': const Color(0xFF00A8E8),
+        'route': '/dashboard/purchases',
       },
       {
         'titleKey': 'activityInventoryUpdatedTitle',
         'subtitleKey': 'activityInventoryUpdatedSubtitle',
         'icon': Icons.inventory_2,
         'color': const Color(0xFF9B5DE5),
+        'route': '/dashboard/purchases',
       },
       {
         'titleKey': 'activityReportGeneratedTitle',
         'subtitleKey': 'activityReportGeneratedSubtitle',
         'icon': Icons.description,
         'color': const Color(0xFFF15BB5),
+        'route': '/dashboard/my-wallet',
       },
     ];
   }

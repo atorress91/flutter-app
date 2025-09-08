@@ -10,7 +10,7 @@ import 'package:my_app/features/dashboard/presentation/widgets/balance_chart/bal
 import 'package:my_app/features/dashboard/presentation/widgets/contract_details.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/performance_chart.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/quick_actions/quick_actions.dart';
-import 'package:my_app/features/dashboard/presentation/widgets/recent_activity.dart';
+import 'package:my_app/features/dashboard/presentation/widgets/recent_activity/recent_activity.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/stats_carousel/stats_carousel.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/welcome_header.dart';
 
