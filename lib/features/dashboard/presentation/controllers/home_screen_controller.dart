@@ -1,9 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
-import 'package:my_app/features/dashboard/data/providers/balance_providers.dart';
-import 'package:my_app/features/dashboard/data/providers/network_purchase_providers.dart';
-import 'package:my_app/features/dashboard/domain/entities/balance_information.dart'
-    show BalanceInformation;
+import 'package:my_app/features/dashboard/data/providers/wallet_providers.dart';
+import 'package:my_app/features/dashboard/domain/entities/balance_information.dart' show BalanceInformation;
 import 'package:my_app/features/dashboard/domain/entities/network_purchase.dart';
 import 'package:my_app/features/dashboard/presentation/states/home_state.dart';
 
