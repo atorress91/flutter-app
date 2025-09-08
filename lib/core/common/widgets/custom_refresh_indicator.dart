@@ -19,6 +19,8 @@ class _CustomRefreshIndicatorState extends State<CustomRefreshIndicator>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
 
+  static const _minRefreshDuration = Duration(milliseconds: 1200);
+
   @override
   void initState() {
     super.initState();
@@ -42,38 +44,44 @@ class _CustomRefreshIndicatorState extends State<CustomRefreshIndicator>
         : 'assets/images/green-logo.png';
 
     return cri.CustomRefreshIndicator(
-      onRefresh: widget.onRefresh,
-      builder: (context, child, controller) {
-        // Controla la animación basándose en el estado del controller
-        if (controller.isArmed || controller.isLoading) {
-          if (!_animationController.isAnimating) {
-            _animationController.repeat();
-          }
-        } else {
-          if (_animationController.isAnimating) {
-            _animationController.stop();
-          }
+      onRefresh: () async {
+        if (!_animationController.isAnimating) {
+          _animationController.repeat();
         }
-
+        await Future.wait([
+          widget.onRefresh(),
+          Future.delayed(_minRefreshDuration),
+        ]);
+        if (_animationController.isAnimating) {
+          _animationController.stop();
+        }
+      },
+      offsetToArmed: 100,
+      builder: (context, child, controller) {
         return Stack(
+          alignment: Alignment.topCenter,
           clipBehavior: Clip.none,
           children: [
-            child,
-            if (controller.isArmed || controller.isLoading)
-              Positioned(
-                top: 60.0 * controller.value,
-                left: 0,
-                right: 0,
-                child: Center(
-                  child: RotationTransition(
-                    turns: _animationController,
-                    child: Image.asset(
-                      logoAsset,
-                      height: 40,
-                    ),
+            Opacity(
+              opacity: 1.0 - controller.value.clamp(0.0, 1.0),
+              child: child,
+            ),
+            Positioned(
+              top: -40 + (controller.value * 80),
+              left: 0,
+              right: 0,
+              child: Center(
+                child: RotationTransition(
+                  turns: controller.isLoading
+                      ? _animationController
+                      : AlwaysStoppedAnimation(controller.value * 2),
+                  child: Image.asset(
+                    logoAsset,
+                    height: 40,
                   ),
                 ),
               ),
+            ),
           ],
         );
       },

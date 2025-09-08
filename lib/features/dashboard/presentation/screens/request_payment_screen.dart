@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/core/common/widgets/custom_refresh_indicator.dart';
 import 'package:my_app/features/dashboard/data/payment_request_data.dart';
 import 'package:my_app/features/dashboard/domain/entities/payment_request.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/request_payment/new_payment_request_modal.dart';
@@ -65,7 +66,7 @@ class _RequestPaymentScreenState extends State<RequestPaymentScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
-        child: RefreshIndicator(
+        child: CustomRefreshIndicator(
           onRefresh: _handleRefresh,
           child: _isLoading
               ? const Center(child: CircularProgressIndicator())

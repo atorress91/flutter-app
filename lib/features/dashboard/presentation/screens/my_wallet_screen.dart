@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:my_app/core/common/widgets/custom_refresh_indicator.dart';
 import 'package:my_app/core/common/widgets/info_card.dart';
 import 'package:my_app/features/dashboard/presentation/controllers/my_wallet_screen_controller.dart';
 import 'package:my_app/features/dashboard/presentation/states/my_wallet_state.dart';
@@ -40,7 +41,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
-        child: RefreshIndicator(
+        child: CustomRefreshIndicator(
           onRefresh: _handleRefresh,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
