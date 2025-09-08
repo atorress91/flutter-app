@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:my_app/core/common/widgets/custom_refresh_indicator.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/dashboard/presentation/controllers/home_screen_controller.dart';
 import 'package:my_app/features/dashboard/presentation/mappers/balance_chart_mapper.dart';
@@ -45,9 +46,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
-        child: RefreshIndicator(
+        child: CustomRefreshIndicator(
           onRefresh: _handleRefresh,
-          color: Theme.of(context).colorScheme.primary,
           child: homeState.isLoading && homeState.balance == null
               ? const Center(child: CircularProgressIndicator())
               : AnimationLimiter(
