@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class WalletSummaryCard extends StatelessWidget {
+class InfoCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final String value;
   final Color color;
 
-  const WalletSummaryCard({
+  const InfoCard({
     super.key,
     required this.icon,
     required this.title,

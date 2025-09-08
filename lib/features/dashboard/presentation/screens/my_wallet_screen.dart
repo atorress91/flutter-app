@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:my_app/core/common/widgets/info_card.dart';
 import 'package:my_app/features/dashboard/presentation/controllers/my_wallet_screen_controller.dart';
 import 'package:my_app/features/dashboard/presentation/states/my_wallet_state.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/wallet/filter_button.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/wallet/transaction_card.dart';
-import 'package:my_app/features/dashboard/presentation/widgets/wallet/wallet_summary_card.dart';
 
 class MyWalletScreen extends ConsumerStatefulWidget {
   const MyWalletScreen({super.key});
@@ -60,7 +60,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                       child: Row(
                         children: [
                           Expanded(
-                            child: WalletSummaryCard(
+                            child: InfoCard(
                               icon: Icons.account_balance_wallet_outlined,
                               title: 'Disponible',
                               value: formatCurrency.format(walletState.balance?.availableBalance ?? 0.0),
@@ -69,7 +69,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                           ),
                           const SizedBox(width: 16),
                           Expanded(
-                            child: WalletSummaryCard(
+                            child: InfoCard(
                               icon: Icons.trending_up_rounded,
                               title: 'Ganado',
                               value: formatCurrency.format(walletState.balance?.totalCommissionsPaid ?? 0.0),
@@ -78,7 +78,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                           ),
                           const SizedBox(width: 16),
                           Expanded(
-                            child: WalletSummaryCard(
+                            child: InfoCard(
                               icon: Icons.star_border_rounded,
                               title: 'Tokens',
                               value: (walletState.balance?.bonusAmount ?? 0.0).toString(),
