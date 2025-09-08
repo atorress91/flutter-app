@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/dashboard/data/home_data.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/recent_activity/activity_item.dart';
@@ -33,7 +32,6 @@ class RecentActivity extends StatelessWidget {
               color: activity['color'] as Color,
               onTap: () {
                 // TODO: Implement activity tap handler
-                GoRouter.of(context).go(activity['route'] as String);
               },
             ),
           );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/dashboard/data/home_data.dart';
 
@@ -19,7 +20,7 @@ class QuickActions extends StatelessWidget {
           label: AppLocalizations.of(context).t(action['labelKey'] as String),
           color: action['color'] as Color,
           onTap: () {
-            // TODO: Implement action callbacks
+            context.go(action['route'] as String);
           },
         );
       }).toList(),
