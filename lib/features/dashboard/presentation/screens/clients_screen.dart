@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/core/common/widgets/custom_loading_indicator.dart';
 import 'package:my_app/core/common/widgets/custom_refresh_indicator.dart';
 import 'package:my_app/core/common/widgets/info_card.dart';
 import 'package:my_app/features/dashboard/domain/entities/client.dart';
@@ -107,7 +108,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: _isLoading
-            ? const Center(child: CircularProgressIndicator())
+            ? const Center(child: CustomLoadingIndicator())
             : CustomRefreshIndicator(
                 onRefresh: _handleRefresh,
                 child: SingleChildScrollView(

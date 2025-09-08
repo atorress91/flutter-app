@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:my_app/core/common/widgets/custom_loading_indicator.dart';
 import 'package:my_app/core/common/widgets/custom_refresh_indicator.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/dashboard/presentation/controllers/home_screen_controller.dart';
@@ -49,7 +50,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: CustomRefreshIndicator(
           onRefresh: _handleRefresh,
           child: homeState.isLoading && homeState.balance == null
-              ? const Center(child: CircularProgressIndicator())
+              ? const Center(child: CustomLoadingIndicator())
               : AnimationLimiter(
                   child: SingleChildScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
@@ -185,6 +186,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     // Muestra un loading si el balance aún no ha llegado pero la carga general sí empezó
-    return const Center(heightFactor: 5, child: CircularProgressIndicator());
+    return const Center(heightFactor: 5, child: CustomLoadingIndicator());
   }
 }

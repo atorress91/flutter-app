@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/core/common/widgets/custom_loading_indicator.dart';
 import 'package:my_app/core/common/widgets/custom_refresh_indicator.dart';
 import 'package:my_app/features/dashboard/data/payment_request_data.dart';
 import 'package:my_app/features/dashboard/domain/entities/payment_request.dart';
@@ -69,7 +70,7 @@ class _RequestPaymentScreenState extends State<RequestPaymentScreen> {
         child: CustomRefreshIndicator(
           onRefresh: _handleRefresh,
           child: _isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? const Center(child: CustomLoadingIndicator())
               : ListView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsets.symmetric(

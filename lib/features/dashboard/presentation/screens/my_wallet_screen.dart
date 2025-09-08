@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:my_app/core/common/widgets/custom_loading_indicator.dart';
 import 'package:my_app/core/common/widgets/custom_refresh_indicator.dart';
 import 'package:my_app/core/common/widgets/info_card.dart';
 import 'package:my_app/features/dashboard/presentation/controllers/my_wallet_screen_controller.dart';
@@ -148,7 +149,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
               const SizedBox(height: 16),
               Expanded(
                 child: (walletState.isLoading && walletState.transactions.isEmpty)
-                    ? const Center(child: CircularProgressIndicator())
+                    ? const Center(child: CustomLoadingIndicator())
                     : walletState.error != null
                     ? Center(child: Text(walletState.error!))
                     : ListView.builder(

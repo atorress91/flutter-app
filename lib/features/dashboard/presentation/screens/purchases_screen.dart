@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:my_app/core/common/widgets/custom_loading_indicator.dart';
 import 'package:my_app/core/common/widgets/custom_refresh_indicator.dart';
 import 'package:my_app/core/utils/purchases_utils.dart';
 
@@ -69,7 +70,7 @@ class _PurchasesScreenState extends ConsumerState<PurchasesScreen> {
         child: CustomRefreshIndicator(
           onRefresh: _handleRefresh,
           child: purchasesState.isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? const Center(child: CustomLoadingIndicator())
               : AnimationLimiter(
             child: ListView(
               physics: const AlwaysScrollableScrollPhysics(),
