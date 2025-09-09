@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:my_app/features/dashboard/presentation/controllers/profile_screen_controller.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/profile/profile_header.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/profile/profile_info_card.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/profile/profile_status_badges.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profileController = ref.read(profileScreenControllerProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -25,7 +29,24 @@ class ProfileScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
           child: Column(
             children: [
-              const ProfileHeader(),
+              ProfileHeader(
+                onEdit: () async {
+                  try {
+                    await profileController.updateProfilePicture();
+                    if(context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('¡Foto de perfil actualizada!')),
+                      );
+                    }
+                  } catch (e) {
+                    if(context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Error al subir la imagen: $e')),
+                      );
+                    }
+                  }
+                },
+              ),
               const SizedBox(height: 24),
               const ProfileStatusBadges(),
               const SizedBox(height: 32),

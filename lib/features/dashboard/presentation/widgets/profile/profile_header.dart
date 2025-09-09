@@ -1,108 +1,84 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 
 class ProfileHeader extends ConsumerWidget {
-  const ProfileHeader({super.key});
+  final VoidCallback onEdit;
+
+  const ProfileHeader({
+    super.key,
+    required this.onEdit,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final asyncSession = ref.watch(authNotifierProvider);
-    final user = asyncSession.value?.user; // UsersAffiliatesDto?
-
-    final displayName = () {
-      if (user == null) return '';
-
-      if (user.fullName != null && user.fullName!.isNotEmpty) {
-        return user.fullName!;
-      }
-
-      if (user.userName.isNotEmpty) return user.userName;
-      return user.email;
-    }();
-
-    final secondary = () {
-      if (user == null) return '';
-      if (user.userName.isNotEmpty) return '@${user.userName}';
-      return user.email;
-    }();
-
-    final imageUrl = user?.imageUrl;
+    final authState = ref.watch(authNotifierProvider);
+    final user = authState.asData?.value?.user;
+    final typography = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Column(
       children: [
-        Hero(
-          tag: 'user_avatar',
-          child: CircleAvatar(
-            radius: 50,
-            backgroundColor: Theme.of(
-              context,
-            ).colorScheme.primary.withAlpha((255 * 0.15).toInt()),
-            backgroundImage: (imageUrl != null && imageUrl.isNotEmpty)
-                ? NetworkImage(imageUrl)
-                : null,
-            child: (imageUrl == null || imageUrl.isEmpty)
-                ? Text(
-                    _initialsFrom(displayName),
-                    style: GoogleFonts.poppins(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: Theme.of(context).colorScheme.primary,
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Hero(
+              tag: 'user_avatar',
+              child: CircleAvatar(
+                radius: 50,
+                backgroundColor: colorScheme.surface,
+                backgroundImage: (user?.imageUrl != null && user!.imageUrl!.isNotEmpty)
+                    ? CachedNetworkImageProvider(user.imageUrl!)
+                    : null,
+                child: (user?.imageUrl == null || user!.imageUrl!.isEmpty)
+                    ? Icon(
+                  Icons.person,
+                  size: 50,
+                  color: colorScheme.onSurface.withAlpha((255*0.5).toInt()),
+                )
+                    : null,
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              right: -5,
+              child: Material(
+                color: colorScheme.primary,
+                shape: const CircleBorder(),
+                elevation: 2,
+                child: InkWell(
+                  onTap: onEdit,
+                  customBorder: const CircleBorder(),
+                  child: const SizedBox(
+                    width: 32,
+                    height: 32,
+                    child: Icon(
+                      Icons.edit,
+                      color: Colors.white,
+                      size: 18,
                     ),
-                  )
-                : null,
-          ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 16),
-        if (user == null)
-          Container(
-            width: 140,
-            height: 24,
-            decoration: BoxDecoration(
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withAlpha((255 * 0.08).toInt()),
-              borderRadius: BorderRadius.circular(6),
-            ),
-          )
-        else
-          Text(
-            displayName,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            softWrap: false,
-            style: GoogleFonts.poppins(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+        Text(
+          user?.fullName ?? 'Nombre de Usuario',
+          style: GoogleFonts.poppins(
+            textStyle: typography.headlineSmall,
+            fontWeight: FontWeight.bold,
           ),
+        ),
         const SizedBox(height: 4),
         Text(
-          secondary,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-          softWrap: false,
-          style: GoogleFonts.poppins(
-            fontSize: 16,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withAlpha((255 * 0.6).toInt()),
-          ),
+          user?.email ?? 'email@example.com',
+          style: typography.bodyMedium?.copyWith(color: colorScheme.onSurface.withAlpha((255*0.6).toInt())),
         ),
       ],
     );
   }
-}
-
-String _initialsFrom(String name) {
-  if (name.trim().isEmpty) return '';
-  final parts = name
-      .trim()
-      .split(RegExp(r"\s+"))
-      .where((p) => p.isNotEmpty)
-      .toList();
-  if (parts.isEmpty) return '';
-  if (parts.length == 1) return parts.first[0].toUpperCase();
-  return (parts[0][0] + parts[1][0]).toUpperCase();
 }
