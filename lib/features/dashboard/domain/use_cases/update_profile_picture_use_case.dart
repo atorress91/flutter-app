@@ -6,13 +6,19 @@ class UpdateProfilePictureUseCase {
   final ImagePickerService _imagePickerService;
   final ProfileRepository _profileRepository;
 
-  UpdateProfilePictureUseCase(this._imagePickerService, this._profileRepository);
+  UpdateProfilePictureUseCase(
+    this._imagePickerService,
+    this._profileRepository,
+  );
 
   Future<User?> execute(User currentUser) async {
     final imageFile = await _imagePickerService.pickImageFromGallery();
     if (imageFile == null) return null;
 
-    final downloadURL = await _profileRepository.uploadProfileImage(imageFile, currentUser);
+    final downloadURL = await _profileRepository.uploadProfileImage(
+      imageFile,
+      currentUser,
+    );
     return User(
       id: currentUser.id,
       userName: currentUser.userName,

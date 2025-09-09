@@ -11,7 +11,7 @@ class ProfileScreenController {
 
   ProfileScreenController(this._ref);
 
-  Future<void> updateProfilePicture() async {
+  Future<bool> updateProfilePicture() async {
     final user = _ref.read(authNotifierProvider).value?.user;
     if (user == null) {
       throw Exception('Debes iniciar sesión.');
@@ -23,6 +23,8 @@ class ProfileScreenController {
 
     if (updatedUser != null) {
       await _ref.read(authNotifierProvider.notifier).updateSession(updatedUser);
+      return true;
     }
+    return false;
   }
 }

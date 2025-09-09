@@ -32,14 +32,14 @@ class ProfileScreen extends ConsumerWidget {
               ProfileHeader(
                 onEdit: () async {
                   try {
-                    await profileController.updateProfilePicture();
-                    if(context.mounted) {
+                    final success = await profileController.updateProfilePicture();
+                    if (success && context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('¡Foto de perfil actualizada!')),
                       );
                     }
                   } catch (e) {
-                    if(context.mounted) {
+                    if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Error al subir la imagen: $e')),
                       );
