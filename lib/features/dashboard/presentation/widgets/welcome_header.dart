@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -83,24 +84,53 @@ class WelcomeHeader extends ConsumerWidget {
           },
           child: Hero(
             tag: 'user_avatar',
-            child: CircleAvatar(
-              radius: 28,
-              backgroundColor: Theme.of(
-                context,
-              ).colorScheme.primary.withAlpha((255 * 0.15).toInt()),
-              backgroundImage: (imageUrl != null && imageUrl.isNotEmpty)
-                  ? NetworkImage(imageUrl)
-                  : null,
-              child: (imageUrl == null || imageUrl.isEmpty)
-                  ? Text(
+            child: (imageUrl != null && imageUrl.isNotEmpty)
+                ? CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    imageBuilder: (context, imageProvider) => CircleAvatar(
+                      radius: 28,
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.primary.withAlpha((255 * 0.15).toInt()),
+                      backgroundImage: imageProvider,
+                    ),
+                    placeholder: (context, url) => CircleAvatar(
+                      radius: 28,
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.primary.withAlpha((255 * 0.15).toInt()),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => CircleAvatar(
+                      radius: 28,
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.primary.withAlpha((255 * 0.15).toInt()),
+                      child: Text(
+                        _initialsFrom(displayName),
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w700,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                  )
+                : CircleAvatar(
+                    radius: 28,
+                    backgroundColor: Theme.of(
+                      context,
+                    ).colorScheme.primary.withAlpha((255 * 0.15).toInt()),
+                    child: Text(
                       _initialsFrom(displayName),
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w700,
                         color: Theme.of(context).colorScheme.primary,
                       ),
-                    )
-                  : null,
-            ),
+                    ),
+                  ),
           ),
         ),
       ],
