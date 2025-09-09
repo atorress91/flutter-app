@@ -87,6 +87,12 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
       state = AsyncError(e, StackTrace.current);
     }
   }
+
+  Future<void> updateSession(User user) async {
+    final session = SessionModel(user: user, loggedAt: DateTime.now());
+    await _storage.write(key: _kSessionKey, value: jsonEncode(session.toJson()));
+    state = AsyncData(session);
+  }
 }
 
 final authNotifierProvider = AsyncNotifierProvider<AuthNotifier, SessionModel?>(
