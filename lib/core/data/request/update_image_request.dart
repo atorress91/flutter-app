@@ -1,10 +1,10 @@
 class UpdateImageRequest {
   final int userId;
-  final String imageIdPath;
+  final String imageProfileUrl;
 
-  UpdateImageRequest({required this.userId, required this.imageIdPath});
+  UpdateImageRequest({required this.userId, required this.imageProfileUrl});
 
   Map<String, dynamic> toJson() {
-    return {'id': userId, 'image_id_path': imageIdPath};
+    return {'id': userId, 'image_profile_url': imageProfileUrl};
   }
 }
