@@ -129,18 +129,7 @@ class AppSidebar extends StatelessWidget {
             '/dashboard/customer-service',
             onRequestClose: onRequestClose,
           ),
-        ),
-        SidebarMenuItem(
-          title: 'Panel Admin',
-          icon: Icons.admin_panel_settings,
-          isCollapsed: isCollapsed,
-          isSelected: SidebarNavigation.isRouteSelected(currentRoute, '/admin'),
-          onTap: () => SidebarNavigation.navigate(
-            context,
-            '/admin/dashboard',
-            onRequestClose: onRequestClose,
-          ),
-        ),
+        )
       ],
     );
   }
