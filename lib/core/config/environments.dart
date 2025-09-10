@@ -21,7 +21,7 @@ class Environment {
 
   static EnvironmentConfig _local = EnvironmentConfig(
     endpoints: {
-      Microservice.account: 'https://account.recycoin.net/api/v1',
+      Microservice.account: 'http://localhost:5200/api/v1',
       Microservice.systemConfiguration: 'http://localhost:3001',
       Microservice.inventory: 'http://localhost:3002',
       Microservice.wallet: 'https://wallet.recycoin.net/api/v1',

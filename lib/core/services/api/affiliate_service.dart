@@ -7,9 +7,9 @@ import 'package:my_app/core/services/api/base_service.dart';
 class AffiliateService extends BaseService {
   AffiliateService({super.client}) : super(microservice: Microservice.account);
 
-  Future<ApiResponse<UsersAffiliatesDto?>> updateImage(UpdateImageRequest updateImage) async {
+  Future<ApiResponse<UsersAffiliatesDto?>> updateImage(int userId,UpdateImageRequest updateImage) async {
     return put<UsersAffiliatesDto?>(
-      '/userAffiliateInfo/update_image/${updateImage.userId}',
+      '/userAffiliateInfo/update_image/$userId',
       body: updateImage.toJson(),
       fromJson: (json) {
         if (json == null) {

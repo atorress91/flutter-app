@@ -21,10 +21,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<User> updateUser(User user) async {
     final request = UpdateImageRequest(
-      userId: user.id,
       imageProfileUrl: user.imageUrl ?? '',
     );
-    final response = await _affiliateService.updateImage(request);
+    final response = await _affiliateService.updateImage(user.id, request);
 
     if (response.success && response.data != null) {
       return UserMapper.fromDto(response.data!);

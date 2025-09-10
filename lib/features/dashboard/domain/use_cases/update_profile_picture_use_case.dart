@@ -19,7 +19,8 @@ class UpdateProfilePictureUseCase {
       imageFile,
       currentUser,
     );
-    return User(
+    
+    final updatedUser = User(
       id: currentUser.id,
       userName: currentUser.userName,
       email: currentUser.email,
@@ -31,5 +32,8 @@ class UpdateProfilePictureUseCase {
       phone: currentUser.phone,
       isAffiliate: currentUser.isAffiliate,
     );
+    
+    // Update user in backend to ensure data consistency
+    return await _profileRepository.updateUser(updatedUser);
   }
 }

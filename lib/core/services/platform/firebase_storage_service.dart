@@ -22,11 +22,10 @@ class FirebaseStorageService {
 
       final affiliateService = _ref.read(affiliateServiceProvider);
       final updateRequest = UpdateImageRequest(
-        userId: user.id,
         imageProfileUrl: downloadURL,
       );
 
-      await affiliateService.updateImage(updateRequest);
+      await affiliateService.updateImage(user.id,updateRequest);
 
       return downloadURL;
     } on FirebaseException catch (e) {
@@ -45,11 +44,10 @@ class FirebaseStorageService {
 
       final affiliateService = _ref.read(affiliateServiceProvider);
       final updateRequest = UpdateImageRequest(
-        userId: user.id,
         imageProfileUrl: '',
       );
 
-      await affiliateService.updateImage(updateRequest);
+      await affiliateService.updateImage(user.id,updateRequest);
     } on FirebaseException catch (e) {
       if (e.code != 'object-not-found') {
         throw Exception('Error removing image from Firebase: ${e.message}');
