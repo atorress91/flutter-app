@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:my_app/core/config/environments.dart';
 import 'package:my_app/core/data/models/api_response.dart';
@@ -88,6 +89,62 @@ abstract class BaseService {
       );
     }
   }
+  
+  Future<ApiResponse<T?>> _handleRequest<T>(
+      Future<http.Response> Function() request,
+      T Function(dynamic json) fromJson,
+      ) async {
+    try {
+      final response = await request();
+      final dynamic jsonBody = jsonDecode(response.body);
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        // Petición exitosa
+        final T data = fromJson(jsonBody);
+        return ApiResponse<T?>(
+          success: true,
+          message: null,
+          statusCode: response.statusCode,
+          data: data,
+        );
+      } else {
+        // Error manejado por la API (ej. 400, 404, 500)
+        final String errorMessage = (jsonBody is Map && jsonBody['message'] != null)
+            ? jsonBody['message'].toString()
+            : 'Error desconocido';
+        return ApiResponse<T?>(
+          success: false,
+          message: errorMessage,
+          statusCode: response.statusCode,
+          data: null,
+        );
+      }
+    } on SocketException {
+      // Error de conexión
+      return ApiResponse<T?>(
+        success: false,
+        statusCode: 503, // Service Unavailable
+        message: 'No se pudo conectar al servidor. Revisa tu conexión a internet.',
+        data: null,
+      );
+    } on FormatException {
+      // Error si la respuesta no es un JSON válido
+      return ApiResponse<T?>(
+        success: false,
+        statusCode: 500, // Internal Server Error
+        message: 'Respuesta inválida del servidor.',
+        data: null,
+      );
+    } catch (e) {
+      // Cualquier otro error inesperado
+      return ApiResponse<T?>(
+        success: false,
+        statusCode: 500,
+        message: 'Ocurrió un error inesperado: $e',
+        data: null,
+      );
+    }
+  }
 
   Future<ApiResponse<T?>> get<T>(
     String path, {
@@ -106,38 +163,32 @@ abstract class BaseService {
   }
 
   Future<ApiResponse<T?>> post<T>(
-    String path, {
-    required T Function(dynamic json) fromJson,
-    Object? body,
-    Map<String, String>? headers,
-    Map<String, String>? query,
-    Microservice? service,
-  }) {
-    return _handleResponse<T>(
+      String endpoint, {
+        Object? body,
+        required T Function(dynamic json) fromJson,
+      }) async {
+    return _handleRequest(
       () => client.post(
-        buildUri(path, query: query, service: service),
-        headers: defaultHeaders(headers),
-        body: body,
+        buildUri(endpoint),
+        headers: defaultHeaders(),
+        body: body != null ? json.encode(body) : null,
       ),
-      fromJson: fromJson,
+      fromJson,
     );
   }
 
   Future<ApiResponse<T?>> put<T>(
-    String path, {
-    required T Function(dynamic json) fromJson,
-    Object? body,
-    Map<String, String>? headers,
-    Map<String, String>? query,
-    Microservice? service,
-  }) {
-    return _handleResponse<T>(
+      String endpoint, {
+        Object? body,
+        required T Function(dynamic json) fromJson,
+      }) async {
+    return _handleRequest(
       () => client.put(
-        buildUri(path, query: query, service: service),
-        headers: defaultHeaders(headers),
-        body: body,
+        buildUri(endpoint),
+        headers: defaultHeaders(),
+        body: body != null ? json.encode(body) : null,
       ),
-      fromJson: fromJson,
+      fromJson,
     );
   }
 
@@ -153,26 +204,7 @@ abstract class BaseService {
       () => client.delete(
         buildUri(path, query: query, service: service),
         headers: defaultHeaders(headers),
-        body: body,
-      ),
-      fromJson: fromJson,
-    );
-  }
-
-  /// Helper para enviar JSON sin repetir jsonEncode ni content-type.
-  Future<ApiResponse<T?>> postJson<T>(
-    String path,
-    Map<String, dynamic> payload, {
-    required T Function(dynamic json) fromJson,
-    Map<String, String>? headers,
-    Map<String, String>? query,
-    Microservice? service,
-  }) {
-    return _handleResponse<T>(
-      () => client.post(
-        buildUri(path, query: query, service: service),
-        headers: defaultHeaders(headers),
-        body: jsonEncode(payload),
+        body: body != null ? jsonEncode(body) : null,
       ),
       fromJson: fromJson,
     );

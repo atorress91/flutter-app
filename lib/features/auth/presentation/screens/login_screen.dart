@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_app/core/common/widgets/error_display.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/core/services/platform/biometric_service.dart';
 import 'package:my_app/core/theme/app_theme.dart';
 import 'package:my_app/features/auth/presentation/controllers/login_controller.dart';
 import 'package:my_app/features/auth/presentation/widgets/biometric_login_button.dart';
 import 'package:my_app/features/auth/presentation/widgets/login_form.dart';
+
+// Estado local para el mensaje de error del login
+final loginErrorMessageProvider = StateProvider<String?>((ref) => null);
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
@@ -78,6 +82,8 @@ class LoginScreen extends ConsumerWidget {
                         onSubmit: (username, password) =>
                             _handleLogin(context, ref, username, password),
                       ),
+                      // Muestra el error (si existe)
+                      ErrorDisplay(errorMessage: ref.watch(loginErrorMessageProvider)),
                       const SizedBox(height: 16),
                       // Link para ir al registro
                       Row(
@@ -114,6 +120,9 @@ class LoginScreen extends ConsumerWidget {
     String username,
     String password,
   ) async {
+    // Limpiar el error anterior
+    ref.read(loginErrorMessageProvider.notifier).state = null;
+
     final controller = ref.read(loginControllerProvider.notifier);
     final isAffiliate = await controller.login(username, password);
 
@@ -143,6 +152,10 @@ class LoginScreen extends ConsumerWidget {
 
       final route = isAffiliate ? '/dashboard' : '/admin/dashboard';
       context.go(route);
+    } else {
+      // Establecer mensaje de error si las credenciales son inválidas
+      ref.read(loginErrorMessageProvider.notifier).state =
+          'Usuario o contraseña inválidos.';
     }
   }
 

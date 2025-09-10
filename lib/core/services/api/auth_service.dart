@@ -12,26 +12,38 @@ class AuthService extends BaseService {
   Future<ApiResponse<UsersAffiliatesDto?>> login(
     RequestUserAuth request,
   ) async {
-    return postJson<UsersAffiliatesDto?>(
+    return post<UsersAffiliatesDto?>(
       '/auth/login',
-      request.toJson(),
+      body: request.toJson(),
       fromJson: (json) {
         if (json == null) {
           return null;
         }
 
-        final userPayload =
-            (json as Map<String, dynamic>?)?['affiliate'] ??
-            json?['user'] ??
-            json;
-
-        if (userPayload is Map<String, dynamic>) {
-          return UsersAffiliatesDto.fromJson(userPayload);
+        // Handle different response formats more gracefully
+        Map<String, dynamic>? userPayload;
+        
+        if (json is Map<String, dynamic>) {
+          // Try to extract user data from different possible structures
+          userPayload = json['affiliate'] as Map<String, dynamic>? ??
+                       json['user'] as Map<String, dynamic>? ??
+                       json;
         }
 
-        throw const FormatException(
-          'Payload de usuario no encontrado en la respuesta.',
-        );
+        if (userPayload != null && userPayload is Map<String, dynamic>) {
+          try {
+            return UsersAffiliatesDto.fromJson(userPayload);
+          } catch (e) {
+            // Log the error but don't throw, return null instead
+            print('Error parsing user data: $e');
+            print('User payload: $userPayload');
+            return null;
+          }
+        }
+
+        // Don't throw FormatException, return null instead
+        print('Unable to extract user payload from response: $json');
+        return null;
       },
     );
   }
@@ -39,9 +51,9 @@ class AuthService extends BaseService {
   Future<ApiResponse<UsersAffiliatesDto?>> register(
     RequestUserRegistration request,
   ) async {
-    return postJson<UsersAffiliatesDto?>(
+    return post<UsersAffiliatesDto?>(
       '/auth/register',
-      request.toJson(),
+      body: request.toJson(),
       fromJson: (json) {
         if (json == null) {
           return null;
