@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/core/errors/exceptions.dart';
-import 'package:my_app/core/data/request/request_user_auth.dart';
+import 'package:my_app/core/data/request/user_auth_request.dart';
 
 import '../states/login_state.dart';
 import '../../domain/use_cases/perform_login_use_case.dart';
@@ -22,7 +22,7 @@ class LoginController extends StateNotifier<LoginState> {
   Future<bool?> login(String username, String password) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      final RequestUserAuth request =
+      final UserAuthRequest request =
           await _performLoginUseCase.execute(username, password);
 
       final session = await ref.read(authNotifierProvider.notifier).login(request);

@@ -1,4 +1,4 @@
-import '../../../../core/data/request/request_user_registration.dart';
+import '../../../../core/data/request/user_registration_request.dart';
 import '../../../../core/services/platform/device_info_service.dart';
 import '../../../../core/services/platform/network_service.dart';
 
@@ -10,7 +10,7 @@ class PerformRegistrationUseCase {
   /// Construye la RequestUserRegistration necesaria para realizar el registro.
   /// La ejecución del registro y la actualización de estado de sesión
   /// queda en la capa de presentación (AuthNotifier/Controller).
-  Future<RequestUserRegistration> execute({
+  Future<UserRegistrationRequest> execute({
     required String userName,
     required String password,
     required String confirmPassword,
@@ -36,7 +36,7 @@ class PerformRegistrationUseCase {
     );
 
     // 2. Crea y devuelve el objeto de la solicitud.
-    return RequestUserRegistration(
+    return UserRegistrationRequest(
       userName: userName.trim(),
       password: password,
       confirmPassword: confirmPassword,

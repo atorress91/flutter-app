@@ -1,4 +1,4 @@
-class RequestUserRegistration {
+class UserRegistrationRequest {
   final String userName;
   final String password;
   final String confirmPassword;
@@ -13,7 +13,7 @@ class RequestUserRegistration {
   final String? ipAddress;
   final String? operatingSystem;
 
-  RequestUserRegistration({
+  UserRegistrationRequest({
     required this.userName,
     required this.password,
     required this.confirmPassword,

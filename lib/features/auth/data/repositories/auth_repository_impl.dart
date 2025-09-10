@@ -1,5 +1,5 @@
-import 'package:my_app/core/data/request/request_user_auth.dart';
-import 'package:my_app/core/data/request/request_user_registration.dart';
+import 'package:my_app/core/data/request/user_auth_request.dart';
+import 'package:my_app/core/data/request/user_registration_request.dart';
 import 'package:my_app/core/errors/exceptions.dart';
 import 'package:my_app/core/services/api/auth_service.dart';
 import 'package:my_app/features/auth/data/mappers/user_mapper.dart';
@@ -12,7 +12,7 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._authService);
 
   @override
-  Future<User> login(RequestUserAuth request) async {
+  Future<User> login(UserAuthRequest request) async {
     final response = await _authService.login(request);
 
     if (response.success && response.data != null) {
@@ -25,7 +25,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<User> register(RequestUserRegistration request) async {
+  Future<User> register(UserRegistrationRequest request) async {
     final response = await _authService.register(request);
 
     if (response.success && response.data != null) {

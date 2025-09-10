@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:my_app/core/data/models/session_model.dart';
-import 'package:my_app/core/data/request/request_user_auth.dart';
-import 'package:my_app/core/data/request/request_user_registration.dart';
+import 'package:my_app/core/data/request/user_auth_request.dart';
+import 'package:my_app/core/data/request/user_registration_request.dart';
 import 'package:my_app/features/auth/domain/entities/user.dart';
 import 'package:my_app/features/auth/domain/repositories/auth_repository.dart';
 
@@ -34,7 +34,7 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
 
   User? get currentUser => state.value?.user;
 
-  Future<SessionModel> login(RequestUserAuth req) async {
+  Future<SessionModel> login(UserAuthRequest req) async {
     state = const AsyncLoading();
     final result = await AsyncValue.guard(() async {
       final user = await _repository.login(req);
@@ -51,7 +51,7 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
     return result.value!;
   }
 
-  Future<SessionModel> register(RequestUserRegistration req) async {
+  Future<SessionModel> register(UserRegistrationRequest req) async {
     state = const AsyncLoading();
     final result = await AsyncValue.guard(() async {
       final user = await _repository.register(req);

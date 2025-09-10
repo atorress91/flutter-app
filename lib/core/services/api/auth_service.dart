@@ -1,8 +1,8 @@
 import 'package:my_app/core/config/environments.dart';
 import 'package:my_app/core/data/dtos/users_affiliates_dto.dart';
 import 'package:my_app/core/data/models/api_response.dart';
-import 'package:my_app/core/data/request/request_user_auth.dart';
-import 'package:my_app/core/data/request/request_user_registration.dart';
+import 'package:my_app/core/data/request/user_auth_request.dart';
+import 'package:my_app/core/data/request/user_registration_request.dart';
 
 import 'base_service.dart';
 
@@ -10,7 +10,7 @@ class AuthService extends BaseService {
   AuthService({super.client}) : super(microservice: Microservice.account);
 
   Future<ApiResponse<UsersAffiliatesDto?>> login(
-      RequestUserAuth request,
+      UserAuthRequest request,
       ) async {
     return post<UsersAffiliatesDto?>(
       '/auth/login',
@@ -28,7 +28,7 @@ class AuthService extends BaseService {
   }
 
   Future<ApiResponse<UsersAffiliatesDto?>> register(
-      RequestUserRegistration request,
+      UserRegistrationRequest request,
       ) async {
     return post<UsersAffiliatesDto?>(
       '/auth/register',

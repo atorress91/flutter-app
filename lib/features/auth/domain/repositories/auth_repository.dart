@@ -1,9 +1,9 @@
-import '../../../../core/data/request/request_user_auth.dart';
-import '../../../../core/data/request/request_user_registration.dart';
+import '../../../../core/data/request/user_auth_request.dart';
+import '../../../../core/data/request/user_registration_request.dart';
 import '../entities/user.dart';
 
 abstract class AuthRepository {
-  Future<User> login(RequestUserAuth request);
-  Future<User> register(RequestUserRegistration request);
+  Future<User> login(UserAuthRequest request);
+  Future<User> register(UserRegistrationRequest request);
   Future<void> logout();
 }

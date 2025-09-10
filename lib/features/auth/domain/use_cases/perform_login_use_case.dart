@@ -1,4 +1,4 @@
-import '../../../../core/data/request/request_user_auth.dart';
+import '../../../../core/data/request/user_auth_request.dart';
 import '../../../../core/services/platform/device_info_service.dart';
 import '../../../../core/services/platform/network_service.dart';
 
@@ -10,7 +10,7 @@ class PerformLoginUseCase {
   /// Construye la RequestUserAuth necesaria para realizar el login.
   /// La ejecución del login y la actualización de estado de sesión
   /// queda en la capa de presentación (AuthNotifier/Controller).
-  Future<RequestUserAuth> execute(String username, String password) async {
+  Future<UserAuthRequest> execute(String username, String password) async {
     // 1. Orquesta la obtención de datos adicionales (info del dispositivo, IP).
     final futures = await Future.wait([
       DeviceInfoService.getDeviceInfo(),
@@ -25,7 +25,7 @@ class PerformLoginUseCase {
     );
 
     // 2. Crea y devuelve el objeto de la solicitud.
-    return RequestUserAuth(
+    return UserAuthRequest(
       userName: username.trim(),
       password: password,
       browserInfo: browserInfo,

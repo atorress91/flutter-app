@@ -1,11 +1,11 @@
-class RequestUserAuth {
+class UserAuthRequest {
   final String userName;
   final String password;
   final String? browserInfo;
   final String? ipAddress;
   final String? operatingSystem;
 
-  RequestUserAuth({
+  UserAuthRequest({
     required this.userName,
     required this.password,
     this.browserInfo,

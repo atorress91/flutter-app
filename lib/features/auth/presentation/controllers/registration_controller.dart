@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/core/errors/exceptions.dart';
-import 'package:my_app/core/data/request/request_user_registration.dart';
+import 'package:my_app/core/data/request/user_registration_request.dart';
 
 import '../states/registration_state.dart';
 import '../../domain/use_cases/perform_registration_use_case.dart';
@@ -63,7 +63,7 @@ class RegistrationController extends StateNotifier<RegistrationState> {
         return false;
       }
 
-      final RequestUserRegistration request =
+      final UserRegistrationRequest request =
           await _performRegistrationUseCase.execute(
         userName: userName,
         password: password,
