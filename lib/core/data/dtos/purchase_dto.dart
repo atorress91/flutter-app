@@ -1,6 +1,16 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'purchase_dto.g.dart';
+
+@JsonSerializable()
 class PurchaseDto {
+  @JsonKey(defaultValue: 0)
   final int year;
+
+  @JsonKey(defaultValue: 0)
   final int month;
+
+  @JsonKey(defaultValue: 0)
   final int totalPurchases;
 
   PurchaseDto({
@@ -9,17 +19,8 @@ class PurchaseDto {
     required this.totalPurchases,
   });
 
-  factory PurchaseDto.fromJson(Map<String, dynamic> json) {
-    return PurchaseDto(
-      year: json['year'] ?? 0,
-      month: json['month'] ?? 0,
-      totalPurchases: json['totalPurchases'] ?? 0,
-    );
-  }
+  factory PurchaseDto.fromJson(Map<String, dynamic> json) =>
+      _$PurchaseDtoFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-    'year': year,
-    'month': month,
-    'totalPurchases': totalPurchases,
-  };
+  Map<String, dynamic> toJson() => _$PurchaseDtoToJson(this);
 }

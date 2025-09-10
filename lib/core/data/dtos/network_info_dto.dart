@@ -1,7 +1,14 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:my_app/core/data/dtos/purchase_dto.dart';
 
+part 'network_info_dto.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class NetworkInfoDto {
+  @JsonKey(defaultValue: [])
   final List<PurchaseDto> currentYearPurchases;
+
+  @JsonKey(defaultValue: [])
   final List<PurchaseDto> previousYearPurchases;
 
   NetworkInfoDto({
@@ -9,27 +16,8 @@ class NetworkInfoDto {
     required this.previousYearPurchases,
   });
 
-  factory NetworkInfoDto.fromJson(Map<String, dynamic> json) {
-    return NetworkInfoDto(
-      currentYearPurchases:
-          (json['currentYearPurchases'] as List<dynamic>?)
-              ?.map((item) => PurchaseDto.fromJson(item))
-              .toList() ??
-          [],
-      previousYearPurchases:
-          (json['previousYearPurchases'] as List<dynamic>?)
-              ?.map((item) => PurchaseDto.fromJson(item))
-              .toList() ??
-          [],
-    );
-  }
+  factory NetworkInfoDto.fromJson(Map<String, dynamic> json) =>
+      _$NetworkInfoDtoFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-    'currentYearPurchases': currentYearPurchases
-        .map((item) => item.toJson())
-        .toList(),
-    'previousYearPurchases': previousYearPurchases
-        .map((item) => item.toJson())
-        .toList(),
-  };
+  Map<String, dynamic> toJson() => _$NetworkInfoDtoToJson(this);
 }

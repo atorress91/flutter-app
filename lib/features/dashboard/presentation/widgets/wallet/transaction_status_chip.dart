@@ -41,8 +41,6 @@ class TransactionStatusChip extends StatelessWidget {
         return _StatusVisual('Atendido', scheme.primary);
       case TransactionStatus.pendiente:
         return _StatusVisual('Pendiente', scheme.tertiary);
-      case TransactionStatus.fallido:
-        return _StatusVisual('Fallido', scheme.error);
     }
   }
 }

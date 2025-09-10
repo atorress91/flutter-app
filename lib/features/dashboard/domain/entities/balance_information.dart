@@ -26,26 +26,4 @@ class BalanceInformation extends Equatable {
     serviceBalance,
     bonusAmount,
   ];
-
-  factory BalanceInformation.fromJson(Map<String, dynamic> json) {
-    return BalanceInformation(
-      reverseBalance: (json['reverse_balance'] ?? 0).toDouble(),
-      totalAcquisitions: (json['total_acquisitions'] ?? 0).toDouble(),
-      availableBalance: (json['available_balance'] ?? 0).toDouble(),
-      totalCommissionsPaid: (json['total_commissions_paid'] ?? 0).toDouble(),
-      serviceBalance: (json['service_balance'] ?? 0).toDouble(),
-      bonusAmount: (json['bonus_amount'] ?? 0).toDouble(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'reverse_balance': reverseBalance,
-      'total_acquisitions': totalAcquisitions,
-      'available_balance': availableBalance,
-      'total_commissions_paid': totalCommissionsPaid,
-      'service_balance': serviceBalance,
-      'bonus_amount': bonusAmount,
-    };
-  }
 }

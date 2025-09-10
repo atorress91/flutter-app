@@ -1,19 +1,30 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'wallet_dto.g.dart';
+
+@JsonSerializable()
 class WalletDto {
-  int id;
-  int affiliateId;
-  String? affiliateUserName;
-  String? adminUserName;
-  int userId;
-  double credit;
-  double debit;
-  double? deferred;
-  bool status;
-  String? concept;
-  int? support;
-  DateTime date;
-  bool compression;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  final int id;
+  final int affiliateId;
+  final String? affiliateUserName;
+  final String? adminUserName;
+  final int userId;
+  final double credit;
+  final double debit;
+  final double? deferred;
+
+  @JsonKey(defaultValue: false)
+  final bool status;
+
+  final String? concept;
+  final int? support;
+  final DateTime date;
+
+  @_IntBoolConverter()
+  final bool compression;
+
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   WalletDto({
     required this.id,
@@ -33,42 +44,18 @@ class WalletDto {
     this.updatedAt,
   });
 
+  factory WalletDto.fromJson(Map<String, dynamic> json) =>
+      _$WalletDtoFromJson(json);
 
-  factory WalletDto.fromJson(Map<String, dynamic> json) {
-    return WalletDto(
-      id: json['id'] as int,
-      affiliateId: json['affiliateId'] as int,
-      affiliateUserName: json['affiliateUserName'] as String?,
-      adminUserName: json['adminUserName'] as String?,
-      userId: json['userId'] as int,
-      credit: (json['credit'] as num).toDouble(),
-      debit: (json['debit'] as num).toDouble(),
-      deferred: json['deferred'] != null ? (json['deferred'] as num).toDouble() : null,
-      status: (json['status'] ?? false),
-      concept: json['concept'] as String?,
-      support: json['support'] as int?,
-      date: DateTime.parse(json['date'] as String),
-      compression: (json['compression'] ?? 0) == 1,
-      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt'] as String) : null,
-      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt'] as String) : null,
-    );
-  }
+  Map<String, dynamic> toJson() => _$WalletDtoToJson(this);
+}
 
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'affiliateId': affiliateId,
-    'affiliateUserName': affiliateUserName,
-    'adminUserName': adminUserName,
-    'userId': userId,
-    'credit': credit,
-    'debit': debit,
-    'deferred': deferred,
-    'status': status,
-    'concept': concept,
-    'support': support,
-    'date': date.toIso8601String(),
-    'compression': compression ? 1 : 0,
-    'createdAt': createdAt?.toIso8601String(),
-    'updatedAt': updatedAt?.toIso8601String(),
-  };
+class _IntBoolConverter implements JsonConverter<bool, int> {
+  const _IntBoolConverter();
+
+  @override
+  bool fromJson(int json) => json == 1;
+
+  @override
+  int toJson(bool object) => object ? 1 : 0;
 }

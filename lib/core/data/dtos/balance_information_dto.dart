@@ -1,9 +1,25 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'balance_information_dto.g.dart';
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class BalanceInformationDto {
+  @JsonKey(defaultValue: 0)
   final double reverseBalance;
+
+  @JsonKey(defaultValue: 0)
   final double totalAcquisitions;
+
+  @JsonKey(defaultValue: 0)
   final double availableBalance;
+
+  @JsonKey(defaultValue: 0)
   final double totalCommissionsPaid;
+
+  @JsonKey(defaultValue: 0)
   final double serviceBalance;
+
+  @JsonKey(defaultValue: 0)
   final double bonusAmount;
 
   BalanceInformationDto({
@@ -15,23 +31,8 @@ class BalanceInformationDto {
     required this.bonusAmount,
   });
 
-  factory BalanceInformationDto.fromJson(Map<String, dynamic> json) {
-    return BalanceInformationDto(
-      reverseBalance: (json['reverseBalance'] ?? 0).toDouble(),
-      totalAcquisitions: (json['totalAcquisitions'] ?? 0).toDouble(),
-      availableBalance: (json['availableBalance'] ?? 0).toDouble(),
-      totalCommissionsPaid: (json['totalCommissionsPaid'] ?? 0).toDouble(),
-      serviceBalance: (json['serviceBalance'] ?? 0).toDouble(),
-      bonusAmount: (json['bonusAmount'] ?? 0).toDouble(),
-    );
-  }
+  factory BalanceInformationDto.fromJson(Map<String, dynamic> json) =>
+      _$BalanceInformationDtoFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-    'reverse_balance': reverseBalance,
-    'total_acquisitions': totalAcquisitions,
-    'available_balance': availableBalance,
-    'total_commissions_paid': totalCommissionsPaid,
-    'service_balance': serviceBalance,
-    'bonus_amount': bonusAmount,
-  };
+  Map<String, dynamic> toJson() => _$BalanceInformationDtoToJson(this);
 }

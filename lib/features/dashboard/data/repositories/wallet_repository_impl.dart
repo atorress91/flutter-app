@@ -1,5 +1,6 @@
 import 'package:my_app/core/errors/exceptions.dart';
 import 'package:my_app/core/services/api/wallet_service.dart';
+import 'package:my_app/features/dashboard/data/mappers/transaction_mapper.dart';
 import 'package:my_app/features/dashboard/domain/entities/transaction.dart';
 import 'package:my_app/features/dashboard/domain/repositories/wallet_repository.dart';
 
@@ -13,7 +14,7 @@ class WalletRepositoryImpl implements WalletRepository {
     final response = await _walletService.getWalletByAffiliateId(userId);
 
     if (response.success && response.data != null) {
-      return response.data!.map((dto) => Transaction.fromDto(dto)).toList();
+      return response.data!.map((dto) => TransactionMapper.fromDto(dto)).toList();
     } else {
       throw ApiException(
         response.message ?? 'Error al obtener las transacciones de la billetera',

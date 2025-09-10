@@ -1,9 +1,23 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'users_affiliates_dto.g.dart';
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class UsersAffiliatesDto {
   final int id;
+
+  @JsonKey(defaultValue: '')
   final String userName;
+
+  @JsonKey(defaultValue: '')
   final String email;
+
+  @JsonKey(defaultValue: 0)
   final int isAffiliate;
+
+  @_IntBoolConverter()
   final bool status;
+
   final String? name;
   final String? lastName;
   final String? imageProfileUrl;
@@ -21,29 +35,18 @@ class UsersAffiliatesDto {
     required this.createdAt,
   });
 
-  factory UsersAffiliatesDto.fromJson(Map<String, dynamic> json) {
-    return UsersAffiliatesDto(
-      id: json['id'] as int,
-      userName: (json['user_name'] ?? '') as String,
-      email: (json['email'] ?? '') as String,
-      isAffiliate: (json['is_affiliate'] ?? 0) as int,
-      status: (json['status'] ?? 0) == 1,
-      name: json['name'] as String?,
-      lastName: json['last_name'] as String?,
-      imageProfileUrl: json['image_profile_url'] as String?,
-      createdAt: DateTime.parse(json['created_at'] as String),
-    );
-  }
+  factory UsersAffiliatesDto.fromJson(Map<String, dynamic> json) =>
+      _$UsersAffiliatesDtoFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'user_name': userName,
-    'email': email,
-    'is_affiliate': isAffiliate,
-    'status': status,
-    'name': name,
-    'last_name': lastName,
-    'image_profile_url': imageProfileUrl,
-    'created_at': createdAt.toIso8601String(),
-  };
+  Map<String, dynamic> toJson() => _$UsersAffiliatesDtoToJson(this);
+}
+
+class _IntBoolConverter implements JsonConverter<bool, int> {
+  const _IntBoolConverter();
+
+  @override
+  bool fromJson(int json) => json == 1;
+
+  @override
+  int toJson(bool object) => object ? 1 : 0;
 }

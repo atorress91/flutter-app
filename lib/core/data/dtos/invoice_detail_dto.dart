@@ -1,29 +1,68 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'invoice_detail_dto.g.dart';
+
+@JsonSerializable()
 class InvoiceDetailDto {
-  int id;
-  int invoiceId;
-  int productId;
-  int paymentGroupId;
-  bool accumMinPurchase;
-  String? productName;
-  double productPrice;
-  double productPriceBtc;
-  double? productIva;
-  int productQuantity;
-  double? productCommissionable;
-  double binaryPoints;
-  int? productPoints;
-  double productDiscount;
-  DateTime? date;
-  int combinationId;
-  bool productPack;
-  double? baseAmount;
-  double? dailyPercentage;
-  int? waitingDays;
-  int daysToPayQuantity;
-  bool productStart;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  DateTime? deletedAt;
+  @JsonKey(defaultValue: 0)
+  final int id;
+
+  @JsonKey(defaultValue: 0)
+  final int invoiceId;
+
+  @JsonKey(defaultValue: 0)
+  final int productId;
+
+  @JsonKey(defaultValue: 0)
+  final int paymentGroupId;
+
+  @JsonKey(defaultValue: false)
+  final bool accumMinPurchase;
+
+  final String? productName;
+
+  @JsonKey(defaultValue: 0.0)
+  final double productPrice;
+
+  @JsonKey(defaultValue: 0.0)
+  final double productPriceBtc;
+
+  final double? productIva;
+
+  @JsonKey(defaultValue: 0)
+  final int productQuantity;
+
+  final double? productCommissionable;
+
+  @JsonKey(defaultValue: 0.0)
+  final double binaryPoints;
+
+  final int? productPoints;
+
+  @JsonKey(defaultValue: 0.0)
+  final double productDiscount;
+
+  final DateTime? date;
+
+  @JsonKey(defaultValue: 0)
+  final int combinationId;
+
+  @JsonKey(defaultValue: false)
+  final bool productPack;
+
+  final double? baseAmount;
+  final double? dailyPercentage;
+  final int? waitingDays;
+
+  @JsonKey(defaultValue: 0)
+  final int daysToPayQuantity;
+
+  @JsonKey(defaultValue: false)
+  final bool productStart;
+
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final DateTime? deletedAt;
 
   InvoiceDetailDto({
     required this.id,
@@ -53,63 +92,8 @@ class InvoiceDetailDto {
     this.deletedAt,
   });
 
-  factory InvoiceDetailDto.fromJson(Map<String, dynamic> json) {
-    return InvoiceDetailDto(
-      id: json['id'] ?? 0,
-      invoiceId: json['invoiceId'] ?? 0,
-      productId: json['productId'] ?? 0,
-      paymentGroupId: json['paymentGroupId'] ?? 0,
-      accumMinPurchase: json['accumMinPurchase'] ?? false,
-      productName: json['productName'],
-      productPrice: (json['productPrice'] ?? 0).toDouble(),
-      productPriceBtc: (json['productPriceBtc'] ?? 0).toDouble(),
-      productIva: json['productIva']?.toDouble(),
-      productQuantity: json['productQuantity'] ?? 0,
-      productCommissionable: json['productCommissionable']?.toDouble(),
-      binaryPoints: (json['binaryPoints'] ?? 0).toDouble(),
-      productPoints: json['productPoints'],
-      productDiscount: (json['productDiscount'] ?? 0).toDouble(),
-      date: json['date'] != null ? DateTime.parse(json['date']) : null,
-      combinationId: json['combinationId'] ?? 0,
-      productPack: json['productPack'] ?? false,
-      baseAmount: json['baseAmount']?.toDouble(),
-      dailyPercentage: json['dailyPercentage']?.toDouble(),
-      waitingDays: json['waitingDays'],
-      daysToPayQuantity: json['daysToPayQuantity'] ?? 0,
-      productStart: json['productStart'] ?? false,
-      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
-      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
-      deletedAt: json['deletedAt'] != null ? DateTime.parse(json['deletedAt']) : null,
-    );
-  }
+  factory InvoiceDetailDto.fromJson(Map<String, dynamic> json) =>
+      _$InvoiceDetailDtoFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'invoiceId': invoiceId,
-      'productId': productId,
-      'paymentGroupId': paymentGroupId,
-      'accumMinPurchase': accumMinPurchase,
-      'productName': productName,
-      'productPrice': productPrice,
-      'productPriceBtc': productPriceBtc,
-      'productIva': productIva,
-      'productQuantity': productQuantity,
-      'productCommissionable': productCommissionable,
-      'binaryPoints': binaryPoints,
-      'productPoints': productPoints,
-      'productDiscount': productDiscount,
-      'date': date?.toIso8601String(),
-      'combinationId': combinationId,
-      'productPack': productPack,
-      'baseAmount': baseAmount,
-      'dailyPercentage': dailyPercentage,
-      'waitingDays': waitingDays,
-      'daysToPayQuantity': daysToPayQuantity,
-      'productStart': productStart,
-      'createdAt': createdAt?.toIso8601String(),
-      'updatedAt': updatedAt?.toIso8601String(),
-      'deletedAt': deletedAt?.toIso8601String(),
-    };
-  }
+  Map<String, dynamic> toJson() => _$InvoiceDetailDtoToJson(this);
 }

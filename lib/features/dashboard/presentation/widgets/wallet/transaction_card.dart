@@ -19,8 +19,6 @@ class TransactionCard extends StatelessWidget {
         return Icons.check_circle_outline;
       case TransactionStatus.pendiente:
         return Icons.hourglass_top_outlined;
-      case TransactionStatus.fallido:
-        return Icons.cancel_outlined;
     }
   }
 
@@ -30,8 +28,6 @@ class TransactionCard extends StatelessWidget {
         return Colors.green.shade600;
       case TransactionStatus.pendiente:
         return Colors.orange.shade700;
-      case TransactionStatus.fallido:
-        return Theme.of(context).colorScheme.error;
     }
   }
 
