@@ -16,9 +16,11 @@ class AffiliateService extends BaseService {
           return null;
         }
 
+        final jsonMap = json as Map<String, dynamic>?;
+        
         final userPayload =
-            (json as Map<String, dynamic>?)?['affiliate'] ??
-                json?['user'] ??
+            jsonMap?['affiliate'] ??
+                jsonMap?['user'] ??
                 json;
 
         if (userPayload is Map<String, dynamic>) {

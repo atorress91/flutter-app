@@ -4,21 +4,26 @@ import 'package:http/http.dart' as http;
 import 'package:my_app/core/config/environments.dart';
 import 'package:my_app/core/data/models/api_response.dart';
 
+/// Tipo de función para parsear respuestas JSON
+typedef JsonParser<T> = T Function(Object? json);
+
 abstract class BaseService {
   final http.Client client;
   final Microservice microservice;
 
-  BaseService({http.Client? client, required this.microservice})
-    : client = client ?? http.Client();
+  BaseService({
+    http.Client? client,
+    required this.microservice,
+  }) : client = client ?? http.Client();
 
   String get baseUrl => Environment.baseUrlFor(microservice);
 
-  /// Construye URIs garantizando que no haya doble slash.
+  /// Construye URIs garantizando que no haya doble slash
   Uri buildUri(
-    String path, {
-    Map<String, String>? query,
-    Microservice? service,
-  }) {
+      String path, {
+        Map<String, String>? query,
+        Microservice? service,
+      }) {
     final base = Environment.baseUrlFor(service ?? microservice);
     final normalizedBase = base.endsWith('/')
         ? base.substring(0, base.length - 1)
@@ -28,7 +33,7 @@ abstract class BaseService {
     return query == null ? uri : uri.replace(queryParameters: query);
   }
 
-  /// Headers por defecto, incluye X-Client-Id y Authorization por microservicio.
+  /// Headers por defecto con autenticación por microservicio
   Map<String, String> defaultHeaders([Map<String, String>? extra]) {
     final key = Environment.serviceKeyFor(microservice);
     return {
@@ -39,104 +44,55 @@ abstract class BaseService {
     };
   }
 
-  Future<ApiResponse<T?>> _handleResponse<T>(
+  Future<ApiResponse<T?>> _handleRequest<T>(
       Future<http.Response> Function() request, {
-        required T Function(dynamic json) fromJson,
+        required JsonParser<T?> fromJson,
+        String dataKey = 'data',
+        bool defaultSuccess = true,
       }) async {
     try {
       final response = await request();
-      // 1. Decodifica el JSON sin forzar un tipo específico
-      final dynamic decodedBody = jsonDecode(response.body);
 
-      final Map<String, dynamic> envelope;
-      bool success = true;
-
-      // 2. Comprueba si la respuesta es un objeto Map o una lista
-      if (decodedBody is Map<String, dynamic>) {
-        envelope = decodedBody;
-        success = envelope['success'] is bool ? envelope['success'] as bool : true;
-      } else {
-        // 3. Si es una lista, la envuelve en un mapa sintético para mantener la consistencia
-        envelope = {'success': true, 'data': decodedBody};
-      }
-
-      if (!success) {
+      // Verificar errores del servidor primero
+      if (response.statusCode >= 500) {
         return ApiResponse<T?>(
           success: false,
-          message: envelope['message']?.toString() ?? 'La solicitud a la API falló.',
           statusCode: response.statusCode,
+          message: 'Error del servidor. Por favor, intenta más tarde.',
           data: null,
         );
       }
 
-      final apiResponse = ApiResponse.fromEnvelope(
+      // Decodificar el body
+      final dynamic decodedBody = _decodeBody(response.body);
+
+      // Normalizar la respuesta a un envelope consistente
+      final envelope = _normalizeResponse(decodedBody);
+
+      // Usar ApiResponse.fromEnvelope para crear la respuesta
+      return ApiResponse.fromEnvelope(
         envelope: envelope,
         parseData: fromJson,
+        dataKey: dataKey,
+        defaultSuccess: defaultSuccess,
         statusCode: response.statusCode,
       );
 
-      return ApiResponse<T?>(
-        success: apiResponse.success,
-        message: apiResponse.message,
-        statusCode: apiResponse.statusCode,
-        data: apiResponse.data,
-      );
-    } catch (e) {
-      return ApiResponse<T?>(
-        success: false,
-        message: 'Error al procesar la respuesta: $e',
-        data: null,
-      );
-    }
-  }
-  
-  Future<ApiResponse<T?>> _handleRequest<T>(
-      Future<http.Response> Function() request,
-      T Function(dynamic json) fromJson,
-      ) async {
-    try {
-      final response = await request();
-      final dynamic jsonBody = jsonDecode(response.body);
-
-      if (response.statusCode >= 200 && response.statusCode < 300) {
-        // Petición exitosa
-        final T data = fromJson(jsonBody);
-        return ApiResponse<T?>(
-          success: true,
-          message: null,
-          statusCode: response.statusCode,
-          data: data,
-        );
-      } else {
-        // Error manejado por la API (ej. 400, 404, 500)
-        final String errorMessage = (jsonBody is Map && jsonBody['message'] != null)
-            ? jsonBody['message'].toString()
-            : 'Error desconocido';
-        return ApiResponse<T?>(
-          success: false,
-          message: errorMessage,
-          statusCode: response.statusCode,
-          data: null,
-        );
-      }
     } on SocketException {
-      // Error de conexión
       return ApiResponse<T?>(
         success: false,
-        statusCode: 503, // Service Unavailable
+        statusCode: 503,
         message: 'No se pudo conectar al servidor. Revisa tu conexión a internet.',
         data: null,
       );
-    } on FormatException {
-      // Error si la respuesta no es un JSON válido
+    } on FormatException catch (e) {
       return ApiResponse<T?>(
         success: false,
-        statusCode: 500, // Internal Server Error
-        message: 'Respuesta inválida del servidor.',
+        statusCode: 500,
+        message: 'Respuesta inválida del servidor: ${e.message}',
         data: null,
       );
     } catch (e) {
-      // Cualquier otro error inesperado
       return ApiResponse<T?>(
         success: false,
         statusCode: 500,
@@ -146,67 +102,127 @@ abstract class BaseService {
     }
   }
 
+  /// Decodifica el body de la respuesta
+  dynamic _decodeBody(String body) {
+    if (body.isEmpty) {
+      return <String, dynamic>{};
+    }
+    return jsonDecode(body);
+  }
+
+  /// Normaliza la respuesta a un formato consistente de envelope
+  Map<String, dynamic> _normalizeResponse(dynamic decodedBody) {
+    if (decodedBody is Map<String, dynamic>) {
+      return decodedBody;
+    } else if (decodedBody is List) {
+      // Si es una lista, la envuelve en un envelope sintético
+      return {
+        'success': true,
+        'data': decodedBody,
+      };
+    } else {
+      // Para otros tipos primitivos
+      return {
+        'success': true,
+        'data': decodedBody,
+      };
+    }
+  }
+
+  /// Ejecuta una petición GET
   Future<ApiResponse<T?>> get<T>(
-    String path, {
-    required T Function(dynamic json) fromJson,
-    Map<String, String>? headers,
-    Map<String, String>? query,
-    Microservice? service,
-  }) {
-    return _handleResponse<T>(
-      () => client.get(
+      String path, {
+        required JsonParser<T?> fromJson,
+        Map<String, String>? headers,
+        Map<String, String>? query,
+        Microservice? service,
+        String dataKey = 'data',
+      }) {
+    return _handleRequest<T>(
+          () => client.get(
         buildUri(path, query: query, service: service),
         headers: defaultHeaders(headers),
       ),
       fromJson: fromJson,
+      dataKey: dataKey,
     );
   }
 
+  /// Ejecuta una petición POST
   Future<ApiResponse<T?>> post<T>(
       String endpoint, {
         Object? body,
-        required T Function(dynamic json) fromJson,
-      }) async {
-    return _handleRequest(
-      () => client.post(
+        required JsonParser<T?> fromJson,
+        Map<String, String>? headers,
+        String dataKey = 'data',
+      }) {
+    return _handleRequest<T>(
+          () => client.post(
         buildUri(endpoint),
-        headers: defaultHeaders(),
-        body: body != null ? json.encode(body) : null,
+        headers: defaultHeaders(headers),
+        body: body != null ? jsonEncode(body) : null,
       ),
-      fromJson,
+      fromJson: fromJson,
+      dataKey: dataKey,
     );
   }
 
+  /// Ejecuta una petición PUT
   Future<ApiResponse<T?>> put<T>(
       String endpoint, {
         Object? body,
-        required T Function(dynamic json) fromJson,
-      }) async {
-    return _handleRequest(
-      () => client.put(
+        required JsonParser<T?> fromJson,
+        Map<String, String>? headers,
+        String dataKey = 'data',
+      }) {
+    return _handleRequest<T>(
+          () => client.put(
         buildUri(endpoint),
-        headers: defaultHeaders(),
-        body: body != null ? json.encode(body) : null,
+        headers: defaultHeaders(headers),
+        body: body != null ? jsonEncode(body) : null,
       ),
-      fromJson,
+      fromJson: fromJson,
+      dataKey: dataKey,
     );
   }
 
+  /// Ejecuta una petición DELETE
   Future<ApiResponse<T?>> delete<T>(
-    String path, {
-    required T Function(dynamic json) fromJson,
-    Object? body,
-    Map<String, String>? headers,
-    Map<String, String>? query,
-    Microservice? service,
-  }) {
-    return _handleResponse<T>(
-      () => client.delete(
+      String path, {
+        required JsonParser<T?> fromJson,
+        Object? body,
+        Map<String, String>? headers,
+        Map<String, String>? query,
+        Microservice? service,
+        String dataKey = 'data',
+      }) {
+    return _handleRequest<T>(
+          () => client.delete(
         buildUri(path, query: query, service: service),
         headers: defaultHeaders(headers),
         body: body != null ? jsonEncode(body) : null,
       ),
       fromJson: fromJson,
+      dataKey: dataKey,
+    );
+  }
+
+  /// Ejecuta una petición PATCH
+  Future<ApiResponse<T?>> patch<T>(
+      String endpoint, {
+        Object? body,
+        required JsonParser<T?> fromJson,
+        Map<String, String>? headers,
+        String dataKey = 'data',
+      }) {
+    return _handleRequest<T>(
+          () => client.patch(
+        buildUri(endpoint),
+        headers: defaultHeaders(headers),
+        body: body != null ? jsonEncode(body) : null,
+      ),
+      fromJson: fromJson,
+      dataKey: dataKey,
     );
   }
 }

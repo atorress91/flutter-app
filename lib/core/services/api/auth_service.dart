@@ -10,68 +10,34 @@ class AuthService extends BaseService {
   AuthService({super.client}) : super(microservice: Microservice.account);
 
   Future<ApiResponse<UsersAffiliatesDto?>> login(
-    RequestUserAuth request,
-  ) async {
+      RequestUserAuth request,
+      ) async {
     return post<UsersAffiliatesDto?>(
       '/auth/login',
       body: request.toJson(),
       fromJson: (json) {
-        if (json == null) {
-          return null;
-        }
+        if (json == null) return null;
 
-        // Handle different response formats more gracefully
-        Map<String, dynamic>? userPayload;
-        
-        if (json is Map<String, dynamic>) {
-          // Try to extract user data from different possible structures
-          userPayload = json['affiliate'] as Map<String, dynamic>? ??
-                       json['user'] as Map<String, dynamic>? ??
-                       json;
-        }
+        final userData = (json as Map<String, dynamic>?) ?? {};
 
-        if (userPayload != null && userPayload is Map<String, dynamic>) {
-          try {
-            return UsersAffiliatesDto.fromJson(userPayload);
-          } catch (e) {
-            // Log the error but don't throw, return null instead
-            print('Error parsing user data: $e');
-            print('User payload: $userPayload');
-            return null;
-          }
-        }
-
-        // Don't throw FormatException, return null instead
-        print('Unable to extract user payload from response: $json');
-        return null;
+        return UsersAffiliatesDto.fromJson(userData);
       },
+
+      dataKey: 'data',
     );
   }
 
   Future<ApiResponse<UsersAffiliatesDto?>> register(
-    RequestUserRegistration request,
-  ) async {
+      RequestUserRegistration request,
+      ) async {
     return post<UsersAffiliatesDto?>(
       '/auth/register',
       body: request.toJson(),
       fromJson: (json) {
-        if (json == null) {
-          return null;
-        }
-
-        final userPayload =
-            (json as Map<String, dynamic>?)?['affiliate'] ??
-            json?['user'] ??
-            json;
-
-        if (userPayload is Map<String, dynamic>) {
-          return UsersAffiliatesDto.fromJson(userPayload);
-        }
-
-        throw const FormatException(
-          'Payload de usuario no encontrado en la respuesta.',
-        );
+        if (json == null) return null;
+        return UsersAffiliatesDto.fromJson(json as Map<String, dynamic>);
       },
+      dataKey: 'affiliate',
     );
   }
 }
