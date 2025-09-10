@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+
 part 'update_affiliate_request.g.dart';
 
 @JsonSerializable()
@@ -41,15 +42,13 @@ class UpdateAffiliateRequest {
   @JsonKey(name: 'beneficiary_name')
   final String? beneficiaryName;
 
-  // Nota: Habían dos propiedades con nombres similares, se unificaron
-  // en el atributo JSON 'legal_authorize_first'
   @JsonKey(name: 'legal_authorize_first')
   final String? legalAuthorizeFirst;
 
   @JsonKey(name: 'legal_authorize_second')
   final String? legalAuthorizeSecond;
 
-  final int? status; // byte en C# se representa como int en Dart
+  final int? status;
 
   @JsonKey(name: 'affiliate_type')
   final String? affiliateType;
@@ -93,12 +92,8 @@ class UpdateAffiliateRequest {
     this.beneficiaryPhone,
   });
 
-  /// Conecta el constructor `_$$RequestUpdateAffiliateFromJson` generado
-  /// al constructor `fromJson`.
   factory UpdateAffiliateRequest.fromJson(Map<String, dynamic> json) =>
       _$UpdateAffiliateRequestFromJson(json);
 
-  /// Conecta el método `_$RequestUpdateAffiliateToJson` generado
-  /// al método `toJson`.
   Map<String, dynamic> toJson() => _$UpdateAffiliateRequestToJson(this);
 }

@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'user_auth_request.g.dart';
+
+@JsonSerializable(includeIfNull: false)
 class UserAuthRequest {
   final String userName;
   final String password;
@@ -13,13 +18,8 @@ class UserAuthRequest {
     this.operatingSystem,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'userName': userName,
-      'password': password,
-      if (browserInfo != null) 'browserInfo': browserInfo,
-      if (ipAddress != null) 'ipAddress': ipAddress,
-      if (operatingSystem != null) 'operatingSystem': operatingSystem,
-    };
-  }
+  factory UserAuthRequest.fromJson(Map<String, dynamic> json) =>
+      _$UserAuthRequestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserAuthRequestToJson(this);
 }

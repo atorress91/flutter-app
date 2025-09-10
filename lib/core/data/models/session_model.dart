@@ -1,4 +1,4 @@
-import '../../../features/auth/domain/entities/user.dart';
+import 'package:my_app/features/auth/domain/entities/user.dart';
 
 class SessionModel {
   final User user;
