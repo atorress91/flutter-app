@@ -43,12 +43,6 @@ class StatusChip extends StatelessWidget {
           color: Colors.green.shade700,
           icon: Icons.check_circle_outline,
         );
-      case PurchaseStatus.procesando:
-        return _StatusConfig(
-          label: 'Procesando',
-          color: Colors.orange.shade700,
-          icon: Icons.hourglass_top_outlined,
-        );
       case PurchaseStatus.devuelto:
         return _StatusConfig(
           label: 'Devuelto',

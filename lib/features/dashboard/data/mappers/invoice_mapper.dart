@@ -7,14 +7,10 @@ class InvoiceMapper {
     return Purchase(
       invoiceNo: invoice.id.toString(),
       date: invoice.createdAt ?? DateTime.now(),
-      model: invoice.invoicesDetails.isNotEmpty
-          ? invoice.invoicesDetails.first.productName ?? 'N/A'
-          : 'N/A',
+      model: invoice.invoicesDetails.isNotEmpty ? invoice.invoicesDetails.first.productName ?? 'N/A' : 'N/A',
       details: invoice.paymentMethod ?? 'N/A',
       amount: invoice.totalInvoice ?? 0.0,
-      status: invoice.status == true
-          ? PurchaseStatus.completado
-          : PurchaseStatus.devuelto,
+      status: invoice.status == true ? PurchaseStatus.completado : PurchaseStatus.devuelto,
     );
   }
 }
