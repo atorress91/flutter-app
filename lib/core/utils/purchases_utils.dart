@@ -18,7 +18,7 @@ class PurchasesUtils {
   static double calculateLast30DaysExpense(List<Purchase> invoices) {
     final thirtyDaysAgo = DateTime.now().subtract(const Duration(days: 30));
     return invoices
-        .where((i) => i.date.isAfter(thirtyDaysAgo))
+        .where((i) => i.createdAt.isAfter(thirtyDaysAgo))
         .fold(0.0, (sum, item) => sum + item.amount);
   }
 }
