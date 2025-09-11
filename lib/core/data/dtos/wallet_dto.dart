@@ -20,7 +20,7 @@ class WalletDto {
   final int? support;
   final DateTime date;
 
-  @_IntBoolConverter()
+  @JsonKey(defaultValue: false)
   final bool compression;
 
   final DateTime? createdAt;
@@ -48,14 +48,4 @@ class WalletDto {
       _$WalletDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$WalletDtoToJson(this);
-}
-
-class _IntBoolConverter implements JsonConverter<bool, int> {
-  const _IntBoolConverter();
-
-  @override
-  bool fromJson(int json) => json == 1;
-
-  @override
-  int toJson(bool object) => object ? 1 : 0;
 }

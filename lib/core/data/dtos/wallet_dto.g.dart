@@ -19,9 +19,7 @@ WalletDto _$WalletDtoFromJson(Map<String, dynamic> json) => WalletDto(
   concept: json['concept'] as String?,
   support: (json['support'] as num?)?.toInt(),
   date: DateTime.parse(json['date'] as String),
-  compression: const _IntBoolConverter().fromJson(
-    (json['compression'] as num).toInt(),
-  ),
+  compression: json['compression'] as bool? ?? false,
   createdAt: json['createdAt'] == null
       ? null
       : DateTime.parse(json['createdAt'] as String),
@@ -43,7 +41,7 @@ Map<String, dynamic> _$WalletDtoToJson(WalletDto instance) => <String, dynamic>{
   'concept': instance.concept,
   'support': instance.support,
   'date': instance.date.toIso8601String(),
-  'compression': const _IntBoolConverter().toJson(instance.compression),
+  'compression': instance.compression,
   'createdAt': instance.createdAt?.toIso8601String(),
   'updatedAt': instance.updatedAt?.toIso8601String(),
 };
