@@ -54,7 +54,7 @@ class InvoiceDto {
   final String? name;
   final String? lastName;
 
-  @JsonKey(name: 'details', defaultValue: [])
+  @JsonKey(name: 'invoicesDetails', defaultValue: [])
   final List<InvoiceDetailDto> invoicesDetails;
 
   InvoiceDto({
