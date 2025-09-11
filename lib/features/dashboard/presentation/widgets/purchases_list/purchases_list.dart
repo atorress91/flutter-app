@@ -14,15 +14,17 @@ class PurchasesList extends StatelessWidget {
       return const NoResultsWidget();
     }
 
-    return Column(
-      children: invoices
-          .map(
-            (invoice) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-              child: PurchaseCard(purchase: invoice),
-            ),
-          )
-          .toList(),
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: invoices.length,
+      itemBuilder: (context, index) {
+        final invoice = invoices[index];
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+          child: PurchaseCard(purchase: invoice),
+        );
+      },
     );
   }
 }
