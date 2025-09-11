@@ -4,22 +4,22 @@ part 'balance_information_dto.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class BalanceInformationDto {
-  @JsonKey(defaultValue: 0)
+  @JsonKey(name: 'reverseBalance',defaultValue: 0)
   final double reverseBalance;
 
-  @JsonKey(defaultValue: 0)
+  @JsonKey(name: 'totalAcquisitions',defaultValue: 0)
   final double totalAcquisitions;
 
-  @JsonKey(defaultValue: 0)
+  @JsonKey(name: 'availableBalance',defaultValue: 0)
   final double availableBalance;
 
-  @JsonKey(defaultValue: 0)
+  @JsonKey(name:'totalCommissionsPaid',defaultValue: 0)
   final double totalCommissionsPaid;
 
-  @JsonKey(defaultValue: 0)
+  @JsonKey(name:'serviceBalance',defaultValue: 0)
   final double serviceBalance;
 
-  @JsonKey(defaultValue: 0)
+  @JsonKey(name:'bonusAmount',defaultValue: 0)
   final double bonusAmount;
 
   BalanceInformationDto({
