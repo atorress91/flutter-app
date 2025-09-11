@@ -29,34 +29,16 @@ class PurchaseCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () => _onCardTapped(context),
+        splashColor: colorScheme.primary.withAlpha((255 * 0.1).toInt()),
+        highlightColor: Colors.transparent,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '#${purchase.invoiceNo}',
-                    style: textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: colorScheme.primary,
-                    ),
-                  ),
-                  Text(
-                    DateFormatter.long(purchase.createdAt),
-                    style: textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
-              ),
-              const Divider(height: 24),
-
-              // --- SECCIÓN DE DETALLES REFACTORIZADA ---
+              _buildHeader(context),
+              const Divider(height: 32, thickness: 0.5),
               _buildDetailsSection(context, purchase.details),
-
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,7 +61,45 @@ class PurchaseCard extends StatelessWidget {
     );
   }
 
-  /// NUEVO WIDGET para construir la sección de detalles
+  Widget _buildHeader(BuildContext context) {
+    final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          '#${purchase.invoiceNo}',
+          style: textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: colorScheme.primary,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Chip(
+          label: Text(purchase.paymentMethod),
+          labelStyle: textTheme.bodySmall?.copyWith(
+            color: colorScheme.onSecondaryContainer,
+          ),
+          backgroundColor: colorScheme.secondaryContainer.withAlpha(
+            (255 * 0.5).toInt(),
+          ),
+          side: BorderSide.none,
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          visualDensity: VisualDensity.compact,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+        const Spacer(),
+        Text(
+          DateFormatter.ddMMyyyy(purchase.createdAt),
+          style: textTheme.bodySmall?.copyWith(
+            color: colorScheme.onSurfaceVariant,
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildDetailsSection(
     BuildContext context,
     List<InvoiceDetail> details,
@@ -88,32 +108,54 @@ class PurchaseCard extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     if (details.isEmpty) {
-      return Text(
-        'Sin detalles disponibles',
-        style: textTheme.bodyMedium?.copyWith(
-          color: colorScheme.onSurfaceVariant,
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Text(
+          'Sin detalles disponibles',
+          style: textTheme.bodyMedium?.copyWith(
+            color: colorScheme.onSurfaceVariant.withAlpha((255 * 0.7).toInt()),
+          ),
         ),
       );
     }
 
-    // Usamos Wrap para que los chips se ajusten si no caben en una línea
-    return Wrap(
-      spacing: 8.0, // Espacio horizontal entre chips
-      runSpacing: 4.0, // Espacio vertical si hay varias líneas
-      children: details.map((detail) {
-        return Chip(
-          avatar: CircleAvatar(
-            backgroundColor: colorScheme.primary,
-            child: Text(
-              '${detail.productQuantity}',
-              style: TextStyle(color: colorScheme.onPrimary, fontSize: 12),
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 8,
+        childAspectRatio:
+            5,
+      ),
+      itemCount: details.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+
+      itemBuilder: (context, index) {
+        final detail = details[index];
+        return Row(
+          children: [
+            Container(
+              width: 6,
+              height: 6,
+              decoration: BoxDecoration(
+                color: colorScheme.primary.withAlpha((255 * 0.5).toInt()),
+                shape: BoxShape.circle,
+              ),
             ),
-          ),
-          label: Text(detail.productName),
-          backgroundColor: colorScheme.primary.withAlpha((255*0.1).toInt()),
-          side: BorderSide.none,
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                '${detail.productQuantity}x ${detail.productName}',
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurface.withAlpha((255 * 0.8).toInt()),
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
         );
-      }).toList(),
+      },
     );
   }
 
