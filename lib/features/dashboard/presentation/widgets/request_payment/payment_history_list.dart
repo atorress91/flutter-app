@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:my_app/features/dashboard/domain/entities/payment_request.dart';
+import 'package:my_app/features/dashboard/domain/entities/payment.dart';
 
 class PaymentHistoryList extends StatelessWidget {
-  final List<PaymentRequest> requests;
+  final List<Payment> requests;
 
   const PaymentHistoryList({super.key, required this.requests});
 
@@ -33,7 +33,7 @@ class PaymentHistoryList extends StatelessWidget {
 }
 
 class _HistoryItem extends StatelessWidget {
-  final PaymentRequest request;
+  final Payment request;
 
   const _HistoryItem({required this.request});
 

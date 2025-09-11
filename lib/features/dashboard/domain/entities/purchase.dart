@@ -1,9 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/features/dashboard/data/mappers/invoice_mapper.dart';
-import 'package:my_app/features/dashboard/domain/entities/invoice.dart';
 import 'purchase_status.dart';
 
-class Purchase {
+class Purchase extends Equatable {
   final String invoiceNo;
   final DateTime date;
   final String model;
@@ -11,7 +10,7 @@ class Purchase {
   final double amount;
   final PurchaseStatus status;
 
-  Purchase({
+  const Purchase({
     required this.invoiceNo,
     required this.date,
     required this.model,
@@ -20,9 +19,15 @@ class Purchase {
     required this.status,
   });
 
-  factory Purchase.fromInvoice(Invoice invoice) {
-    return InvoiceMapper.toPurchase(invoice);
-  }
+  @override
+  List<Object?> get props => [
+    invoiceNo,
+    date,
+    model,
+    details,
+    amount,
+    status
+  ];
 
   bool matchesQuery(String query) {
     final q = query.toLowerCase();

@@ -1,16 +1,20 @@
-import 'package:my_app/features/dashboard/domain/entities/invoice.dart';
+import 'package:my_app/core/data/dtos/invoice_dto.dart';
 import 'package:my_app/features/dashboard/domain/entities/purchase.dart';
 import 'package:my_app/features/dashboard/domain/entities/purchase_status.dart';
 
 class InvoiceMapper {
-  static Purchase toPurchase(Invoice invoice) {
+  static Purchase fromDto(InvoiceDto invoice) {
     return Purchase(
       invoiceNo: invoice.id.toString(),
       date: invoice.createdAt ?? DateTime.now(),
-      model: invoice.details.isNotEmpty ? invoice.details.first.productName : 'N/A',
-      details: invoice.paymentMethod,
-      amount: invoice.totalInvoice,
-      status: invoice.status == InvoiceStatus.activa ? PurchaseStatus.completado : PurchaseStatus.devuelto,
+      model: invoice.invoicesDetails.isNotEmpty
+          ? invoice.invoicesDetails.first.productName ?? 'N/A'
+          : 'N/A',
+      details: invoice.paymentMethod ?? 'N/A',
+      amount: invoice.totalInvoice ?? 0.0,
+      status: invoice.status == true
+          ? PurchaseStatus.completado
+          : PurchaseStatus.devuelto,
     );
   }
 }

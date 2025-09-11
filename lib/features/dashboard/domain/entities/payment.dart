@@ -1,6 +1,8 @@
+import 'package:equatable/equatable.dart';
+
 enum RequestStatus { aprobado, pendiente, rechazado }
 
-class PaymentRequest {
+class Payment extends Equatable {
   final double amount;
   final String observation;
   final String adminResponse;
@@ -8,7 +10,7 @@ class PaymentRequest {
   final String type;
   final DateTime date;
 
-  PaymentRequest({
+  const Payment({
     required this.amount,
     required this.observation,
     required this.adminResponse,
@@ -16,4 +18,14 @@ class PaymentRequest {
     required this.type,
     required this.date,
   });
+
+  @override
+  List<Object?> get props => [
+    amount,
+    observation,
+    adminResponse,
+    status,
+    type,
+    date,
+  ];
 }

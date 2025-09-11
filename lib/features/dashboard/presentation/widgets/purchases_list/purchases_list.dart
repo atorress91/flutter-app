@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/features/dashboard/domain/entities/invoice.dart';
 import 'package:my_app/features/dashboard/domain/entities/purchase.dart';
 import 'no_result_widget.dart';
 import 'purchase_card.dart';
 
 class PurchasesList extends StatelessWidget {
-  final List<Invoice> invoices;
+  final List<Purchase> invoices;
 
   const PurchasesList({super.key, required this.invoices});
 
@@ -20,7 +19,7 @@ class PurchasesList extends StatelessWidget {
           .map(
             (invoice) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-              child: PurchaseCard(purchase: Purchase.fromInvoice(invoice)),
+              child: PurchaseCard(purchase: invoice),
             ),
           )
           .toList(),

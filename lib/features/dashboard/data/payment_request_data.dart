@@ -1,9 +1,9 @@
-import '../domain/entities/payment_request.dart';
+import '../domain/entities/payment.dart';
 
-class PaymentRequestsData {
-  static List<PaymentRequest> getSampleRequests() {
+class PaymentsData {
+  static List<Payment> getSampleRequests() {
     return [
-      PaymentRequest(
+      Payment(
         amount: 10,
         observation: 'retiro recycoin',
         adminResponse: 'Atendido',
@@ -11,7 +11,7 @@ class PaymentRequestsData {
         type: 'Retiro de Saldo',
         date: DateTime(2025, 7, 28),
       ),
-      PaymentRequest(
+      Payment(
         amount: 100,
         observation: 'solicitud',
         adminResponse: 'Atendido',
@@ -19,7 +19,7 @@ class PaymentRequestsData {
         type: 'Retiro de Saldo',
         date: DateTime(2025, 7, 15),
       ),
-      PaymentRequest(
+      Payment(
         amount: 50,
         observation: 'Prueba pendiente',
         adminResponse: 'En revisión por el equipo.',

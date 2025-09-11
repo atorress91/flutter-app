@@ -12,5 +12,9 @@ class NetworkPurchase extends Equatable {
   });
 
   @override
-  List<Object?> get props => [year, month, totalPurchases];
+  List<Object?> get props => [
+    year,
+    month,
+    totalPurchases
+  ];
 }

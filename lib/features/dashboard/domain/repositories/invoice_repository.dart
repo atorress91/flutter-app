@@ -1,5 +1,5 @@
-import 'package:my_app/features/dashboard/domain/entities/invoice.dart';
+import 'package:my_app/features/dashboard/domain/entities/purchase.dart';
 
 abstract class InvoiceRepository {
-  Future<List<Invoice>> getAllInvoicesByUserId(int userId);
+  Future<List<Purchase>> getAllInvoicesByUserId(int userId);
 }

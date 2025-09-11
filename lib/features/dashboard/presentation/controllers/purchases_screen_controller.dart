@@ -9,7 +9,7 @@ class PurchasesScreenController extends StateNotifier<PurchasesState> {
   final Ref _ref;
 
   PurchasesScreenController(this._getInvoicesUseCase, this._ref)
-      : super(const PurchasesState());
+    : super(const PurchasesState());
 
   Future<void> loadInvoices() async {
     state = state.copyWith(isLoading: true, error: null);
@@ -24,7 +24,10 @@ class PurchasesScreenController extends StateNotifier<PurchasesState> {
     } on ApiException catch (e) {
       state = state.copyWith(isLoading: false, error: e.message);
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Ocurrió un error al cargar las facturas.');
+      state = state.copyWith(
+        isLoading: false,
+        error: 'Ocurrió un error al cargar las facturas.',
+      );
     }
   }
 }

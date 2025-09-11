@@ -1,18 +1,17 @@
-import 'package:my_app/core/data/dtos/invoice_detail_dto.dart';
+import 'package:equatable/equatable.dart';
 
-class InvoiceDetail {
+class InvoiceDetail extends Equatable{
   final String productName;
   final int productQuantity;
 
-  InvoiceDetail({
+  const InvoiceDetail({
     required this.productName,
     required this.productQuantity
   });
 
-  factory InvoiceDetail.fromDto(InvoiceDetailDto dto) {
-    return InvoiceDetail(
-      productName: dto.productName ?? 'N/A',
-      productQuantity: dto.productQuantity,
-    );
-  }
+  @override
+  List<Object?> get props => [
+    productName,
+    productQuantity
+  ];
 }

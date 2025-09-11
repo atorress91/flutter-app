@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/core/common/widgets/custom_loading_indicator.dart';
 import 'package:my_app/core/common/widgets/custom_refresh_indicator.dart';
 import 'package:my_app/features/dashboard/data/payment_request_data.dart';
-import 'package:my_app/features/dashboard/domain/entities/payment_request.dart';
+import 'package:my_app/features/dashboard/domain/entities/payment.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/request_payment/new_payment_request_modal.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/request_payment/payment_history_list.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/request_payment/payment_info_card.dart';
@@ -17,7 +17,7 @@ class RequestPaymentScreen extends StatefulWidget {
 
 class _RequestPaymentScreenState extends State<RequestPaymentScreen> {
   bool _isLoading = false;
-  List<PaymentRequest> _requests = [];
+  List<Payment> _requests = [];
 
   @override
   void initState() {
@@ -38,7 +38,7 @@ class _RequestPaymentScreenState extends State<RequestPaymentScreen> {
     await Future.delayed(const Duration(seconds: 1));
     if (mounted) {
       setState(() {
-        _requests = PaymentRequestsData.getSampleRequests();
+        _requests = PaymentsData.getSampleRequests();
       });
     }
   }
