@@ -7,9 +7,7 @@ class UserMapper {
       id: dto.id,
       userName: dto.userName,
       email: dto.email,
-      fullName: (dto.name != null && dto.lastName != null)
-          ? '${dto.name} ${dto.lastName}'
-          : dto.name,
+      fullName: (dto.name != null && dto.lastName != null) ? '${dto.name} ${dto.lastName}' : dto.name,
       imageUrl: dto.imageProfileUrl,
       isActive: dto.status,
       createdAt: dto.createdAt,

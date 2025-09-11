@@ -3,8 +3,11 @@ import 'package:my_app/core/providers/api_providers.dart';
 import 'package:my_app/core/services/api/affiliate_service.dart';
 import 'package:my_app/core/services/platform/firebase_storage_service.dart';
 import 'package:my_app/core/services/platform/image_picker_service.dart';
+import 'package:my_app/features/auth/data/repositories/affiliate_repository_impl.dart';
 import 'package:my_app/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:my_app/features/auth/domain/repositories/affiliate_repository.dart';
 import 'package:my_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:my_app/features/auth/domain/use_cases/get_current_user_use_case.dart';
 import 'package:my_app/features/auth/domain/use_cases/perform_login_use_case.dart';
 import 'package:my_app/features/auth/domain/use_cases/perform_registration_use_case.dart';
 import 'package:my_app/features/dashboard/data/repositories/profile_repository_impl.dart';
@@ -14,6 +17,10 @@ import 'package:my_app/features/dashboard/domain/use_cases/update_profile_pictur
 // --- REPOSITORIES ---
 final authRepositoryProvider = Provider<AuthRepository>(
      (ref) => AuthRepositoryImpl(ref.watch(authServiceProvider)),
+);
+
+final affiliateRepositoryProvider = Provider<AffiliateRepository>(
+     (ref) => AffiliateRepositoryImpl(ref.watch(affiliateServiceProvider)),
 );
 
 final profileRepositoryProvider = Provider<ProfileRepository>(
@@ -38,5 +45,11 @@ final updateProfilePictureUseCaseProvider = Provider<UpdateProfilePictureUseCase
       (ref) => UpdateProfilePictureUseCase(
         ref.watch(imagePickerServiceProvider),
         ref.watch(profileRepositoryProvider),
+      ),
+);
+
+final getCurrentUserUseCaseProvider = Provider<GetCurrentUserUseCase>(
+      (ref) => GetCurrentUserUseCase(
+        ref.watch(affiliateRepositoryProvider),
       ),
 );

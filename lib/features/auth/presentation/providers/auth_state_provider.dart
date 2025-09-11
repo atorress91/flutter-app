@@ -6,7 +6,9 @@ import 'package:my_app/core/data/models/session_model.dart';
 import 'package:my_app/core/data/request/user_auth_request.dart';
 import 'package:my_app/core/data/request/user_registration_request.dart';
 import 'package:my_app/features/auth/domain/entities/user.dart';
+import 'package:my_app/features/auth/domain/repositories/affiliate_repository.dart';
 import 'package:my_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:my_app/features/dashboard/data/providers/account_providers.dart' hide authRepositoryProvider;
 
 import '../../data/providers/auth_providers.dart';
 
@@ -16,6 +18,7 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
   FlutterSecureStorage get _storage => ref.read(secureStorageProvider);
 
   AuthRepository get _repository => ref.read(authRepositoryProvider);
+  AffiliateRepository get _affiliateRepository => ref.read(affiliateRepositoryProvider);
 
   @override
   Future<SessionModel?> build() async {
@@ -92,6 +95,15 @@ class AuthNotifier extends AsyncNotifier<SessionModel?> {
     final session = SessionModel(user: user, loggedAt: DateTime.now());
     await _storage.write(key: _kSessionKey, value: jsonEncode(session.toJson()));
     state = AsyncData(session);
+  }
+
+  Future<void> refreshUserData() async {
+    try {
+      final user = await _affiliateRepository.getCurrentUser(currentUser!.id);
+      await updateSession(user);
+    } catch (e) {
+      // Handle error if needed
+    }
   }
 }
 

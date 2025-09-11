@@ -45,7 +45,7 @@ class BiometricLoginButton extends ConsumerWidget {
       if (!context.mounted) return;
 
       // Se añade esta línea para recargar la sesión desde el almacenamiento.
-      await ref.read(authNotifierProvider.notifier).reloadFromStorage();
+      await ref.read(authNotifierProvider.notifier).refreshUserData();
       // Verificar nuevamente después de la segunda operación async
       if (!context.mounted) return;
 

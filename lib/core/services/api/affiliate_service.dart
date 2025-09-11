@@ -34,5 +34,15 @@ class AffiliateService extends BaseService {
     );
   }
 
-
+  Future<ApiResponse<UsersAffiliatesDto?>> getAffiliateById(int userId) async{
+    return get<UsersAffiliatesDto?>(
+        '/userAffiliateInfo/$userId',
+        fromJson: (json) {
+          if (json is Map<String, dynamic>) {
+           return UsersAffiliatesDto.fromJson(json);
+          }
+          throw Exception('Invalid data format for affiliate');
+        }
+    );
+  }
 }
