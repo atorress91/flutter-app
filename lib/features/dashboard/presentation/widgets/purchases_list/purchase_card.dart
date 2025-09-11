@@ -76,18 +76,18 @@ class PurchaseCard extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
-        Chip(
-          label: Text(purchase.paymentMethod),
-          labelStyle: textTheme.bodySmall?.copyWith(
-            color: colorScheme.onSecondaryContainer,
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+          decoration: BoxDecoration(
+            color: Colors.transparent,
           ),
-          backgroundColor: colorScheme.secondaryContainer.withAlpha(
-            (255 * 0.5).toInt(),
+          child: Text(
+            purchase.paymentMethod,
+            style: textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+              fontWeight: FontWeight.w500,
+            ),
           ),
-          side: BorderSide.none,
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          visualDensity: VisualDensity.compact,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
         const Spacer(),
         Text(
