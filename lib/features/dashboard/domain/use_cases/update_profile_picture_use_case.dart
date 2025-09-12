@@ -34,6 +34,6 @@ class UpdateProfilePictureUseCase {
     );
     
     // Update user in backend to ensure data consistency
-    return await _profileRepository.updateUser(updatedUser);
+    return await _profileRepository.updateProfileImage(updatedUser);
   }
 }

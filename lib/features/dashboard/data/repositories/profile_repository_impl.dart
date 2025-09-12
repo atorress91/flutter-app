@@ -19,7 +19,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Future<User> updateUser(User user) async {
+  Future<User> updateProfileImage(User user) async {
     final request = UpdateImageRequest(
       imageProfileUrl: user.imageUrl ?? '',
     );
