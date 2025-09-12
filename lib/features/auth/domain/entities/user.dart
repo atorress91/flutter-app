@@ -15,6 +15,7 @@ class User extends Equatable {
   final String? phone;
   final bool isAffiliate;
   final DateTime? birthDay;
+  final String? address;
 
   const User({
     required this.id,
@@ -30,11 +31,12 @@ class User extends Equatable {
     this.roleName,
     this.phone,
     required this.isAffiliate,
-    this.birthDay
+    this.birthDay,
+    this.address,
   });
 
   @override
-  List<Object?> get props => [id, identification, userName, email, isAffiliate];
+  List<Object?> get props => [id, identification, userName, email, isAffiliate,phone, address];
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -52,6 +54,7 @@ class User extends Equatable {
       phone: json['phone'] as String?,
       isAffiliate: json['isAffiliate'] as bool,
       birthDay: json['birthday'] != null ? DateTime.parse(json['birthday'] as String) : null,
+      address: json['address'] as String?,
     );
   }
 
@@ -71,6 +74,7 @@ class User extends Equatable {
       'phone': phone,
       'isAffiliate': isAffiliate,
       'birthday': birthDay?.toIso8601String(),
+      'address': address,
     };
   }
 }

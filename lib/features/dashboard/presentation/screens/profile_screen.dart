@@ -77,10 +77,8 @@ class ProfileScreen extends ConsumerWidget {
                 info: {
                   'Nombre': user.name ?? '',
                   'Apellido': user.lastName ?? '',
-                  'Dirección': 'Dirección de ejemplo, 123',
-                  'Teléfono': '+123 456 7890',
-                  'Código Postal': '12345',
-                  'País': 'País Ejemplo',
+                  'Dirección': user.address ?? '',
+                  'Teléfono': user.phone ?? ''
                 },
               ),
               const SizedBox(height: 16),

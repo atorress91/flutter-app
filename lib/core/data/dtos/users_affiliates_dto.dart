@@ -29,6 +29,9 @@ class UsersAffiliatesDto {
   @JsonKey(name:'birthday')
   final DateTime? birthDay;
 
+  final String? address;
+  final String? phone;
+
   UsersAffiliatesDto({
     required this.id,
     required this.userName,
@@ -41,6 +44,8 @@ class UsersAffiliatesDto {
     this.imageProfileUrl,
     required this.createdAt,
     this.birthDay,
+    this.address,
+    this.phone
   });
 
   factory UsersAffiliatesDto.fromJson(Map<String, dynamic> json) =>

@@ -15,7 +15,9 @@ class UserMapper {
       isActive: dto.status,
       createdAt: dto.createdAt,
       isAffiliate: dto.isAffiliate == 1,
-      birthDay: dto.birthDay
+      birthDay: dto.birthDay,
+      address: dto.address,
+      phone: dto.phone
     );
   }
 }

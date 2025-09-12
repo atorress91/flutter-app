@@ -23,6 +23,8 @@ UsersAffiliatesDto _$UsersAffiliatesDtoFromJson(Map<String, dynamic> json) =>
       birthDay: json['birthday'] == null
           ? null
           : DateTime.parse(json['birthday'] as String),
+      address: json['address'] as String?,
+      phone: json['phone'] as String?,
     );
 
 Map<String, dynamic> _$UsersAffiliatesDtoToJson(UsersAffiliatesDto instance) =>
@@ -38,4 +40,6 @@ Map<String, dynamic> _$UsersAffiliatesDtoToJson(UsersAffiliatesDto instance) =>
       'image_profile_url': instance.imageProfileUrl,
       'created_at': instance.createdAt.toIso8601String(),
       'birthday': instance.birthDay?.toIso8601String(),
+      'address': instance.address,
+      'phone': instance.phone,
     };
