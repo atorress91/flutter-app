@@ -13,6 +13,7 @@ import 'package:my_app/features/auth/domain/use_cases/perform_registration_use_c
 import 'package:my_app/features/dashboard/data/repositories/profile_repository_impl.dart';
 import 'package:my_app/features/dashboard/domain/repositories/profile_repository.dart';
 import 'package:my_app/features/dashboard/domain/use_cases/update_profile_picture_use_case.dart';
+import 'package:my_app/features/dashboard/domain/use_cases/update_user_profile_use_case.dart';
 
 // --- REPOSITORIES ---
 final authRepositoryProvider = Provider<AuthRepository>(
@@ -51,5 +52,11 @@ final updateProfilePictureUseCaseProvider = Provider<UpdateProfilePictureUseCase
 final getCurrentUserUseCaseProvider = Provider<GetCurrentUserUseCase>(
       (ref) => GetCurrentUserUseCase(
         ref.watch(affiliateRepositoryProvider),
+      ),
+);
+
+final updateUserProfileUseCaseProvider = Provider<UpdateUserProfileUseCase>(
+      (ref) => UpdateUserProfileUseCase(
+        ref.watch(profileRepositoryProvider),
       ),
 );
