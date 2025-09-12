@@ -2,6 +2,7 @@ import 'package:my_app/core/config/environments.dart';
 import 'package:my_app/core/data/dtos/users_affiliates_dto.dart';
 import 'package:my_app/core/data/models/api_response.dart';
 import 'package:my_app/core/data/request/update_image_request.dart';
+import 'package:my_app/core/data/request/update_user_profile_request.dart';
 import 'package:my_app/core/services/api/base_service.dart';
 
 class AffiliateService extends BaseService {
@@ -43,6 +44,19 @@ class AffiliateService extends BaseService {
           }
           throw Exception('Invalid data format for affiliate');
         }
+    );
+  }
+
+  Future<ApiResponse<UsersAffiliatesDto?>> updateUserProfile(int userId,UpdateUserProfileRequest user) async{
+    return put<UsersAffiliatesDto?>(
+      'userAffiliateInfo/update_user_profile/$userId',
+      body: user.toJson(),
+      fromJson: (json) {
+        if (json is Map<String, dynamic>) {
+          return UsersAffiliatesDto.fromJson(json);
+        }
+        throw Exception('Invalid data format for affiliate');
+      },
     );
   }
 }
