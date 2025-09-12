@@ -37,7 +37,7 @@ class AffiliateService extends BaseService {
 
   Future<ApiResponse<UsersAffiliatesDto?>> getAffiliateById(int userId) async{
     return get<UsersAffiliatesDto?>(
-        '/userAffiliateInfo/$userId',
+        '/userAffiliateInfo/get_user_id/$userId',
         fromJson: (json) {
           if (json is Map<String, dynamic>) {
            return UsersAffiliatesDto.fromJson(json);

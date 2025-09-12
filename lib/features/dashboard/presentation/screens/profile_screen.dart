@@ -75,8 +75,8 @@ class ProfileScreen extends ConsumerWidget {
                 title: 'Datos Secundarios',
                 icon: Icons.location_on_outlined,
                 info: {
-                  'Nombre': 'Nombre',
-                  'Apellido': 'Apellido',
+                  'Nombre': user.name ?? '',
+                  'Apellido': user.lastName ?? '',
                   'Dirección': 'Dirección de ejemplo, 123',
                   'Teléfono': '+123 456 7890',
                   'Código Postal': '12345',
