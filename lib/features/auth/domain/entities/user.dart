@@ -45,7 +45,7 @@ class User extends Equatable {
       roleName: json['roleName'] as String?,
       phone: json['phone'] as String?,
       isAffiliate: json['isAffiliate'] as bool,
-      birthDay: json['birthDay'] != null ? DateTime.parse(json['birthDay'] as String) : null,
+      birthDay: json['birthday'] != null ? DateTime.parse(json['birthday'] as String) : null,
     );
   }
 
@@ -62,7 +62,7 @@ class User extends Equatable {
       'roleName': roleName,
       'phone': phone,
       'isAffiliate': isAffiliate,
-      'birthDay': birthDay?.toIso8601String(),
+      'birthday': birthDay?.toIso8601String(),
     };
   }
 }
