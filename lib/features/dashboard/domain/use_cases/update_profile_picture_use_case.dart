@@ -32,6 +32,7 @@ class UpdateProfilePictureUseCase {
       roleName: currentUser.roleName,
       phone: currentUser.phone,
       isAffiliate: currentUser.isAffiliate,
+      address: currentUser.address
     );
     
     // Update user in backend to ensure data consistency
