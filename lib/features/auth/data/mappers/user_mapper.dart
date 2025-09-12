@@ -17,7 +17,10 @@ class UserMapper {
       isAffiliate: dto.isAffiliate == 1,
       birthDay: dto.birthDay,
       address: dto.address,
-      phone: dto.phone
+      phone: dto.phone,
+      beneficiaryName: dto.beneficiaryName,
+      beneficiaryEmail: dto.beneficiaryEmail,
+      beneficiaryPhone: dto.beneficiaryPhone,
     );
   }
 }

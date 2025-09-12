@@ -87,9 +87,9 @@ class ProfileScreen extends ConsumerWidget {
                 title: 'Adicionales',
                 icon: Icons.favorite_border,
                 info: {
-                  'Nombre Beneficiario': 'Nombre Beneficiario',
-                  'Correo del Beneficiario': 'beneficiario@correo.com',
-                  'Teléfono del Beneficiario': '+098 765 4321',
+                  'Nombre Beneficiario': user.beneficiaryName ?? '',
+                  'Correo del Beneficiario': user.beneficiaryEmail ?? '',
+                  'Teléfono del Beneficiario': user.beneficiaryPhone ?? '',
                 },
               ),
 

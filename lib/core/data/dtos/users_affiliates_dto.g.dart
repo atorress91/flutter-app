@@ -25,6 +25,9 @@ UsersAffiliatesDto _$UsersAffiliatesDtoFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['birthday'] as String),
       address: json['address'] as String?,
       phone: json['phone'] as String?,
+      beneficiaryName: json['beneficiary_name'] as String?,
+      beneficiaryEmail: json['beneficiary_email'] as String?,
+      beneficiaryPhone: json['beneficiary_phone'] as String?,
     );
 
 Map<String, dynamic> _$UsersAffiliatesDtoToJson(UsersAffiliatesDto instance) =>
@@ -42,4 +45,7 @@ Map<String, dynamic> _$UsersAffiliatesDtoToJson(UsersAffiliatesDto instance) =>
       'birthday': instance.birthDay?.toIso8601String(),
       'address': instance.address,
       'phone': instance.phone,
+      'beneficiary_name': instance.beneficiaryName,
+      'beneficiary_email': instance.beneficiaryEmail,
+      'beneficiary_phone': instance.beneficiaryPhone,
     };

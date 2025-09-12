@@ -16,6 +16,9 @@ class User extends Equatable {
   final bool isAffiliate;
   final DateTime? birthDay;
   final String? address;
+  final String? beneficiaryName;
+  final String? beneficiaryEmail;
+  final String? beneficiaryPhone;
 
   const User({
     required this.id,
@@ -33,6 +36,9 @@ class User extends Equatable {
     required this.isAffiliate,
     this.birthDay,
     this.address,
+    this.beneficiaryName,
+    this.beneficiaryEmail,
+    this.beneficiaryPhone,
   });
 
   @override
@@ -55,6 +61,9 @@ class User extends Equatable {
       isAffiliate: json['isAffiliate'] as bool,
       birthDay: json['birthday'] != null ? DateTime.parse(json['birthday'] as String) : null,
       address: json['address'] as String?,
+      beneficiaryName: json['beneficiary_name'] as String?,
+      beneficiaryEmail: json['beneficiary_email'] as String?,
+      beneficiaryPhone: json['beneficiary_phone'] as String?,
     );
   }
 
@@ -75,6 +84,9 @@ class User extends Equatable {
       'isAffiliate': isAffiliate,
       'birthday': birthDay?.toIso8601String(),
       'address': address,
+      'beneficiary_name': beneficiaryName,
+      'beneficiary_email': beneficiaryEmail,
+      'beneficiary_phone': beneficiaryPhone,
     };
   }
 }

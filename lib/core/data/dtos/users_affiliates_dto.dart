@@ -31,6 +31,9 @@ class UsersAffiliatesDto {
 
   final String? address;
   final String? phone;
+  final String? beneficiaryName;
+  final String? beneficiaryEmail;
+  final String? beneficiaryPhone;
 
   UsersAffiliatesDto({
     required this.id,
@@ -45,7 +48,10 @@ class UsersAffiliatesDto {
     required this.createdAt,
     this.birthDay,
     this.address,
-    this.phone
+    this.phone,
+    this.beneficiaryName,
+    this.beneficiaryEmail,
+    this.beneficiaryPhone
   });
 
   factory UsersAffiliatesDto.fromJson(Map<String, dynamic> json) =>
