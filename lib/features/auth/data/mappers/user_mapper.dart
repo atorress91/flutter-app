@@ -6,12 +6,14 @@ class UserMapper {
     return User(
       id: dto.id,
       userName: dto.userName,
+      identification: dto.identification,
       email: dto.email,
       fullName: (dto.name != null && dto.lastName != null) ? '${dto.name} ${dto.lastName}' : dto.name,
       imageUrl: dto.imageProfileUrl,
       isActive: dto.status,
       createdAt: dto.createdAt,
       isAffiliate: dto.isAffiliate == 1,
+      birthDay: dto.birthDay
     );
   }
 }

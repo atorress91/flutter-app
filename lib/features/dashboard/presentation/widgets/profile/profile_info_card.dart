@@ -1,74 +1,89 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 
-class ProfileInfoCard extends ConsumerWidget {
-  const ProfileInfoCard({super.key});
+class ProfileInfoCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final Map<String, String> info;
+
+  const ProfileInfoCard({
+    super.key,
+    required this.title,
+    required this.icon,
+    required this.info,
+  });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final asyncSession = ref.watch(authNotifierProvider);
-    final user = asyncSession.value?.user; // UsersAffiliatesDto?
-
-    final email = user?.email ?? '—';
-    // UsersAffiliatesDto doesn't expose phone/address; show placeholders
-    final phone = '—';
-    final address = '—';
-    final createdAt = user?.createdAt;
-    final createdAtText = createdAt != null
-        ? DateFormat.yMMMd('es_CR').add_jm().format(createdAt)
-        : '—';
+  Widget build(BuildContext context) {
+    final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
+    final colorScheme = Theme.of(context).colorScheme;
+    final cardColor = colorScheme.primary;
 
     return Container(
-      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Theme.of(context).dividerColor),
-      ),
-      child: Column(
-        children: [
-          _buildInfoRow(context, Icons.phone_outlined, 'Teléfono', phone),
-          const Divider(),
-          _buildInfoRow(
-            context,
-            Icons.location_on_outlined,
-            'Dirección',
-            address,
+        border: Border.all(
+          color: cardColor.withAlpha((255 * 0.12).toInt()),
+          width: 1.2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: cardColor.withAlpha((255 * 0.08).toInt()),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
-          const Divider(),
-          _buildInfoRow(context, Icons.email_outlined, 'Correo', email),
-          const Divider(),
-          _buildInfoRow(
-            context,
-            Icons.calendar_today_outlined,
-            'Fecha Registro',
-            createdAtText,
+          BoxShadow(
+            color: Colors.black.withAlpha((255 * 0.02).toInt()),
+            blurRadius: 4,
+            offset: const Offset(0, 1),
           ),
         ],
+      ),
+      child: Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          leading: Icon(icon, color: colorScheme.primary),
+          title: Text(
+            title,
+            style: textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+              child: Column(
+                children: info.entries.map((entry) {
+                  return _buildInfoRow(
+                    context,
+                    entry.key,
+                    entry.value,
+                  );
+                }).toList(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildInfoRow(
-    BuildContext context,
-    IconData icon,
-    String title,
-    String value,
-  ) {
+  Widget _buildInfoRow(BuildContext context, String title, String value) {
     final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(icon, size: 20, color: Theme.of(context).colorScheme.primary),
+          Text(
+            title,
+            style: textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ),
           const SizedBox(width: 16),
-          Text(title, style: textTheme.bodyMedium),
-          const Spacer(),
           Expanded(
-            flex: 2,
             child: Text(
               value,
               textAlign: TextAlign.end,

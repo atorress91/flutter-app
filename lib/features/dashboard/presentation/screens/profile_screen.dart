@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'package:my_app/features/dashboard/presentation/controllers/profile_screen_controller.dart';
+import 'package:my_app/core/utils/date_formatter.dart';
+import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/profile/profile_header.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/profile/profile_info_card.dart';
-import 'package:my_app/features/dashboard/presentation/widgets/profile/profile_status_badges.dart';
+
+import '../controllers/profile_screen_controller.dart'
+    show profileScreenControllerProvider;
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -13,17 +15,21 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileController = ref.read(profileScreenControllerProvider);
+    final colorScheme = Theme.of(context).colorScheme;
+    final asyncSession = ref.watch(authNotifierProvider);
+    final user = asyncSession.value?.user;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Mi Perfil',
           style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
         ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: colorScheme.surface,
         elevation: 0,
-        foregroundColor: Theme.of(context).colorScheme.onSurface,
+        foregroundColor: colorScheme.onSurface,
       ),
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: colorScheme.surface,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -32,10 +38,14 @@ class ProfileScreen extends ConsumerWidget {
               ProfileHeader(
                 onEdit: () async {
                   try {
-                    final success = await profileController.updateProfilePicture();
+                    final success = await profileController
+                        .updateProfilePicture();
+
                     if (success && context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('¡Foto de perfil actualizada!')),
+                        const SnackBar(
+                          content: Text('¡Foto de perfil actualizada!'),
+                        ),
                       );
                     }
                   } catch (e) {
@@ -47,10 +57,44 @@ class ProfileScreen extends ConsumerWidget {
                   }
                 },
               ),
-              const SizedBox(height: 24),
-              const ProfileStatusBadges(),
               const SizedBox(height: 32),
-              const ProfileInfoCard(),
+              ProfileInfoCard(
+                title: 'Datos Principales',
+                icon: Icons.person_outline,
+                info: {
+                  'Usuario': user!.userName,
+                  'Correo': user.email,
+                  'Identificación': user.identification,
+                  'Fecha de Registro': DateFormatter.ddMMyyyy(user.createdAt),
+                  'Fecha de Nacimiento': user.birthDay != null ? DateFormatter.ddMMyyyy(user.birthDay) : '',
+                },
+              ),
+              const SizedBox(height: 16),
+
+              ProfileInfoCard(
+                title: 'Datos Secundarios',
+                icon: Icons.location_on_outlined,
+                info: {
+                  'Nombre': 'Nombre',
+                  'Apellido': 'Apellido',
+                  'Dirección': 'Dirección de ejemplo, 123',
+                  'Teléfono': '+123 456 7890',
+                  'Código Postal': '12345',
+                  'País': 'País Ejemplo',
+                },
+              ),
+              const SizedBox(height: 16),
+
+              ProfileInfoCard(
+                title: 'Adicionales',
+                icon: Icons.favorite_border,
+                info: {
+                  'Nombre Beneficiario': 'Nombre Beneficiario',
+                  'Correo del Beneficiario': 'beneficiario@correo.com',
+                  'Teléfono del Beneficiario': '+098 765 4321',
+                },
+              ),
+
               const SizedBox(height: 32),
               _buildActionButtons(context),
             ],
@@ -69,7 +113,7 @@ class ProfileScreen extends ConsumerWidget {
             icon: const Icon(Icons.edit_outlined),
             label: const Text('Editar Perfil'),
             onPressed: () {
-              /* TODO: Implementar edición */
+              // TODO: Implementar edición de datos del perfil
             },
           ),
         ),
@@ -86,7 +130,7 @@ class ProfileScreen extends ConsumerWidget {
               style: TextStyle(color: Theme.of(context).colorScheme.error),
             ),
             onPressed: () {
-              /* TODO: Implementar cierre de sesión */
+              // TODO: Implementar cierre de sesión
             },
           ),
         ),

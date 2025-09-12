@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 class User extends Equatable {
   final int id;
   final String userName;
+  final String identification;
   final String email;
   final String? fullName;
   final String? imageUrl;
@@ -11,10 +12,12 @@ class User extends Equatable {
   final String? roleName;
   final String? phone;
   final bool isAffiliate;
+  final DateTime? birthDay;
 
   const User({
     required this.id,
     required this.userName,
+    required this.identification,
     required this.email,
     this.fullName,
     this.imageUrl,
@@ -23,15 +26,17 @@ class User extends Equatable {
     this.roleName,
     this.phone,
     required this.isAffiliate,
+    this.birthDay
   });
 
   @override
-  List<Object?> get props => [id, userName, email, isAffiliate];
+  List<Object?> get props => [id, identification, userName, email, isAffiliate];
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'] as int,
       userName: json['userName'] as String,
+      identification: json['identification'] as String,
       email: json['email'] as String,
       fullName: json['fullName'] as String?,
       imageUrl: json['imageUrl'] as String?,
@@ -40,6 +45,7 @@ class User extends Equatable {
       roleName: json['roleName'] as String?,
       phone: json['phone'] as String?,
       isAffiliate: json['isAffiliate'] as bool,
+      birthDay: json['birthDay'] != null ? DateTime.parse(json['birthDay'] as String) : null,
     );
   }
 
@@ -47,6 +53,7 @@ class User extends Equatable {
     return {
       'id': id,
       'userName': userName,
+      'identification': identification,
       'email': email,
       'fullName': fullName,
       'imageUrl': imageUrl,
@@ -55,6 +62,7 @@ class User extends Equatable {
       'roleName': roleName,
       'phone': phone,
       'isAffiliate': isAffiliate,
+      'birthDay': birthDay?.toIso8601String(),
     };
   }
 }

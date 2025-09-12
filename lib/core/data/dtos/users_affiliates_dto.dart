@@ -10,6 +10,9 @@ class UsersAffiliatesDto {
   final String userName;
 
   @JsonKey(defaultValue: '')
+  final String identification;
+
+  @JsonKey(defaultValue: '')
   final String email;
 
   @JsonKey(defaultValue: 0)
@@ -23,9 +26,13 @@ class UsersAffiliatesDto {
   final String? imageProfileUrl;
   final DateTime createdAt;
 
+  @JsonKey(name:'birthday')
+  final DateTime? birthDay;
+
   UsersAffiliatesDto({
     required this.id,
     required this.userName,
+    required this.identification,
     required this.email,
     required this.isAffiliate,
     required this.status,
@@ -33,6 +40,7 @@ class UsersAffiliatesDto {
     this.lastName,
     this.imageProfileUrl,
     required this.createdAt,
+    this.birthDay,
   });
 
   factory UsersAffiliatesDto.fromJson(Map<String, dynamic> json) =>

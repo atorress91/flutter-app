@@ -23,6 +23,7 @@ class UpdateProfilePictureUseCase {
     final updatedUser = User(
       id: currentUser.id,
       userName: currentUser.userName,
+      identification: currentUser.identification,
       email: currentUser.email,
       fullName: currentUser.fullName,
       imageUrl: downloadURL,
