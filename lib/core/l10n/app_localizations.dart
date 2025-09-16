@@ -121,6 +121,45 @@ class AppLocalizations {
       'activityInventoryUpdatedSubtitle': '25 products added',
       'activityReportGeneratedTitle': 'Report generated',
       'activityReportGeneratedSubtitle': 'Monthly report completed',
+      // Profile screen
+      'profileTitle': 'My Profile',
+      'profileErrorOccurred': 'An error occurred',
+      'profileNoUserDataFound': 'No user data found.',
+      'profilePhotoUpdated': 'Profile photo updated!',
+      'profileMainDataTitle': 'Main Data',
+      'profileSecondaryDataTitle': 'Secondary Data',
+      'profileAdditionalDataTitle': 'Additional Data',
+      'profileUserLabel': 'User',
+      'profileEmailLabel': 'Email',
+      'profileIdentificationLabel': 'Identification',
+      'profileRegistrationDateLabel': 'Registration Date',
+      'profileBirthDateLabel': 'Birth Date',
+      'profileNameLabel': 'Name',
+      'profileLastNameLabel': 'Last Name',
+      'profileAddressLabel': 'Address',
+      'profilePhoneLabel': 'Phone',
+      'profileBeneficiaryNameLabel': 'Beneficiary Name',
+      'profileBeneficiaryEmailLabel': 'Beneficiary Email',
+      'profileBeneficiaryPhoneLabel': 'Beneficiary Phone',
+      'profileNotSpecified': 'Not specified',
+      'profileEditButton': 'Edit Profile',
+      'profileLogoutButton': 'Log Out',
+      // Edit profile screen
+      'editProfileTitle': 'Edit Profile',
+      'editProfileSaveButton': 'Save',
+      'editProfileSaveChangesButton': 'Save Changes',
+      'editProfileUpdatedSuccess': 'Profile updated successfully',
+      // Edit profile sections
+      'editProfilePersonalInfoTitle': 'Personal Information',
+      'editProfileContactInfoTitle': 'Contact Information',
+      'editProfileBeneficiaryInfoTitle': 'Beneficiary Information',
+      'editProfileNameLabel': 'Name',
+      'editProfileLastNameLabel': 'Last Name',
+      'editProfilePhoneLabel': 'Phone',
+      'editProfileAddressLabel': 'Address',
+      'editProfileBeneficiaryNameLabel': 'Beneficiary Name',
+      'editProfileBeneficiaryEmailLabel': 'Beneficiary Email',
+      'editProfileBeneficiaryPhoneLabel': 'Beneficiary Phone',
     },
     'es': {
       'appTitle': 'App Modular',
@@ -171,6 +210,45 @@ class AppLocalizations {
       'activityInventoryUpdatedSubtitle': '25 productos agregados',
       'activityReportGeneratedTitle': 'Reporte generado',
       'activityReportGeneratedSubtitle': 'Reporte mensual completado',
+      // Profile screen
+      'profileTitle': 'Mi Perfil',
+      'profileErrorOccurred': 'Ocurrió un error',
+      'profileNoUserDataFound': 'No se encontraron datos del usuario.',
+      'profilePhotoUpdated': '¡Foto de perfil actualizada!',
+      'profileMainDataTitle': 'Datos Principales',
+      'profileSecondaryDataTitle': 'Datos Secundarios',
+      'profileAdditionalDataTitle': 'Adicionales',
+      'profileUserLabel': 'Usuario',
+      'profileEmailLabel': 'Correo',
+      'profileIdentificationLabel': 'Identificación',
+      'profileRegistrationDateLabel': 'Fecha de Registro',
+      'profileBirthDateLabel': 'Fecha de Nacimiento',
+      'profileNameLabel': 'Nombre',
+      'profileLastNameLabel': 'Apellido',
+      'profileAddressLabel': 'Dirección',
+      'profilePhoneLabel': 'Teléfono',
+      'profileBeneficiaryNameLabel': 'Nombre Beneficiario',
+      'profileBeneficiaryEmailLabel': 'Correo del Beneficiario',
+      'profileBeneficiaryPhoneLabel': 'Teléfono del Beneficiario',
+      'profileNotSpecified': 'No especificada',
+      'profileEditButton': 'Editar Perfil',
+      'profileLogoutButton': 'Cerrar Sesión',
+      // Edit profile screen
+      'editProfileTitle': 'Editar Perfil',
+      'editProfileSaveButton': 'Guardar',
+      'editProfileSaveChangesButton': 'Guardar Cambios',
+      'editProfileUpdatedSuccess': 'Perfil actualizado con éxito',
+      // Edit profile sections
+      'editProfilePersonalInfoTitle': 'Información Personal',
+      'editProfileContactInfoTitle': 'Datos de Contacto',
+      'editProfileBeneficiaryInfoTitle': 'Información del Beneficiario',
+      'editProfileNameLabel': 'Nombre',
+      'editProfileLastNameLabel': 'Apellido',
+      'editProfilePhoneLabel': 'Teléfono',
+      'editProfileAddressLabel': 'Dirección',
+      'editProfileBeneficiaryNameLabel': 'Nombre del Beneficiario',
+      'editProfileBeneficiaryEmailLabel': 'Correo del Beneficiario',
+      'editProfileBeneficiaryPhoneLabel': 'Teléfono del Beneficiario',
     },
   };
 
@@ -286,4 +364,79 @@ class AppLocalizations {
 
   String get activityReportGeneratedSubtitle =>
       _t('activityReportGeneratedSubtitle');
+
+  // Profile screen getters
+  String get profileTitle => _t('profileTitle');
+
+  String get profileErrorOccurred => _t('profileErrorOccurred');
+
+  String get profileNoUserDataFound => _t('profileNoUserDataFound');
+
+  String get profilePhotoUpdated => _t('profilePhotoUpdated');
+
+  String get profileMainDataTitle => _t('profileMainDataTitle');
+
+  String get profileSecondaryDataTitle => _t('profileSecondaryDataTitle');
+
+  String get profileAdditionalDataTitle => _t('profileAdditionalDataTitle');
+
+  String get profileUserLabel => _t('profileUserLabel');
+
+  String get profileEmailLabel => _t('profileEmailLabel');
+
+  String get profileIdentificationLabel => _t('profileIdentificationLabel');
+
+  String get profileRegistrationDateLabel => _t('profileRegistrationDateLabel');
+
+  String get profileBirthDateLabel => _t('profileBirthDateLabel');
+
+  String get profileNameLabel => _t('profileNameLabel');
+
+  String get profileLastNameLabel => _t('profileLastNameLabel');
+
+  String get profileAddressLabel => _t('profileAddressLabel');
+
+  String get profilePhoneLabel => _t('profilePhoneLabel');
+
+  String get profileBeneficiaryNameLabel => _t('profileBeneficiaryNameLabel');
+
+  String get profileBeneficiaryEmailLabel => _t('profileBeneficiaryEmailLabel');
+
+  String get profileBeneficiaryPhoneLabel => _t('profileBeneficiaryPhoneLabel');
+
+  String get profileNotSpecified => _t('profileNotSpecified');
+
+  String get profileEditButton => _t('profileEditButton');
+
+  String get profileLogoutButton => _t('profileLogoutButton');
+
+  // Edit profile screen getters
+  String get editProfileTitle => _t('editProfileTitle');
+
+  String get editProfileSaveButton => _t('editProfileSaveButton');
+
+  String get editProfileSaveChangesButton => _t('editProfileSaveChangesButton');
+
+  String get editProfileUpdatedSuccess => _t('editProfileUpdatedSuccess');
+
+  // Edit profile sections getters
+  String get editProfilePersonalInfoTitle => _t('editProfilePersonalInfoTitle');
+
+  String get editProfileContactInfoTitle => _t('editProfileContactInfoTitle');
+
+  String get editProfileBeneficiaryInfoTitle => _t('editProfileBeneficiaryInfoTitle');
+
+  String get editProfileNameLabel => _t('editProfileNameLabel');
+
+  String get editProfileLastNameLabel => _t('editProfileLastNameLabel');
+
+  String get editProfilePhoneLabel => _t('editProfilePhoneLabel');
+
+  String get editProfileAddressLabel => _t('editProfileAddressLabel');
+
+  String get editProfileBeneficiaryNameLabel => _t('editProfileBeneficiaryNameLabel');
+
+  String get editProfileBeneficiaryEmailLabel => _t('editProfileBeneficiaryEmailLabel');
+
+  String get editProfileBeneficiaryPhoneLabel => _t('editProfileBeneficiaryPhoneLabel');
 }

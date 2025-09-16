@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/core/common/widgets/avatar_updater.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/core/utils/date_formatter.dart';
 import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/profile/profile_header.dart';
@@ -18,11 +19,12 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final asyncSession = ref.watch(authNotifierProvider);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Mi Perfil',
+          l10n.profileTitle,
           style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
         ),
         backgroundColor: colorScheme.surface,
@@ -33,13 +35,13 @@ class ProfileScreen extends ConsumerWidget {
       body: asyncSession.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stackTrace) =>
-            Center(child: Text('Ocurrió un error: $err')),
+            Center(child: Text('${l10n.profileErrorOccurred}: $err')),
         data: (session) {
           final user = session?.user;
 
           if (user == null) {
-            return const Center(
-              child: Text('No se encontraron datos del usuario.'),
+            return Center(
+              child: Text(l10n.profileNoUserDataFound),
             );
           }
 
@@ -56,8 +58,8 @@ class ProfileScreen extends ConsumerWidget {
                     ),
                     onSuccess: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('¡Foto de perfil actualizada!'),
+                        SnackBar(
+                          content: Text(l10n.profilePhotoUpdated),
                         ),
                       );
                     },
@@ -69,41 +71,41 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 32),
                   ProfileInfoCard(
-                    title: 'Datos Principales',
+                    title: l10n.profileMainDataTitle,
                     icon: Icons.person_outline,
                     info: {
-                      'Usuario': user.userName,
-                      'Correo': user.email,
-                      'Identificación': user.identification,
-                      'Fecha de Registro': DateFormatter.ddMMyyyy(
+                      l10n.profileUserLabel: user.userName,
+                      l10n.profileEmailLabel: user.email,
+                      l10n.profileIdentificationLabel: user.identification,
+                      l10n.profileRegistrationDateLabel: DateFormatter.ddMMyyyy(
                         user.createdAt,
                       ),
-                      'Fecha de Nacimiento': user.birthDay != null
+                      l10n.profileBirthDateLabel: user.birthDay != null
                           ? DateFormatter.ddMMyyyy(user.birthDay)
-                          : 'No especificada',
+                          : l10n.profileNotSpecified,
                     },
                   ),
                   const SizedBox(height: 16),
 
                   ProfileInfoCard(
-                    title: 'Datos Secundarios',
+                    title: l10n.profileSecondaryDataTitle,
                     icon: Icons.location_on_outlined,
                     info: {
-                      'Nombre': user.name ?? '',
-                      'Apellido': user.lastName ?? '',
-                      'Dirección': user.address ?? '',
-                      'Teléfono': user.phone ?? '',
+                      l10n.profileNameLabel: user.name ?? '',
+                      l10n.profileLastNameLabel: user.lastName ?? '',
+                      l10n.profileAddressLabel: user.address ?? '',
+                      l10n.profilePhoneLabel: user.phone ?? '',
                     },
                   ),
                   const SizedBox(height: 16),
 
                   ProfileInfoCard(
-                    title: 'Adicionales',
+                    title: l10n.profileAdditionalDataTitle,
                     icon: Icons.favorite_border,
                     info: {
-                      'Nombre Beneficiario': user.beneficiaryName ?? '',
-                      'Correo del Beneficiario': user.beneficiaryEmail ?? '',
-                      'Teléfono del Beneficiario': user.beneficiaryPhone ?? '',
+                      l10n.profileBeneficiaryNameLabel: user.beneficiaryName ?? '',
+                      l10n.profileBeneficiaryEmailLabel: user.beneficiaryEmail ?? '',
+                      l10n.profileBeneficiaryPhoneLabel: user.beneficiaryPhone ?? '',
                     },
                   ),
 
@@ -119,13 +121,15 @@ class ProfileScreen extends ConsumerWidget {
   }
 
   Widget _buildActionButtons(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    
     return Column(
       children: [
         SizedBox(
           width: double.infinity,
           child: FilledButton.icon(
             icon: const Icon(Icons.edit_outlined),
-            label: const Text('Editar Perfil'),
+            label: Text(l10n.profileEditButton),
             onPressed: () {
               context.goNamed('edit-profile');
             },
@@ -140,7 +144,7 @@ class ProfileScreen extends ConsumerWidget {
               color: Theme.of(context).colorScheme.error,
             ),
             label: Text(
-              'Cerrar Sesión',
+              l10n.profileLogoutButton,
               style: TextStyle(color: Theme.of(context).colorScheme.error),
             ),
             onPressed: () => SidebarNavigation.navigate(

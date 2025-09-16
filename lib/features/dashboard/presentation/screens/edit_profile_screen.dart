@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_app/core/common/widgets/avatar_updater.dart';
 import 'package:my_app/core/common/widgets/primary_button.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/auth/domain/entities/user.dart';
 import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 import 'package:my_app/features/dashboard/presentation/controllers/profile_screen_controller.dart';
@@ -89,11 +90,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Editar Perfil'),
+        title: Text(l10n.editProfileTitle),
         actions: [
-          TextButton(onPressed: _saveChanges, child: const Text('Guardar')),
+          TextButton(onPressed: _saveChanges, child: Text(l10n.editProfileSaveButton)),
         ],
       ),
       body: SingleChildScrollView(
@@ -110,7 +113,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ),
               onSuccess: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('¡Foto de perfil actualizada!')),
+                  SnackBar(content: Text(l10n.profilePhotoUpdated)),
                 );
               },
               onError: (error) {
@@ -141,7 +144,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             ),
 
             const SizedBox(height: 40),
-            PrimaryButton(text: 'Guardar Cambios', onPressed: _saveChanges),
+            PrimaryButton(text: l10n.editProfileSaveChangesButton, onPressed: _saveChanges),
           ],
         ),
       ),
@@ -174,8 +177,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       );
       await profileNotifier.updateUserProfile(updatedUser);
       if (mounted) {
+        final l10n = AppLocalizations.of(context);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Perfil actualizado con éxito')),
+          SnackBar(content: Text(l10n.editProfileUpdatedSuccess)),
         );
         context.pop();
       }
