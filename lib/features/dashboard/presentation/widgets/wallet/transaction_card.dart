@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/dashboard/domain/entities/transaction.dart';
 import 'meta_pill.dart';
 import 'money_amount.dart';
@@ -37,6 +38,7 @@ class TransactionCard extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final formatDate = DateFormat.yMMMd('es_CR').add_jm();
     final amountColor = _isCredit ? Colors.green.shade700 : Colors.red.shade700;
+    final l10n = AppLocalizations.of(context);
 
     return Material(
       color: Colors.transparent,
@@ -128,7 +130,7 @@ class TransactionCard extends StatelessWidget {
                               if (transaction.credit > 0)
                                 Expanded(
                                   child: MoneyAmount(
-                                    title: 'Crédito',
+                                    title: l10n.walletCredit,
                                     value: transaction.credit,
                                     color: Colors.green.shade700,
                                   ),
@@ -136,7 +138,7 @@ class TransactionCard extends StatelessWidget {
                               if (transaction.debit > 0)
                                 Expanded(
                                   child: MoneyAmount(
-                                    title: 'Débito',
+                                    title: l10n.walletDebit,
                                     value: transaction.debit,
                                     color: Colors.red.shade700,
                                     alignRight: true,

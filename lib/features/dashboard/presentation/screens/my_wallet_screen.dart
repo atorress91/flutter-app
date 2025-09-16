@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:my_app/core/common/widgets/custom_loading_indicator.dart';
 import 'package:my_app/core/common/widgets/custom_refresh_indicator.dart';
 import 'package:my_app/core/common/widgets/info_card.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/dashboard/presentation/controllers/my_wallet_screen_controller.dart';
 import 'package:my_app/features/dashboard/presentation/states/my_wallet_state.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/wallet/filter_button.dart';
@@ -38,6 +39,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
     final formatCurrency = NumberFormat.currency(locale: 'en_US', symbol: 'USD ');
     final walletState = ref.watch(myWalletControllerProvider);
     final walletController = ref.read(myWalletControllerProvider.notifier);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -53,7 +55,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Mi Billetera',
+                      l10n.walletTitle,
                       style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 24),
@@ -64,7 +66,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                           Expanded(
                             child: InfoCard(
                               icon: Icons.account_balance_wallet_outlined,
-                              title: 'Disponible',
+                              title: l10n.walletAvailable,
                               value: formatCurrency.format(walletState.balance?.availableBalance ?? 0.0),
                               color: colorScheme.primary,
                             ),
@@ -73,7 +75,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                           Expanded(
                             child: InfoCard(
                               icon: Icons.trending_up_rounded,
-                              title: 'Ganado',
+                              title: l10n.walletEarned,
                               value: formatCurrency.format(walletState.balance?.totalCommissionsPaid ?? 0.0),
                               color: colorScheme.secondary,
                             ),
@@ -82,7 +84,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                           Expanded(
                             child: InfoCard(
                               icon: Icons.star_border_rounded,
-                              title: 'Tokens',
+                              title: l10n.walletTokens,
                               value: (walletState.balance?.bonusAmount ?? 0.0).toString(),
                               color: colorScheme.tertiary,
                             ),
@@ -96,7 +98,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                       children: [
                         FittedBox(
                           child: Text(
-                            'Movimientos Recientes',
+                            l10n.walletRecentMovements,
                             style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -117,14 +119,14 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                               children: [
                                 FilterButton(
                                   icon: Icons.apps_rounded,
-                                  label: 'Todos',
+                                  label: l10n.walletFilterAll,
                                   isSelected: walletState.filter == TransactionFilterType.all,
                                   onTap: () => walletController.setFilter(TransactionFilterType.all),
                                 ),
                                 const SizedBox(width: 4),
                                 FilterButton(
                                   icon: Icons.add_circle_outline_rounded,
-                                  label: 'Ingresos',
+                                  label: l10n.walletFilterIncome,
                                   isSelected: walletState.filter == TransactionFilterType.credit,
                                   onTap: () => walletController.setFilter(TransactionFilterType.credit),
                                   selectedColor: Colors.green.shade600,
@@ -132,7 +134,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                                 const SizedBox(width: 4),
                                 FilterButton(
                                   icon: Icons.remove_circle_outline_rounded,
-                                  label: 'Gastos',
+                                  label: l10n.walletFilterExpenses,
                                   isSelected: walletState.filter == TransactionFilterType.debit,
                                   onTap: () => walletController.setFilter(TransactionFilterType.debit),
                                   selectedColor: Colors.red.shade600,

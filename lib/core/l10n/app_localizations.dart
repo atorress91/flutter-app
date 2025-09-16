@@ -178,6 +178,17 @@ class AppLocalizations {
       'purchasesNoDetailsAvailable': 'No details available',
       'purchasesStatusCompleted': 'Completed',
       'purchasesStatusReturned': 'Returned',
+      // Wallet screen
+      'walletTitle': 'My Wallet',
+      'walletAvailable': 'Available',
+      'walletEarned': 'Earned',
+      'walletTokens': 'Tokens',
+      'walletRecentMovements': 'Recent Movements',
+      'walletFilterAll': 'All',
+      'walletFilterIncome': 'Income',
+      'walletFilterExpenses': 'Expenses',
+      'walletCredit': 'Credit',
+      'walletDebit': 'Debit',
     },
     'es': {
       'appTitle': 'App Modular',
@@ -285,6 +296,17 @@ class AppLocalizations {
       'purchasesNoDetailsAvailable': 'Sin detalles disponibles',
       'purchasesStatusCompleted': 'Completado',
       'purchasesStatusReturned': 'Devuelto',
+      // Wallet screen
+      'walletTitle': 'Mi Billetera',
+      'walletAvailable': 'Disponible',
+      'walletEarned': 'Ganado',
+      'walletTokens': 'Tokens',
+      'walletRecentMovements': 'Movimientos Recientes',
+      'walletFilterAll': 'Todos',
+      'walletFilterIncome': 'Ingresos',
+      'walletFilterExpenses': 'Gastos',
+      'walletCredit': 'Crédito',
+      'walletDebit': 'Débito',
     },
   };
 
@@ -510,4 +532,25 @@ class AppLocalizations {
   String get purchasesStatusCompleted => _t('purchasesStatusCompleted');
 
   String get purchasesStatusReturned => _t('purchasesStatusReturned');
+
+  // Wallet screen getters
+  String get walletTitle => _t('walletTitle');
+
+  String get walletAvailable => _t('walletAvailable');
+
+  String get walletEarned => _t('walletEarned');
+
+  String get walletTokens => _t('walletTokens');
+
+  String get walletRecentMovements => _t('walletRecentMovements');
+
+  String get walletFilterAll => _t('walletFilterAll');
+
+  String get walletFilterIncome => _t('walletFilterIncome');
+
+  String get walletFilterExpenses => _t('walletFilterExpenses');
+
+  String get walletCredit => _t('walletCredit');
+
+  String get walletDebit => _t('walletDebit');
 }
