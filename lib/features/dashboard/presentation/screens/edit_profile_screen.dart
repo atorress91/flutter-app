@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_app/core/common/widgets/avatar_updater.dart';
 import 'package:my_app/core/common/widgets/primary_button.dart';
+import 'package:my_app/features/auth/domain/entities/user.dart';
+import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
+import 'package:my_app/features/dashboard/presentation/controllers/profile_screen_controller.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/profile/edit/beneficiary_info_section.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/profile/edit/contact_info_section.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/profile/edit/personal_info_section.dart';
@@ -17,7 +20,7 @@ class EditProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
-  // Solo mantienes los controladores para sincronizar con el provider
+  // Solo mantiene los controladores para sincronizar con el provider
   final _nameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -74,20 +77,18 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     ref
         .read(editProfileFormProvider.notifier)
         .update(
-          name: _nameController.text,
-          lastName: _lastNameController.text,
-          phone: _phoneController.text,
-          address: _addressController.text,
-          beneficiaryName: _beneficiaryNameController.text,
-          beneficiaryEmail: _beneficiaryEmailController.text,
-          beneficiaryPhone: _beneficiaryPhoneController.text,
-        );
+      name: _nameController.text,
+      lastName: _lastNameController.text,
+      phone: _phoneController.text,
+      address: _addressController.text,
+      beneficiaryName: _beneficiaryNameController.text,
+      beneficiaryEmail: _beneficiaryEmailController.text,
+      beneficiaryPhone: _beneficiaryPhoneController.text,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final formState = ref.watch(editProfileFormProvider);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Editar Perfil'),
@@ -147,8 +148,37 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     );
   }
 
-  void _saveChanges() {
+  void _saveChanges() async {
     final formState = ref.read(editProfileFormProvider);
-    // TODO: Implementar la lógica para guardar usando formState
+    final profileNotifier = ref.read(profileScreenControllerProvider);
+    final user = ref.read(authNotifierProvider).value?.user;
+
+    if (user != null) {
+      final updatedUser = User(
+        id: user.id,
+        userName: user.userName,
+        identification: user.identification,
+        email: user.email,
+        name: formState.name,
+        lastName: formState.lastName,
+        phone: formState.phone,
+        address: formState.address,
+        beneficiaryName: formState.beneficiaryName,
+        beneficiaryEmail: formState.beneficiaryEmail,
+        beneficiaryPhone: formState.beneficiaryPhone,
+        isActive: user.isActive,
+        createdAt: user.createdAt,
+        isAffiliate: user.isAffiliate,
+        imageUrl: user.imageUrl,
+        birthDay: user.birthDay,
+      );
+      await profileNotifier.updateUserProfile(updatedUser);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Perfil actualizado con éxito')),
+        );
+        context.pop();
+      }
+    }
   }
 }

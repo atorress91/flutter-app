@@ -36,10 +36,13 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<User> updateUserProfile(User user) async {
     final request = UpdateUserProfileRequest(
-      identification: "DEFAULT_IDENTIFICATION",
-      binaryMatrixSide: 0,
+      identification: user.identification,
+      binaryMatrixSide: 1,
       phone: user.phone ?? '',
-      address: 'DEFAULT_ADDRESS',
+      address: user.address,
+      beneficiaryName: user.beneficiaryName,
+      beneficiaryEmail: user.beneficiaryEmail,
+      beneficiaryPhone: user.beneficiaryPhone,
     );
     final response = await _affiliateService.updateUserProfile(user.id, request);
 
