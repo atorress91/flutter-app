@@ -249,6 +249,24 @@ class AppLocalizations {
       'editProfileBeneficiaryNameLabel': 'Nombre del Beneficiario',
       'editProfileBeneficiaryEmailLabel': 'Correo del Beneficiario',
       'editProfileBeneficiaryPhoneLabel': 'Teléfono del Beneficiario',
+      // Purchases screen
+      'purchasesTitle': 'Mis Compras',
+      'purchasesExportPdfFunction': 'Función de exportar PDF no implementada.',
+      'purchasesExportPdfTooltip': 'Exportar PDF',
+      'purchasesExportButton': 'Exportar',
+      'purchasesTotalPurchases': 'Total Compras',
+      'purchasesExpenseLast30Days': 'Gasto (últ. 30 días)',
+      'purchasesFiltersTitle': 'Filtros',
+      'purchasesSearchPlaceholder': 'Buscar por No. Factura, Modelo...',
+      'purchasesDateRangeHelp': 'Selecciona un rango de fechas',
+      'purchasesDateRangeSave': 'Aplicar',
+      'purchasesAnyDate': 'Cualquier fecha',
+      'purchasesClearFiltersTooltip': 'Limpiar filtros',
+      'purchasesNoResultsTitle': 'No se encontraron compras',
+      'purchasesNoResultsSubtitle': 'Prueba ajustando los filtros o usando otro término de búsqueda.',
+      'purchasesNoDetailsAvailable': 'Sin detalles disponibles',
+      'purchasesStatusCompleted': 'Completado',
+      'purchasesStatusReturned': 'Devuelto',
     },
   };
 
@@ -439,4 +457,39 @@ class AppLocalizations {
   String get editProfileBeneficiaryEmailLabel => _t('editProfileBeneficiaryEmailLabel');
 
   String get editProfileBeneficiaryPhoneLabel => _t('editProfileBeneficiaryPhoneLabel');
+
+  // Purchases screen getters
+  String get purchasesTitle => _t('purchasesTitle');
+
+  String get purchasesExportPdfFunction => _t('purchasesExportPdfFunction');
+
+  String get purchasesExportPdfTooltip => _t('purchasesExportPdfTooltip');
+
+  String get purchasesExportButton => _t('purchasesExportButton');
+
+  String get purchasesTotalPurchases => _t('purchasesTotalPurchases');
+
+  String get purchasesExpenseLast30Days => _t('purchasesExpenseLast30Days');
+
+  String get purchasesFiltersTitle => _t('purchasesFiltersTitle');
+
+  String get purchasesSearchPlaceholder => _t('purchasesSearchPlaceholder');
+
+  String get purchasesDateRangeHelp => _t('purchasesDateRangeHelp');
+
+  String get purchasesDateRangeSave => _t('purchasesDateRangeSave');
+
+  String get purchasesAnyDate => _t('purchasesAnyDate');
+
+  String get purchasesClearFiltersTooltip => _t('purchasesClearFiltersTooltip');
+
+  String get purchasesNoResultsTitle => _t('purchasesNoResultsTitle');
+
+  String get purchasesNoResultsSubtitle => _t('purchasesNoResultsSubtitle');
+
+  String get purchasesNoDetailsAvailable => _t('purchasesNoDetailsAvailable');
+
+  String get purchasesStatusCompleted => _t('purchasesStatusCompleted');
+
+  String get purchasesStatusReturned => _t('purchasesStatusReturned');
 }

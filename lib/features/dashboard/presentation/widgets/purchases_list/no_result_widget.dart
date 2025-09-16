@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 
 class NoResultsWidget extends StatelessWidget {
   const NoResultsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 48.0, horizontal: 24.0),
@@ -19,7 +22,7 @@ class NoResultsWidget extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'No se encontraron compras',
+              l10n.purchasesNoResultsTitle,
               style: GoogleFonts.poppins(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -27,7 +30,7 @@ class NoResultsWidget extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Prueba ajustando los filtros o usando otro término de búsqueda.',
+              l10n.purchasesNoResultsSubtitle,
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,

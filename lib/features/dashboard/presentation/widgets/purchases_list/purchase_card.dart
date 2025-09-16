@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/core/utils/currency_utils.dart';
 import 'package:my_app/core/utils/date_formatter.dart';
 import 'package:my_app/features/dashboard/domain/entities/invoice_detail.dart';
@@ -106,12 +107,13 @@ class PurchaseCard extends StatelessWidget {
   ) {
     final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
     final colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     if (details.isEmpty) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Text(
-          'Sin detalles disponibles',
+          l10n.purchasesNoDetailsAvailable,
           style: textTheme.bodyMedium?.copyWith(
             color: colorScheme.onSurfaceVariant.withAlpha((255 * 0.7).toInt()),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/core/common/widgets/info_card.dart';
 
 class SummaryCards extends StatelessWidget {
@@ -14,6 +15,8 @@ class SummaryCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
+    
     return SizedBox(
       height: 90,
       child: Row(
@@ -21,7 +24,7 @@ class SummaryCards extends StatelessWidget {
           Expanded(
             child: InfoCard(
               icon: Icons.receipt_long,
-              title: 'Total Compras',
+              title: l10n.purchasesTotalPurchases,
               value: totalPurchases.toString(),
               color: colorScheme.primary,
             ),
@@ -30,7 +33,7 @@ class SummaryCards extends StatelessWidget {
           Expanded(
             child: InfoCard(
               icon: Icons.account_balance_wallet_outlined,
-              title: 'Gasto (últ. 30 días)',
+              title: l10n.purchasesExpenseLast30Days,
               value: 'CRC ${last30DaysExpense.toStringAsFixed(2)}',
               color: colorScheme.secondary,
             ),

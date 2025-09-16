@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/core/utils/date_formatter.dart';
 
 class DateRangePickerButton extends StatelessWidget {
@@ -13,13 +14,15 @@ class DateRangePickerButton extends StatelessWidget {
 
   Future<void> _pickDateRange(BuildContext context) async {
     final now = DateTime.now();
+    final l10n = AppLocalizations.of(context);
+    
     final picked = await showDateRangePicker(
       context: context,
       firstDate: DateTime(now.year - 5),
       lastDate: now,
       initialDateRange: dateRange,
-      helpText: 'Selecciona un rango de fechas',
-      saveText: 'Aplicar',
+      helpText: l10n.purchasesDateRangeHelp,
+      saveText: l10n.purchasesDateRangeSave,
     );
 
     if (picked != null) {
@@ -36,12 +39,13 @@ class DateRangePickerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     return OutlinedButton.icon(
       onPressed: () => _pickDateRange(context),
       icon: const Icon(Icons.date_range_outlined),
       label: Text(
-        dateRange == null ? 'Cualquier fecha' : _formatDateRange(dateRange!),
+        dateRange == null ? l10n.purchasesAnyDate : _formatDateRange(dateRange!),
       ),
       style: OutlinedButton.styleFrom(
         foregroundColor: colorScheme.onSurface,

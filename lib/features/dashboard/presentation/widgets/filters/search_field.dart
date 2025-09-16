@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 
 class SearchField extends StatefulWidget {
   final String initialValue;
@@ -32,13 +33,14 @@ class _SearchFieldState extends State<SearchField> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     return TextField(
       controller: _controller,
       onChanged: widget.onChanged,
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.search),
-        hintText: 'Buscar por No. Factura, Modelo...',
+        hintText: l10n.purchasesSearchPlaceholder,
         filled: true,
         fillColor: colorScheme.surface,
         border: OutlineInputBorder(

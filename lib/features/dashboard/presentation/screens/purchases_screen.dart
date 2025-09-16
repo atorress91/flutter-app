@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:my_app/core/common/widgets/custom_loading_indicator.dart';
 import 'package:my_app/core/common/widgets/custom_refresh_indicator.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/core/utils/purchases_utils.dart';
 
 import 'package:my_app/features/dashboard/presentation/providers/purchases_providers.dart';
@@ -50,8 +51,9 @@ class _PurchasesScreenState extends ConsumerState<PurchasesScreen> {
   }
 
   void _onExportPdf() {
+    final l10n = AppLocalizations.of(context);
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Función de exportar PDF no implementada.')),
+      SnackBar(content: Text(l10n.purchasesExportPdfFunction)),
     );
   }
 

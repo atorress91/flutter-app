@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/dashboard/domain/entities/purchase_status.dart';
 
 class StatusChip extends StatelessWidget {
@@ -9,7 +10,7 @@ class StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final config = _getStatusConfig(status);
+    final config = _getStatusConfig(context, status);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -35,17 +36,19 @@ class StatusChip extends StatelessWidget {
     );
   }
 
-  _StatusConfig _getStatusConfig(PurchaseStatus status) {
+  _StatusConfig _getStatusConfig(BuildContext context, PurchaseStatus status) {
+    final l10n = AppLocalizations.of(context);
+    
     switch (status) {
       case PurchaseStatus.completado:
         return _StatusConfig(
-          label: 'Completado',
+          label: l10n.purchasesStatusCompleted,
           color: Colors.green.shade700,
           icon: Icons.check_circle_outline,
         );
       case PurchaseStatus.devuelto:
         return _StatusConfig(
-          label: 'Devuelto',
+          label: l10n.purchasesStatusReturned,
           color: Colors.red.shade700,
           icon: Icons.cancel_outlined,
         );

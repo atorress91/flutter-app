@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'search_field.dart';
 import 'date_range_picker_button.dart';
 import 'clear_filters_button.dart';
@@ -23,12 +24,13 @@ class PurchasesFilters extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
+    final l10n = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Filtros',
+          l10n.purchasesFiltersTitle,
           style: textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'export_button.dart';
 
 class PurchasesHeader extends StatelessWidget {
@@ -14,12 +15,13 @@ class PurchasesHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
     final colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     return Row(
       children: [
         Expanded(
           child: Text(
-            'Mis compras',
+            l10n.purchasesTitle,
             style: textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
               color: colorScheme.onSurface,
