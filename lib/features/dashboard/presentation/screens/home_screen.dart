@@ -12,7 +12,6 @@ import 'package:my_app/features/dashboard/presentation/widgets/balance_chart/bal
 import 'package:my_app/features/dashboard/presentation/widgets/contract_details.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/performance_chart.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/quick_actions/quick_actions.dart';
-import 'package:my_app/features/dashboard/presentation/widgets/recent_activity/recent_activity.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/stats_carousel/stats_carousel.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/welcome_header.dart';
 
@@ -142,22 +141,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             padding: EdgeInsets.symmetric(horizontal: 24),
                             child: QuickActions(),
                           ),
-                          const SizedBox(height: 30),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: Text(
-                              AppLocalizations.of(context).homeRecentActivity,
-                              style: textTheme.titleLarge?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 24),
-                            child: RecentActivity(),
-                          ),
+                          // const SizedBox(height: 30),
+                          // Padding(
+                          //   padding: const EdgeInsets.symmetric(horizontal: 24),
+                          //   child: Text(
+                          //     AppLocalizations.of(context).homeRecentActivity,
+                          //     style: textTheme.titleLarge?.copyWith(
+                          //       color: Theme.of(context).colorScheme.onSurface,
+                          //       fontWeight: FontWeight.bold,
+                          //     ),
+                          //   ),
+                          // ),
+                          // const SizedBox(height: 20),
+                          // const Padding(
+                          //   padding: EdgeInsets.symmetric(horizontal: 24),
+                          //   child: RecentActivity(),
+                          // ),
                         ],
                       ),
                     ),
