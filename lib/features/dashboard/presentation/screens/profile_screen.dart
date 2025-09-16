@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/core/common/widgets/avatar_updater.dart';
 import 'package:my_app/core/utils/date_formatter.dart';
 import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/profile/profile_header.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/profile/profile_info_card.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/sidebar/sidebar_navigation.dart';
 
-import '../controllers/profile_screen_controller.dart'
-    show profileScreenControllerProvider;
-
 class ProfileScreen extends ConsumerWidget {
   final VoidCallback? onRequestClose;
+
   const ProfileScreen({super.key, this.onRequestClose});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profileController = ref.read(profileScreenControllerProvider);
     final colorScheme = Theme.of(context).colorScheme;
     final asyncSession = ref.watch(authNotifierProvider);
 
@@ -49,28 +48,23 @@ class ProfileScreen extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
               child: Column(
                 children: [
-                  ProfileHeader(
-                    onEdit: () async {
-                      try {
-                        final success = await profileController
-                            .updateProfilePicture();
-
-                        if (success && context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('¡Foto de perfil actualizada!'),
-                            ),
-                          );
-                        }
-                      } catch (e) {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Error al subir la imagen: $e'),
-                            ),
-                          );
-                        }
-                      }
+                  AvatarUpdater(
+                    child: ProfileHeader(
+                      onEdit: () {
+                        context.goNamed('edit-profile');
+                      },
+                    ),
+                    onSuccess: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('¡Foto de perfil actualizada!'),
+                        ),
+                      );
+                    },
+                    onError: (error) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(error)));
                     },
                   ),
                   const SizedBox(height: 32),
@@ -133,7 +127,7 @@ class ProfileScreen extends ConsumerWidget {
             icon: const Icon(Icons.edit_outlined),
             label: const Text('Editar Perfil'),
             onPressed: () {
-              // TODO: Implementar edición de datos del perfil
+              context.goNamed('edit-profile');
             },
           ),
         ),

@@ -8,8 +8,10 @@ import 'package:my_app/features/auth/presentation/screens/registration_screen.da
 import 'package:my_app/features/dashboard/presentation/screens/clients_screen.dart';
 import 'package:my_app/features/dashboard/presentation/screens/customer_service_screen.dart';
 import 'package:my_app/features/dashboard/presentation/screens/dashboard_screen.dart';
+import 'package:my_app/features/dashboard/presentation/screens/edit_profile_screen.dart';
 import 'package:my_app/features/dashboard/presentation/screens/home_screen.dart';
 import 'package:my_app/features/dashboard/presentation/screens/my_wallet_screen.dart';
+import 'package:my_app/features/dashboard/presentation/screens/profile_screen.dart';
 import 'package:my_app/features/dashboard/presentation/screens/purchases_screen.dart';
 import 'package:my_app/features/dashboard/presentation/screens/request_payment_screen.dart';
 
@@ -67,7 +69,19 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: 'customer-service',
               builder: (context, state) => const CustomerServiceScreen(),
-            )
+            ),
+            GoRoute(
+              path: 'profile',
+              name: 'profile',
+              builder: (context, state) => const ProfileScreen(),
+              routes: [
+                GoRoute(
+                  path: 'edit',
+                  name: 'edit-profile',
+                  builder: (context, state) => const EditProfileScreen(),
+                ),
+              ],
+            ),
           ],
         ),
         // más rutas del dashboard aquí
