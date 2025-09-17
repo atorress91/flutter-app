@@ -78,75 +78,94 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     ref
         .read(editProfileFormProvider.notifier)
         .update(
-      name: _nameController.text,
-      lastName: _lastNameController.text,
-      phone: _phoneController.text,
-      address: _addressController.text,
-      beneficiaryName: _beneficiaryNameController.text,
-      beneficiaryEmail: _beneficiaryEmailController.text,
-      beneficiaryPhone: _beneficiaryPhoneController.text,
-    );
+          name: _nameController.text,
+          lastName: _lastNameController.text,
+          phone: _phoneController.text,
+          address: _addressController.text,
+          beneficiaryName: _beneficiaryNameController.text,
+          beneficiaryEmail: _beneficiaryEmailController.text,
+          beneficiaryPhone: _beneficiaryPhoneController.text,
+        );
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.editProfileTitle),
         actions: [
-          TextButton(onPressed: _saveChanges, child: Text(l10n.editProfileSaveButton)),
+          TextButton(
+            onPressed: _saveChanges,
+            child: Text(l10n.editProfileSaveButton),
+          ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Avatar
-            AvatarUpdater(
-              child: ProfileHeader(
-                onEdit: () {
-                  context.goNamed('edit-profile');
-                },
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Avatar
+                  AvatarUpdater(
+                    child: ProfileHeader(
+                      onEdit: () {
+                        context.goNamed('edit-profile');
+                      },
+                    ),
+                    onSuccess: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(l10n.profilePhotoUpdated)),
+                      );
+                    },
+                    onError: (error) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(error)));
+                    },
+                  ),
+                  const SizedBox(height: 32),
+
+                  // Secciones modulares sin callbacks
+                  PersonalInfoSection(
+                    nameController: _nameController,
+                    lastNameController: _lastNameController,
+                  ),
+                  const SizedBox(height: 32),
+
+                  ContactInfoSection(
+                    phoneController: _phoneController,
+                    addressController: _addressController,
+                  ),
+                  const SizedBox(height: 32),
+
+                  BeneficiaryInfoSection(
+                    beneficiaryNameController: _beneficiaryNameController,
+                    beneficiaryEmailController: _beneficiaryEmailController,
+                    beneficiaryPhoneController: _beneficiaryPhoneController,
+                  ),
+                ],
               ),
-              onSuccess: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(l10n.profilePhotoUpdated)),
-                );
-              },
-              onError: (error) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(error)));
-              },
             ),
-            const SizedBox(height: 32),
-
-            // Secciones modulares sin callbacks
-            PersonalInfoSection(
-              nameController: _nameController,
-              lastNameController: _lastNameController,
+          ),
+          // Botón fuera del SingleChildScrollView
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Align(
+              alignment: Alignment.center,
+              child: PrimaryButton(
+                text: l10n.editProfileSaveChangesButton,
+                onPressed: _saveChanges,
+                width: 200,
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+              ),
             ),
-            const SizedBox(height: 32),
-
-            ContactInfoSection(
-              phoneController: _phoneController,
-              addressController: _addressController,
-            ),
-            const SizedBox(height: 32),
-
-            BeneficiaryInfoSection(
-              beneficiaryNameController: _beneficiaryNameController,
-              beneficiaryEmailController: _beneficiaryEmailController,
-              beneficiaryPhoneController: _beneficiaryPhoneController,
-            ),
-
-            const SizedBox(height: 40),
-            PrimaryButton(text: l10n.editProfileSaveChangesButton, onPressed: _saveChanges),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -178,9 +197,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       await profileNotifier.updateUserProfile(updatedUser);
       if (mounted) {
         final l10n = AppLocalizations.of(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.editProfileUpdatedSuccess)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.editProfileUpdatedSuccess)));
         context.pop();
       }
     }
