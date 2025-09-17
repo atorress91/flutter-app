@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/features/dashboard/domain/entities/client.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/clients/visibility_detector.dart';

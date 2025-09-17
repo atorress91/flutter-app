@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/features/dashboard/domain/entities/client.dart';
 
@@ -23,13 +22,15 @@ class OptimizedNodeWidget extends StatelessWidget {
             end: Alignment.bottomRight,
             colors: [
               Theme.of(context).colorScheme.surface,
-              Theme.of(context).colorScheme.surface.withOpacity(0.95),
+              Theme.of(
+                context,
+              ).colorScheme.surface.withAlpha((255 * 0.95).toInt()),
             ],
           ),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withAlpha((255 * 0.05).toInt()),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),

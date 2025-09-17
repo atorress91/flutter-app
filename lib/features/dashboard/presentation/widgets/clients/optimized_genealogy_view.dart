@@ -6,7 +6,7 @@ class OptimizedGenealogyView extends StatelessWidget {
   final String rootTitle;
   final List<Client> directClients;
 
-  OptimizedGenealogyView({
+  const OptimizedGenealogyView({
     super.key,
     required this.rootTitle,
     required this.directClients,
@@ -20,10 +20,7 @@ class OptimizedGenealogyView extends StatelessWidget {
       boundaryMargin: const EdgeInsets.all(100),
       constrained: false,
       child: Center(
-        child: GenealogyTreeRoot(
-          title: rootTitle,
-          children: directClients,
-        ),
+        child: GenealogyTreeRoot(title: rootTitle, children: directClients),
       ),
     );
   }

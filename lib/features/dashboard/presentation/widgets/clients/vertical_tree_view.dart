@@ -5,7 +5,7 @@ import 'client_tree_node.dart';
 class VerticalTreeView extends StatelessWidget {
   final List<Client> directClients;
 
-  VerticalTreeView({
+  const VerticalTreeView({
     super.key,
     required this.directClients,
   });
