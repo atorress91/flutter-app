@@ -31,7 +31,9 @@ class ClientNodeCard extends StatelessWidget {
           CircleAvatar(
             radius: 18,
             backgroundImage: (client.avatarUrl.isNotEmpty)
-                ? NetworkImage(client.avatarUrl)
+                ? (client.avatarUrl.startsWith('assets/') 
+                    ? AssetImage(client.avatarUrl)
+                    : NetworkImage(client.avatarUrl)) as ImageProvider
                 : const AssetImage('assets/images/image-gallery/avatar/avatar1.png') as ImageProvider,
           ),
           const SizedBox(width: 8),

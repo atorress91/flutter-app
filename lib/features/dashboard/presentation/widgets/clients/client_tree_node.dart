@@ -34,8 +34,10 @@ class ClientTreeNode extends StatelessWidget {
             CircleAvatar(
               radius: 20,
               backgroundImage: (client.avatarUrl.isNotEmpty)
-                  ? NetworkImage(client.avatarUrl)
-                  : const AssetImage('assets/images/image-gallery/avatar/avatar1.png') as ImageProvider,
+                  ? (client.avatarUrl.startsWith('assets/') 
+                      ? AssetImage(client.avatarUrl)
+                      : NetworkImage(client.avatarUrl)) as ImageProvider
+                  : const AssetImage('assets/images/image-gallery/avatar/avatar1.png'),
             ),
             const SizedBox(width: 12),
             Expanded(
