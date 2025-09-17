@@ -10,7 +10,7 @@ class MatrixService extends BaseService {
   Future<ApiResponse<UserUniLevelTreeDto?>> getUniLevelTree(int userId) async {
     return get<UserUniLevelTreeDto?>(
       '/matrix/uni_level',
-      query: {'userId': userId.toString()},
+      query: {'id': userId.toString()},
       fromJson: (json) {
         if (json == null) return null;
 
