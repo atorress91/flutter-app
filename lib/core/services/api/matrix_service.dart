@@ -5,7 +5,7 @@ import 'package:my_app/core/data/models/api_response.dart';
 import 'package:my_app/core/services/api/base_service.dart';
 
 class MatrixService extends BaseService {
-  MatrixService({super.client}) : super(microservice: Microservice.wallet);
+  MatrixService({super.client}) : super(microservice: Microservice.account);
 
   Future<ApiResponse<UserUniLevelTreeDto?>> getUniLevelTree(int userId) async {
     return get<UserUniLevelTreeDto?>(
