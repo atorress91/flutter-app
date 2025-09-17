@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class PerformanceManager {
   static const int maxVisibleNodes = 100;

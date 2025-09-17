@@ -1,15 +1,14 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class VisibilityDetector extends StatefulWidget {
   final Widget child;
   final Function(VisibilityInfo) onVisibilityChanged;
-  final Key key;
 
   const VisibilityDetector({
-    required this.key,
+    super.key,
     required this.child,
     required this.onVisibilityChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<VisibilityDetector> createState() => _VisibilityDetectorState();
@@ -20,11 +19,15 @@ class _VisibilityDetectorState extends State<VisibilityDetector> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkVisibility();
+      if (mounted) {
+        _checkVisibility();
+      }
     });
   }
 
   void _checkVisibility() {
+    if (!mounted) return;
+    
     final RenderBox? renderBox = context.findRenderObject() as RenderBox?;
     if (renderBox != null && renderBox.hasSize) {
       final offset = renderBox.localToGlobal(Offset.zero);
@@ -54,7 +57,11 @@ class _VisibilityDetectorState extends State<VisibilityDetector> {
   Widget build(BuildContext context) {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
-        _checkVisibility();
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            _checkVisibility();
+          }
+        });
         return false;
       },
       child: widget.child,
@@ -67,7 +74,7 @@ class VisibilityInfo {
   final Size size;
   final Offset offset;
 
-  VisibilityInfo({
+  const VisibilityInfo({
     required this.visibleFraction,
     required this.size,
     required this.offset,
