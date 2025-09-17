@@ -6,6 +6,8 @@ import 'package:my_app/core/common/widgets/custom_refresh_indicator.dart';
 import 'package:my_app/core/common/widgets/info_card.dart';
 import 'package:my_app/features/dashboard/domain/entities/unilevel_tree.dart';
 import 'package:my_app/features/dashboard/presentation/controllers/clients_screen_controller.dart';
+import 'package:my_app/features/dashboard/presentation/widgets/clients/optimized_genealogy_view.dart';
+import 'package:my_app/features/dashboard/presentation/widgets/clients/vertical_tree_view.dart';
 
 class ClientsScreen extends ConsumerStatefulWidget {
   const ClientsScreen({super.key});
@@ -157,11 +159,18 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
       return const Center(child: Text('Aún no tienes clientes directos.'));
     }
 
+    final clients = directClients.map((tree) => tree.toClient()).toList();
+
     if (_genealogyView) {
-      //
+      return SizedBox(
+        height: MediaQuery.of(context).size.height * 0.7,
+        child: OptimizedGenealogyView(
+          rootTitle: 'Mi Red',
+          directClients: clients,
+        ),
+      );
     } else {
-      //
+      return VerticalTreeView(directClients: clients);
     }
-    return const SizedBox.shrink();
   }
 }

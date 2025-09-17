@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'client.dart';
 
 class UniLevelTree extends Equatable {
   final String username;
@@ -20,6 +21,16 @@ class UniLevelTree extends Equatable {
     required this.byte,
     required this.children,
   });
+
+  Client toClient() {
+    return Client(
+      id: id.toString(),
+      name: username,
+      avatarUrl: image,
+      joinDate: DateTime.now(), // Since joinDate is not available in UniLevelTree, using current date as placeholder
+      referrals: children.map((child) => child.toClient()).toList(),
+    );
+  }
 
   @override
   List<Object?> get props => [
