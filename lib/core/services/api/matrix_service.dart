@@ -19,7 +19,7 @@ class MatrixService extends BaseService {
         }
 
         throw Exception(
-          'Formato de datos inválido para la información del balance',
+          'Formato de datos inválido',
         );
       },
     );
