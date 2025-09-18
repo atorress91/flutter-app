@@ -36,9 +36,9 @@ class ClientNodeCard extends StatelessWidget {
           fadeInDuration: const Duration(milliseconds: 150),
           placeholderFadeInDuration: const Duration(milliseconds: 100),
           placeholder: (context, _) => Container(
-            color: Theme.of(context).colorScheme.surfaceVariant,
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
           ),
-          errorWidget: (context, _, __) => Image.asset(
+          errorWidget: (context, _, _) => Image.asset(
             'assets/images/image-gallery/avatar/avatar1.png',
             fit: BoxFit.cover,
           ),
