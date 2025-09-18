@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/features/dashboard/domain/entities/client.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'client_node_card.dart';
 import 'children_block.dart';
@@ -16,6 +17,15 @@ class GenealogyTreeNode extends StatefulWidget {
 class _GenealogyTreeNodeState extends State<GenealogyTreeNode> {
   bool _expanded = false;
 
+  void _prefetchChildrenAvatars() {
+    for (final c in widget.client.referrals) {
+      final url = c.avatarUrl;
+      if (url.isNotEmpty && !url.startsWith('assets/')) {
+        precacheImage(CachedNetworkImageProvider(url), context);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final client = widget.client;
@@ -31,7 +41,11 @@ class _GenealogyTreeNodeState extends State<GenealogyTreeNode> {
               IconButton(
                 tooltip: _expanded ? 'Contraer' : 'Expandir',
                 icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
-                onPressed: () => setState(() => _expanded = !_expanded),
+                onPressed: () {
+                  setState(() => _expanded = !_expanded);
+                  if (!_expanded) return;
+                  _prefetchChildrenAvatars();
+                },
               ),
           ],
         ),

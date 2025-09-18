@@ -1,11 +1,51 @@
 import 'package:flutter/material.dart' hide DateUtils;
 import 'package:my_app/core/utils/date_formatter.dart';
 import 'package:my_app/features/dashboard/domain/entities/client.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ClientNodeCard extends StatelessWidget {
   final Client client;
 
   const ClientNodeCard({super.key, required this.client});
+
+  Widget _buildAvatar(BuildContext context, String url, double radius) {
+    final diameter = radius * 2;
+    if (url.isEmpty) {
+      return CircleAvatar(
+        radius: radius,
+        backgroundImage: const AssetImage('assets/images/image-gallery/avatar/avatar1.png'),
+      );
+    }
+    if (url.startsWith('assets/')) {
+      return CircleAvatar(
+        radius: radius,
+        backgroundImage: AssetImage(url),
+      );
+    }
+    return SizedBox(
+      width: diameter,
+      height: diameter,
+      child: ClipOval(
+        child: CachedNetworkImage(
+          imageUrl: url,
+          width: diameter,
+          height: diameter,
+          fit: BoxFit.cover,
+          memCacheWidth: (diameter * 3).toInt(),
+          memCacheHeight: (diameter * 3).toInt(),
+          fadeInDuration: const Duration(milliseconds: 150),
+          placeholderFadeInDuration: const Duration(milliseconds: 100),
+          placeholder: (context, _) => Container(
+            color: Theme.of(context).colorScheme.surfaceVariant,
+          ),
+          errorWidget: (context, _, __) => Image.asset(
+            'assets/images/image-gallery/avatar/avatar1.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +68,7 @@ class ClientNodeCard extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          CircleAvatar(
-            radius: 18,
-            backgroundImage: (client.avatarUrl.isNotEmpty)
-                ? (client.avatarUrl.startsWith('assets/') 
-                    ? AssetImage(client.avatarUrl)
-                    : NetworkImage(client.avatarUrl)) as ImageProvider
-                : const AssetImage('assets/images/image-gallery/avatar/avatar1.png') as ImageProvider,
-          ),
+          _buildAvatar(context, client.avatarUrl, 18),
           const SizedBox(width: 8),
           Flexible(
             child: Column(

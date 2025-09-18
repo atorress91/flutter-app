@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' hide DateUtils;
 import 'package:my_app/core/utils/date_formatter.dart';
 import 'package:my_app/features/dashboard/domain/entities/client.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ClientTreeNode extends StatefulWidget {
   final Client client;
@@ -21,6 +22,63 @@ class ClientTreeNode extends StatefulWidget {
 class _ClientTreeNodeState extends State<ClientTreeNode> {
   bool _expanded = false;
 
+  void _prefetchChildrenAvatars() {
+    for (final c in widget.client.referrals) {
+      final url = c.avatarUrl;
+      if (url.isNotEmpty && !url.startsWith('assets/')) {
+        precacheImage(CachedNetworkImageProvider(url), context);
+      }
+    }
+  }
+
+  Widget _buildAvatar(String url, double radius) {
+    final diameter = radius * 2;
+    if (url.isEmpty) {
+      return CircleAvatar(
+        radius: radius,
+        backgroundImage: const AssetImage('assets/images/image-gallery/avatar/avatar1.png'),
+      );
+    }
+
+    if (url.startsWith('assets/')) {
+      return CircleAvatar(
+        radius: radius,
+        backgroundImage: AssetImage(url),
+      );
+    }
+
+    return SizedBox(
+      width: diameter,
+      height: diameter,
+      child: ClipOval(
+        child: CachedNetworkImage(
+          imageUrl: url,
+          width: diameter,
+          height: diameter,
+          fit: BoxFit.cover,
+          memCacheWidth: (diameter * 3).toInt(),
+          memCacheHeight: (diameter * 3).toInt(),
+          fadeInDuration: const Duration(milliseconds: 150),
+          placeholderFadeInDuration: const Duration(milliseconds: 100),
+          placeholder: (context, _) => Container(
+            color: Theme.of(context).colorScheme.surfaceVariant,
+            child: const Center(
+              child: SizedBox(
+                width: 12,
+                height: 12,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+            ),
+          ),
+          errorWidget: (context, _, __) => Image.asset(
+            'assets/images/image-gallery/avatar/avatar1.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final client = widget.client;
@@ -39,14 +97,7 @@ class _ClientTreeNodeState extends State<ClientTreeNode> {
                   fontSize: 16,
                 ),
               ),
-            CircleAvatar(
-              radius: 20,
-              backgroundImage: (client.avatarUrl.isNotEmpty)
-                  ? (client.avatarUrl.startsWith('assets/')
-                      ? AssetImage(client.avatarUrl)
-                      : NetworkImage(client.avatarUrl)) as ImageProvider
-                  : const AssetImage('assets/images/image-gallery/avatar/avatar1.png'),
-            ),
+            _buildAvatar(client.avatarUrl, 20),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
@@ -67,7 +118,11 @@ class _ClientTreeNodeState extends State<ClientTreeNode> {
               IconButton(
                 tooltip: _expanded ? 'Contraer' : 'Expandir',
                 icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
-                onPressed: () => setState(() => _expanded = !_expanded),
+                onPressed: () {
+                  setState(() => _expanded = !_expanded);
+                  if (!_expanded) return;
+                  _prefetchChildrenAvatars();
+                },
               ),
               Chip(
                 avatar: Icon(
