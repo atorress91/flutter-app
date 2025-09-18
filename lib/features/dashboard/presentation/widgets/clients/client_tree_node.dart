@@ -2,7 +2,7 @@ import 'package:flutter/material.dart' hide DateUtils;
 import 'package:my_app/core/utils/date_formatter.dart';
 import 'package:my_app/features/dashboard/domain/entities/client.dart';
 
-class ClientTreeNode extends StatelessWidget {
+class ClientTreeNode extends StatefulWidget {
   final Client client;
   final double indentation;
   final bool isLast;
@@ -15,17 +15,25 @@ class ClientTreeNode extends StatelessWidget {
   });
 
   @override
+  State<ClientTreeNode> createState() => _ClientTreeNodeState();
+}
+
+class _ClientTreeNodeState extends State<ClientTreeNode> {
+  bool _expanded = false;
+
+  @override
   Widget build(BuildContext context) {
+    final client = widget.client;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(width: indentation),
-            if (indentation > 0)
+            SizedBox(width: widget.indentation),
+            if (widget.indentation > 0)
               Text(
-                isLast ? '└─ ' : '├─ ',
+                widget.isLast ? '└─ ' : '├─ ',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.outline,
                   fontSize: 16,
@@ -34,7 +42,7 @@ class ClientTreeNode extends StatelessWidget {
             CircleAvatar(
               radius: 20,
               backgroundImage: (client.avatarUrl.isNotEmpty)
-                  ? (client.avatarUrl.startsWith('assets/') 
+                  ? (client.avatarUrl.startsWith('assets/')
                       ? AssetImage(client.avatarUrl)
                       : NetworkImage(client.avatarUrl)) as ImageProvider
                   : const AssetImage('assets/images/image-gallery/avatar/avatar1.png'),
@@ -55,7 +63,12 @@ class ClientTreeNode extends StatelessWidget {
                 ],
               ),
             ),
-            if (client.referrals.isNotEmpty)
+            if (client.referrals.isNotEmpty) ...[
+              IconButton(
+                tooltip: _expanded ? 'Contraer' : 'Expandir',
+                icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
+                onPressed: () => setState(() => _expanded = !_expanded),
+              ),
               Chip(
                 avatar: Icon(
                   Icons.people,
@@ -69,11 +82,12 @@ class ClientTreeNode extends StatelessWidget {
                   context,
                 ).colorScheme.primary.withAlpha((255 * 0.1).toInt()),
               ),
+            ],
           ],
         ),
-        if (client.referrals.isNotEmpty)
+        if (client.referrals.isNotEmpty && _expanded)
           Padding(
-            padding: EdgeInsets.only(left: indentation + 10),
+            padding: EdgeInsets.only(left: widget.indentation + 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

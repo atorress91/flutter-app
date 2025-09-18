@@ -4,19 +4,39 @@ import 'package:my_app/features/dashboard/domain/entities/client.dart';
 import 'client_node_card.dart';
 import 'children_block.dart';
 
-class GenealogyTreeNode extends StatelessWidget {
+class GenealogyTreeNode extends StatefulWidget {
   final Client client;
 
   const GenealogyTreeNode({super.key, required this.client});
 
   @override
+  State<GenealogyTreeNode> createState() => _GenealogyTreeNodeState();
+}
+
+class _GenealogyTreeNodeState extends State<GenealogyTreeNode> {
+  bool _expanded = false;
+
+  @override
   Widget build(BuildContext context) {
+    final client = widget.client;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ClientNodeCard(client: client),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ClientNodeCard(client: client),
+            if (client.referrals.isNotEmpty)
+              IconButton(
+                tooltip: _expanded ? 'Contraer' : 'Expandir',
+                icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
+                onPressed: () => setState(() => _expanded = !_expanded),
+              ),
+          ],
+        ),
         const SizedBox(height: 8),
-        if (client.referrals.isNotEmpty)
+        if (client.referrals.isNotEmpty && _expanded)
           ChildrenBlock(
             childCount: client.referrals.length,
             childBuilder: (i) => GenealogyTreeNode(client: client.referrals[i]),
