@@ -29,32 +29,45 @@ class _GenealogyTreeNodeState extends State<GenealogyTreeNode> {
   @override
   Widget build(BuildContext context) {
     final client = widget.client;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        // Card del nodo con botón de expansión superpuesto
+        Stack(
+          alignment: Alignment.topRight,
           children: [
             ClientNodeCard(client: client),
             if (client.referrals.isNotEmpty)
-              IconButton(
-                tooltip: _expanded ? 'Contraer' : 'Expandir',
-                icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
-                onPressed: () {
-                  setState(() => _expanded = !_expanded);
-                  if (!_expanded) return;
-                  _prefetchChildrenAvatars();
-                },
+              Positioned(
+                top: 0,
+                right: 0,
+                child: IconButton(
+                  tooltip: _expanded ? 'Contraer' : 'Expandir',
+                  iconSize: 18,
+                  visualDensity: VisualDensity.compact,
+                  padding: const EdgeInsets.all(4),
+                  constraints: const BoxConstraints.tightFor(width: 30, height: 30),
+                  icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
+                  onPressed: () {
+                    setState(() => _expanded = !_expanded);
+                    if (!_expanded) return;
+                    _prefetchChildrenAvatars();
+                  },
+                ),
               ),
           ],
         ),
-        const SizedBox(height: 8),
-        if (client.referrals.isNotEmpty && _expanded)
+        // Expansión vertical hacia abajo (como FamilySearch)
+        if (client.referrals.isNotEmpty && _expanded) ...[
+          const SizedBox(height: 20),
+          // Hijos organizados en filas debajo del padre
           ChildrenBlock(
             childCount: client.referrals.length,
             childBuilder: (i) => GenealogyTreeNode(client: client.referrals[i]),
           ),
+        ],
       ],
     );
   }

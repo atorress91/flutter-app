@@ -16,37 +16,33 @@ class GenealogyTreeRoot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          RootNode(
-            title: title,
-            icon: Icons.person_search,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-          const SizedBox(height: 8),
-          if (children.isNotEmpty)
-            ChildrenBlock(
-              childCount: children.length,
-              childBuilder: (i) => GenealogyTreeNode(client: children[i]),
-            )
-          else
-            Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: Text(
-                'Sin clientes directos',
-                style: TextStyle(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withAlpha((255 * 0.6).toInt()),
-                ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Nodo raíz en la parte superior
+              RootNode(
+                title: title,
+                icon: Icons.person_search,
+                color: Theme.of(context).colorScheme.primary,
               ),
-            ),
-        ],
-      ),
+              // Espacio y conectores hacia los hijos
+              if (children.isNotEmpty) ...[
+                const SizedBox(height: 20),
+                // Los hijos se expanden hacia abajo en filas
+                ChildrenBlock(
+                  childCount: children.length,
+                  childBuilder: (i) => GenealogyTreeNode(client: children[i]),
+                ),
+              ],
+            ],
+          ),
+        );
+      },
     );
   }
 }

@@ -13,7 +13,8 @@ class ConnectorsPainter extends CustomPainter {
     final paint = Paint()
       ..color = color
       ..strokeWidth = 1.5
-      ..style = PaintingStyle.stroke;
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
 
     final centerX = size.width / 2;
     final top = 0.0;
