@@ -102,70 +102,83 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
               padding: const EdgeInsets.all(24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // Avatar
-                  AvatarUpdater(
-                    child: ProfileHeader(
-                      onEdit: () {
-                        context.goNamed('edit-profile');
-                      },
-                    ),
-                    onSuccess: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(l10n.profilePhotoUpdated)),
-                      );
-                    },
-                    onError: (error) {
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(SnackBar(content: Text(error)));
-                    },
-                  ),
-                  const SizedBox(height: 32),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight - 48.0, // Resta el padding
+                ),
+                child: IntrinsicHeight(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Avatar
+                      AvatarUpdater(
+                        child: ProfileHeader(
+                          onEdit: () {
+                            context.goNamed('edit-profile');
+                          },
+                        ),
+                        onSuccess: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(l10n.profilePhotoUpdated)),
+                          );
+                        },
+                        onError: (error) {
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(SnackBar(content: Text(error)));
+                        },
+                      ),
+                      const SizedBox(height: 32),
 
-                  // Secciones modulares sin callbacks
-                  PersonalInfoSection(
-                    nameController: _nameController,
-                    lastNameController: _lastNameController,
-                  ),
-                  const SizedBox(height: 32),
+                      // Secciones modulares sin callbacks
+                      PersonalInfoSection(
+                        nameController: _nameController,
+                        lastNameController: _lastNameController,
+                      ),
+                      const SizedBox(height: 32),
 
-                  ContactInfoSection(
-                    phoneController: _phoneController,
-                    addressController: _addressController,
-                  ),
-                  const SizedBox(height: 32),
+                      ContactInfoSection(
+                        phoneController: _phoneController,
+                        addressController: _addressController,
+                      ),
+                      const SizedBox(height: 32),
 
-                  BeneficiaryInfoSection(
-                    beneficiaryNameController: _beneficiaryNameController,
-                    beneficiaryEmailController: _beneficiaryEmailController,
-                    beneficiaryPhoneController: _beneficiaryPhoneController,
+                      BeneficiaryInfoSection(
+                        beneficiaryNameController: _beneficiaryNameController,
+                        beneficiaryEmailController: _beneficiaryEmailController,
+                        beneficiaryPhoneController: _beneficiaryPhoneController,
+                      ),
+
+                      // Spacer flexible para empujar el botón hacia abajo
+                      const Spacer(),
+
+                      // Espacio mínimo antes del botón
+                      const SizedBox(height: 32),
+
+                      // Botón centrado
+                      Center(
+                        child: PrimaryButton(
+                          text: l10n.editProfileSaveChangesButton,
+                          onPressed: _saveChanges,
+                          width: 200,
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        ),
+                      ),
+
+                      // Espacio adicional al final para asegurar que el botón no toque el borde
+                      const SizedBox(height: 16),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-          // Botón fuera del SingleChildScrollView
-          Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Align(
-              alignment: Alignment.center,
-              child: PrimaryButton(
-                text: l10n.editProfileSaveChangesButton,
-                onPressed: _saveChanges,
-                width: 200,
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
-              ),
-            ),
-          ),
-        ],
+            );
+          },
+        ),
       ),
     );
   }
