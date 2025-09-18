@@ -26,11 +26,11 @@ class _LazyLoadTreeNodeState extends State<LazyLoadTreeNode> {
   @override
   Widget build(BuildContext context) {
     return VisibilityDetector(
-      key: Key(widget.clients.first.id),
+      key: Key(widget.clients.first.id.toString()),
       onVisibilityChanged: (info) {
         if (info.visibleFraction > 0 && !_isVisible) {
           _isVisible = true;
-          widget.onNodeVisible(widget.clients.first.id);
+          widget.onNodeVisible(widget.clients.first.id.toString());
         }
       },
       child: _isVisible ? _buildVisibleContent() : _buildPlaceholder(),
@@ -47,7 +47,7 @@ class _LazyLoadTreeNodeState extends State<LazyLoadTreeNode> {
       children: widget.clients.map((client) {
         return OptimizedNodeWidget(
           client: client,
-          onExpand: () => widget.onNodeVisible(client.id),
+          onExpand: () => widget.onNodeVisible(client.id.toString()),
         );
       }).toList(),
     );

@@ -1,5 +1,5 @@
-import 'package:my_app/features/dashboard/domain/entities/unilevel_tree.dart';
+import 'package:my_app/features/dashboard/domain/entities/client.dart';
 
 abstract class MatrixRepository {
-  Future<UniLevelTree> getUniLevelTree(int userId);
+  Future<Client> getUniLevelTree(int userId);
 }

@@ -24,7 +24,7 @@ class _ClientTreeNodeState extends State<ClientTreeNode> {
 
   void _prefetchChildrenAvatars() {
     for (final c in widget.client.referrals) {
-      final url = c.avatarUrl;
+      final url = c.image;
       if (url.isNotEmpty && !url.startsWith('assets/')) {
         precacheImage(CachedNetworkImageProvider(url), context);
       }
@@ -97,20 +97,20 @@ class _ClientTreeNodeState extends State<ClientTreeNode> {
                   fontSize: 16,
                 ),
               ),
-            _buildAvatar(client.avatarUrl, 20),
+            _buildAvatar(client.image, 20),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    client.name,
+                    client.username,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    'Miembro desde: ${DateFormatter.ddMMyyyy(client.joinDate)}',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
+                  // Text(
+                  //   'Miembro desde: ${DateFormatter.ddMMyyyy(client.joinDate)}',
+                  //   style: Theme.of(context).textTheme.bodySmall,
+                  // ),
                 ],
               ),
             ),

@@ -19,7 +19,7 @@ class _GenealogyTreeNodeState extends State<GenealogyTreeNode> {
 
   void _prefetchChildrenAvatars() {
     for (final c in widget.client.referrals) {
-      final url = c.avatarUrl;
+      final url = c.image;
       if (url.isNotEmpty && !url.startsWith('assets/')) {
         precacheImage(CachedNetworkImageProvider(url), context);
       }

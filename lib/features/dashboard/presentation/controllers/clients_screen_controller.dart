@@ -19,7 +19,7 @@ class ClientsScreenController extends StateNotifier<ClientsState> {
 
       final getUnilevelTree = _ref.read(getUniLevelTreeUseCaseProvider);
       final unilevelTree = await getUnilevelTree.execute(userId: userId);
-      state = state.copyWith(isLoading: false, unilevelTree: unilevelTree);
+      state = state.copyWith(isLoading: false, uniLevelTree: unilevelTree);
     } catch (e) {
       state = state.copyWith(
         isLoading: false,

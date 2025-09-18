@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart' hide DateUtils;
-import 'package:my_app/core/utils/date_formatter.dart';
 import 'package:my_app/features/dashboard/domain/entities/client.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -68,7 +67,7 @@ class ClientNodeCard extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildAvatar(context, client.avatarUrl, 18),
+          _buildAvatar(context, client.image, 18),
           const SizedBox(width: 8),
           Flexible(
             child: Column(
@@ -76,12 +75,12 @@ class ClientNodeCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  client.name,
+                  client.username,
                   style: const TextStyle(fontWeight: FontWeight.w600),
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  'Desde ${DateFormatter.ddMMyyyy(client.joinDate)}',
+                  client.level.toString(),
                   style: Theme.of(context).textTheme.bodySmall,
                   overflow: TextOverflow.ellipsis,
                 ),

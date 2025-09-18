@@ -1,4 +1,4 @@
-import 'package:my_app/features/dashboard/domain/entities/unilevel_tree.dart';
+import 'package:my_app/features/dashboard/domain/entities/client.dart';
 import 'package:my_app/features/dashboard/domain/repositories/matrix_repository.dart';
 
 class GetUniLevelTreeUseCase {
@@ -6,7 +6,7 @@ class GetUniLevelTreeUseCase {
 
   GetUniLevelTreeUseCase(this._matrixRepository);
 
-  Future<UniLevelTree> execute({required int userId}) async {
+  Future<Client> execute({required int userId}) async {
     return await _matrixRepository.getUniLevelTree(userId);
   }
 }

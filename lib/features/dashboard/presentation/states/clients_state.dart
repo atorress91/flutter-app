@@ -1,21 +1,21 @@
-import 'package:my_app/features/dashboard/domain/entities/unilevel_tree.dart';
+import 'package:my_app/features/dashboard/domain/entities/client.dart';
 
 class ClientsState {
   final bool isLoading;
   final String? error;
-  final UniLevelTree? unilevelTree;
+  final Client? uniLevelTree;
 
-  const ClientsState({this.isLoading = false, this.error, this.unilevelTree});
+  const ClientsState({this.isLoading = false, this.error, this.uniLevelTree});
 
   ClientsState copyWith({
     bool? isLoading,
     String? error,
-    UniLevelTree? unilevelTree,
+    Client? uniLevelTree,
   }) {
     return ClientsState(
       isLoading: isLoading ?? this.isLoading,
       error: error,
-      unilevelTree: unilevelTree ?? this.unilevelTree,
+      uniLevelTree: uniLevelTree ?? this.uniLevelTree,
     );
   }
 }

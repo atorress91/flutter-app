@@ -4,7 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/core/common/widgets/custom_loading_indicator.dart';
 import 'package:my_app/core/common/widgets/custom_refresh_indicator.dart';
 import 'package:my_app/core/common/widgets/info_card.dart';
-import 'package:my_app/features/dashboard/domain/entities/unilevel_tree.dart';
+import 'package:my_app/features/dashboard/domain/entities/client.dart';
+
 import 'package:my_app/features/dashboard/presentation/controllers/clients_screen_controller.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/clients/optimized_genealogy_view.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/clients/vertical_tree_view.dart';
@@ -32,11 +33,11 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
     await ref.read(clientsScreenControllerProvider.notifier).refresh();
   }
 
-  int _countIndirectClients(List<UniLevelTree> clients) {
+  int _countIndirectClients(List<Client> clients) {
     int count = 0;
     for (final client in clients) {
-      count += client.children.length;
-      count += _countIndirectClients(client.children);
+      count += client.referrals.length;
+      count += _countIndirectClients(client.referrals);
     }
     return count;
   }
@@ -46,9 +47,9 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
     final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
     final colorScheme = Theme.of(context).colorScheme;
     final clientsState = ref.watch(clientsScreenControllerProvider);
-    final unilevelTree = clientsState.unilevelTree;
+    final uniLevelTree = clientsState.uniLevelTree;
 
-    final directClients = unilevelTree?.children ?? [];
+    final directClients = uniLevelTree?.referrals ?? [];
     final int indirectClientsCount = _countIndirectClients(directClients);
     final int totalClients = directClients.length + indirectClientsCount;
 
@@ -57,7 +58,7 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
       body: SafeArea(
         child: CustomRefreshIndicator(
           onRefresh: _handleRefresh,
-          child: clientsState.isLoading && unilevelTree == null
+          child: clientsState.isLoading && uniLevelTree == null
               ? const Center(child: CustomLoadingIndicator())
               : SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
@@ -137,8 +138,8 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Text(
                           _genealogyView
-                              ? 'Árbol Genealógico ($totalClients en total)'
-                              : 'Árbol de Referidos ($totalClients en total)',
+                              ? 'UniLevel ($totalClients en total)'
+                              : 'UniLevel ($totalClients en total)',
                           style: textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -154,23 +155,21 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
     );
   }
 
-  Widget _buildTreeContent(List<UniLevelTree> directClients) {
+  Widget _buildTreeContent(List<Client> directClients) {
     if (directClients.isEmpty) {
       return const Center(child: Text('Aún no tienes clientes directos.'));
     }
-
-    final clients = directClients.map((tree) => tree.toClient()).toList();
 
     if (_genealogyView) {
       return SizedBox(
         height: MediaQuery.of(context).size.height * 0.7,
         child: OptimizedGenealogyView(
           rootTitle: 'Mi Red',
-          directClients: clients,
+          directClients: directClients,
         ),
       );
     } else {
-      return VerticalTreeView(directClients: clients);
+      return VerticalTreeView(directClients: directClients);
     }
   }
 }

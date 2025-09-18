@@ -54,7 +54,7 @@ class OptimizedNodeWidget extends StatelessWidget {
           tag: 'avatar_${client.id}',
           child: CircleAvatar(
             radius: 25,
-            backgroundImage: CachedNetworkImageProvider(client.avatarUrl),
+            backgroundImage: CachedNetworkImageProvider(client.image),
           ),
         ),
         const SizedBox(width: 12),
@@ -63,7 +63,7 @@ class OptimizedNodeWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                client.name,
+                client.username,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
