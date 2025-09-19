@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart' hide DateUtils;
-import 'package:my_app/core/utils/date_formatter.dart';
 import 'package:my_app/features/dashboard/domain/entities/client.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 

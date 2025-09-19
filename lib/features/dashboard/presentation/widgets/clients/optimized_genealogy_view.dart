@@ -71,7 +71,7 @@ class _OptimizedGenealogyViewState extends State<OptimizedGenealogyView> {
 
         return Stack(
           children: [
-            Container(
+            SizedBox(
               width: width,
               height: height,
               child: GestureDetector(
