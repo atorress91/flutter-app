@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/app_navbar.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/sidebar/app_sidebar.dart';
 
-// Layout con comportamiento responsive: Drawer en móvil, sidebar fijo en escritorio
 class DashboardScreen extends StatefulWidget {
   final Widget child;
 
@@ -13,10 +12,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  // Estado para controlar si el sidebar está colapsado (solo relevante en desktop/tablet ancha)
   bool _isSidebarCollapsed = false;
-
-  // Key para abrir el Drawer en móvil
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _onMenuPressed(bool isMobile) {
@@ -29,14 +25,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
+  // Método para crear el background gradiente
+  Widget _buildGradientBackground({required Widget child}) {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Theme.of(context).colorScheme.primary.withAlpha((255 * 0.1).toInt()),
+            Theme.of(context).scaffoldBackgroundColor,
+            Theme.of(context).colorScheme.surface.withAlpha((255 * 0.95).toInt()),
+          ],
+        ),
+      ),
+      child: child,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    // Puedes ajustar el breakpoint según tu diseño
     final bool isMobile = width < 900;
 
     if (isMobile) {
-      // Móvil: usar Drawer que se sobrepone al contenido principal
       return Scaffold(
         key: _scaffoldKey,
         appBar: AppNavbar(onMenuPressed: () => _onMenuPressed(true)),
@@ -49,20 +63,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ),
         ),
-        body: widget.child,
-        // Footer no se muestra en móvil.
-        bottomNavigationBar: null,
+        body: _buildGradientBackground(child: widget.child),
       );
     }
 
-    // Escritorio/Tablet ancho: sidebar permanente junto al contenido
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppNavbar(onMenuPressed: () => _onMenuPressed(false)),
-      body: Row(
-        children: [
-          AppSidebar(isCollapsed: _isSidebarCollapsed),
-          Expanded(child: widget.child),
-        ],
+      body: _buildGradientBackground(
+        child: Row(
+          children: [
+            AppSidebar(isCollapsed: _isSidebarCollapsed),
+            Expanded(child: widget.child),
+          ],
+        ),
       ),
     );
   }

@@ -14,16 +14,25 @@ class AppSidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentRoute = GoRouterState.of(context).matchedLocation;
+    final theme = Theme.of(context);
 
     return AnimatedContainer(
       duration: sidebarAnimationDuration,
       curve: Curves.easeInOutCubic,
       width: isCollapsed ? sidebarCollapsedWidth : sidebarExpandedWidth,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            theme.colorScheme.primary.withAlpha((255 * 0.15).toInt()),
+            theme.scaffoldBackgroundColor,
+            theme.colorScheme.surface.withAlpha((255 * 0.9).toInt()),
+          ],
+        ),
         border: Border(
           right: BorderSide(
-            color: Theme.of(context).dividerColor,
+            color: theme.dividerColor.withAlpha((255 * 0.3).toInt()),
             width: sidebarBorderWidth,
           ),
         ),
@@ -138,7 +147,7 @@ class AppSidebar extends StatelessWidget {
     return Column(
       children: [
         Divider(
-          color: Theme.of(context).dividerColor,
+          color: Theme.of(context).dividerColor.withAlpha((255 * 0.3).toInt()),
           indent: 16,
           endIndent: 16,
         ),
