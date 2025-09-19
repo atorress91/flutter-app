@@ -7,7 +7,6 @@ import 'package:my_app/core/common/widgets/info_card.dart';
 import 'package:my_app/features/dashboard/domain/entities/client.dart';
 
 import 'package:my_app/features/dashboard/presentation/controllers/clients_screen_controller.dart';
-import 'package:my_app/features/dashboard/presentation/widgets/clients/optimized_genealogy_view.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/clients/vertical_tree_view.dart';
 
 class ClientsScreen extends ConsumerStatefulWidget {
@@ -18,8 +17,6 @@ class ClientsScreen extends ConsumerStatefulWidget {
 }
 
 class _ClientsScreenState extends ConsumerState<ClientsScreen> {
-  bool _genealogyView = false;
-
   @override
   void initState() {
     super.initState();
@@ -51,7 +48,6 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
 
     final directClients = uniLevelTree?.referrals ?? [];
     final int indirectClientsCount = _countIndirectClients(directClients);
-    final int totalClients = directClients.length + indirectClientsCount;
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -78,22 +74,6 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
                                 ),
                               ),
                             ),
-                            Tooltip(
-                              message: _genealogyView
-                                  ? 'Cambiar a árbol vertical'
-                                  : 'Cambiar a vista genealógica',
-                              child: IconButton(
-                                onPressed: () => setState(
-                                  () => _genealogyView = !_genealogyView,
-                                ),
-                                icon: Icon(
-                                  _genealogyView
-                                      ? Icons.account_tree_outlined
-                                      : Icons.family_restroom,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
                             Tooltip(
                               message: 'Añadir Cliente',
                               child: FilledButton.icon(
@@ -137,9 +117,7 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Text(
-                          _genealogyView
-                              ? 'UniLevel ($totalClients en total)'
-                              : 'UniLevel ($totalClients en total)',
+                          'UniLevel',
                           style: textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -160,16 +138,6 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
       return const Center(child: Text('Aún no tienes clientes directos.'));
     }
 
-    if (_genealogyView) {
-      return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.7,
-        child: OptimizedGenealogyView(
-          rootTitle: 'Mi Red',
-          directClients: directClients,
-        ),
-      );
-    } else {
-      return VerticalTreeView(directClients: directClients);
-    }
+    return VerticalTreeView(directClients: directClients);
   }
 }
