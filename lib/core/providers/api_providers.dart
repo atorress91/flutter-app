@@ -4,3 +4,4 @@ import 'package:my_app/core/services/api/wallet_service.dart';
 
 final walletServiceProvider = Provider<WalletService>((ref) => WalletService());
 final authServiceProvider = Provider<AuthService>((ref) => AuthService());
+
