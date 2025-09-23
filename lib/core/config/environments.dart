@@ -22,7 +22,7 @@ class Environment {
   static EnvironmentConfig _local = EnvironmentConfig(
     endpoints: {
       Microservice.account: 'https://account.recycoin.net/api/v1',
-      Microservice.systemConfiguration: 'http://localhost:3001',
+      Microservice.systemConfiguration: 'https://configuration.recycoin.net/api/v1',
       Microservice.inventory: 'http://localhost:3002',
       Microservice.wallet: 'https://wallet.recycoin.net/api/v1',
     },
@@ -33,7 +33,7 @@ class Environment {
   static EnvironmentConfig _prod = EnvironmentConfig(
     endpoints: {
       Microservice.account: 'https://account.recycoin.net/api/v1',
-      Microservice.systemConfiguration: 'https://api.example.com/system',
+      Microservice.systemConfiguration: 'https://configuration.recycoin.net/api/v1',
       Microservice.inventory: 'https://api.example.com/inventory',
       Microservice.wallet: 'https://wallet.recycoin.net/api/v1',
     },
@@ -57,7 +57,7 @@ class Environment {
       local: EnvironmentConfig(
         endpoints: {
           Microservice.account: 'https://account.recycoin.net/api/v1',
-          Microservice.systemConfiguration: 'http://localhost:3001',
+          Microservice.systemConfiguration: 'https://configuration.recycoin.net/api/v1',
           Microservice.inventory: 'http://localhost:3002',
           Microservice.wallet: 'https://wallet.recycoin.net/api/v1',
         },
@@ -84,7 +84,7 @@ class Environment {
       prod: EnvironmentConfig(
         endpoints: {
           Microservice.account: 'https://account.recycoin.net/api/v1',
-          Microservice.systemConfiguration: 'https://api.example.com/system',
+          Microservice.systemConfiguration: 'https://configuration.recycoin.net/api/v1',
           Microservice.inventory: 'https://api.example.com/inventory',
           Microservice.wallet: 'https://wallet.recycoin.net/api/v1',
         },

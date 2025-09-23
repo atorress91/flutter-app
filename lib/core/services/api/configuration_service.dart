@@ -10,7 +10,7 @@ class ConfigurationService extends BaseService {
   Future<ApiResponse<WithdrawalsWalletConfigurationDto?>>
   getWithdrawalsWalletConfiguration() async {
     return get<WithdrawalsWalletConfigurationDto>(
-      '/systemConfiguration/get_withdrawals_wallet_configuration',
+      '/configuration/get_withdrawals_wallet_configuration',
       fromJson: (json) {
         if (json == null) {
           return null;
