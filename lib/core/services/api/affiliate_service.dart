@@ -62,7 +62,7 @@ class AffiliateService extends BaseService {
 
   Future<ApiResponse<bool?>> generateVerificationCode(int userId, bool checkDate) async {
     return post<bool>(
-      '/userAffiliateInfo/generate_verification_code/$userId',
+      '/userAffiliateInfo/generateVerificationCode/$userId',
       query: {'checkDate': checkDate.toString()},
       fromJson: (json) {
         if (json is bool) {
