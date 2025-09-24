@@ -10,7 +10,7 @@ class RequestRepositoryImpl implements RequestRepository {
   RequestRepositoryImpl(this._walletRequestService, this._affiliateService);
 
   @override
-  Future<bool> generateCodeVerification(int userId) async {
+  Future<bool> generateVerificationCode(int userId) async {
     final response = await _affiliateService.generateVerificationCode(userId, false,);
 
     if (response.success && response.data != null) {
