@@ -1,6 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
+import 'package:my_app/features/dashboard/data/providers/account_providers.dart';
 import 'package:my_app/features/dashboard/presentation/states/request_payment_state.dart';
 import 'package:my_app/features/dashboard/data/providers/configuration_providers.dart';
+
 
 class RequestPaymentController extends StateNotifier<RequestPaymentState> {
   final Ref _ref;
@@ -18,6 +21,22 @@ class RequestPaymentController extends StateNotifier<RequestPaymentState> {
         isLoading: false,
         error: 'Ocurrió un error al cargar la configuración.',
       );
+    }
+  }
+
+  Future<bool> generateVerificationCode() async {
+    final userId = _ref.read(authNotifierProvider).value?.user.id;
+    if (userId == null) {
+      state = state.copyWith(error: 'Usuario no autenticado');
+      return false;
+    }
+    try {
+      final generateCodeUseCase = _ref.read(generateVerificationCodeUseCaseProvider);
+      final result = await generateCodeUseCase.execute(userId);
+      return result;
+    } catch (e) {
+      state = state.copyWith(error: 'Error al generar el código de verificación.');
+      return false;
     }
   }
 }

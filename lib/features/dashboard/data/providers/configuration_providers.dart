@@ -13,3 +13,4 @@ final configurationRepositoryProvider = Provider<ConfigurationRepository>(
 final getWithdrawalWalletConfigurationUseCaseProvider = Provider(
   (ref) => GetWithdrawalWalletConfigurationUseCase(ref.watch(configurationRepositoryProvider)),
 );
+

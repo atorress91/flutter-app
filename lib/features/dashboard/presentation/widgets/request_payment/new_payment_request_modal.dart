@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/features/dashboard/presentation/controllers/request_payment_screen_controller.dart';
 
-class NewPaymentRequestModal extends StatefulWidget {
+class NewPaymentRequestModal extends ConsumerStatefulWidget {
   const NewPaymentRequestModal({super.key});
 
   @override
-  State<NewPaymentRequestModal> createState() => _NewPaymentRequestModalState();
+  ConsumerState<NewPaymentRequestModal> createState() =>
+      _NewPaymentRequestModalState();
 }
 
-class _NewPaymentRequestModalState extends State<NewPaymentRequestModal> {
+class _NewPaymentRequestModalState
+    extends ConsumerState<NewPaymentRequestModal> {
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
   final _accessKeyController = TextEditingController();
@@ -17,8 +21,7 @@ class _NewPaymentRequestModalState extends State<NewPaymentRequestModal> {
 
   bool _isCodeSending = false;
   bool _isSubmitting = false;
-  bool _isPasswordVisible =
-      false; // Nueva variable para controlar la visibilidad
+  bool _isPasswordVisible = false;
 
   @override
   void dispose() {
@@ -29,40 +32,35 @@ class _NewPaymentRequestModalState extends State<NewPaymentRequestModal> {
     super.dispose();
   }
 
-  // Simula el envío del código de seguridad
   Future<void> _sendSecurityCode() async {
     if (_isCodeSending) return;
     setState(() => _isCodeSending = true);
 
-    // ----> LLAMADA A LA API PARA ENVIAR EL CÓDIGO <----
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Enviando código de seguridad...')),
-      );
-    }
-
-    await Future.delayed(const Duration(seconds: 2));
+    final controller = ref.read(requestPaymentControllerProvider.notifier);
+    final success = await controller.generateVerificationCode();
 
     if (mounted) {
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Código enviado a tu dispositivo.')),
+        SnackBar(
+          content: Text(
+            success
+                ? 'Código enviado a tu dispositivo.'
+                : 'Error al enviar el código.',
+          ),
+        ),
       );
       setState(() => _isCodeSending = false);
     }
   }
 
-  // Procesa el envío del formulario completo
   Future<void> _submitRequest() async {
     if (!_formKey.currentState!.validate()) {
-      return; // Si la validación falla, no hacer nada.
+      return;
     }
     setState(() => _isSubmitting = true);
 
-    // ----> LLAMADA A LA API PARA ENVIAR LA SOLICITUD <----
     await Future.delayed(const Duration(seconds: 2));
 
-    // Cierra el modal y muestra confirmación
     if (mounted) {
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
@@ -75,7 +73,6 @@ class _NewPaymentRequestModalState extends State<NewPaymentRequestModal> {
   Widget build(BuildContext context) {
     final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
 
-    // Usar Container en lugar de Padding para mejor control del tamaño
     return Container(
       width: double.infinity,
       constraints: BoxConstraints(
@@ -89,7 +86,6 @@ class _NewPaymentRequestModalState extends State<NewPaymentRequestModal> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // --- Encabezado del Modal ---
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -107,7 +103,6 @@ class _NewPaymentRequestModalState extends State<NewPaymentRequestModal> {
             ),
             const SizedBox(height: 24),
 
-            // --- Campos del Formulario ---
             TextFormField(
               controller: _amountController,
               keyboardType: const TextInputType.numberWithOptions(
@@ -121,7 +116,7 @@ class _NewPaymentRequestModalState extends State<NewPaymentRequestModal> {
                   (value == null || value.isEmpty) ? 'Campo requerido' : null,
             ),
             const SizedBox(height: 16),
-            // --- Campo de Clave de Acceso con Icono de Mostrar/Ocultar ---
+
             TextFormField(
               controller: _accessKeyController,
               obscureText: !_isPasswordVisible,
@@ -150,7 +145,6 @@ class _NewPaymentRequestModalState extends State<NewPaymentRequestModal> {
             ),
             const SizedBox(height: 16),
 
-            // --- Campo de Código con Botón ---
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -180,7 +174,6 @@ class _NewPaymentRequestModalState extends State<NewPaymentRequestModal> {
             ),
             const SizedBox(height: 32),
 
-            // --- Botón de Envío ---
             SizedBox(
               width: double.infinity,
               child: FilledButton(
