@@ -18,7 +18,7 @@ class AffiliateService extends BaseService {
         }
 
         final jsonMap = json as Map<String, dynamic>?;
-        
+
         final userPayload =
             jsonMap?['affiliate'] ??
                 jsonMap?['user'] ??
@@ -56,6 +56,19 @@ class AffiliateService extends BaseService {
           return UsersAffiliatesDto.fromJson(json);
         }
         throw Exception('Invalid data format for affiliate');
+      },
+    );
+  }
+
+  Future<ApiResponse<bool?>> generateVerificationCode(int userId, bool checkDate) async {
+    return post<bool>(
+      '/userAffiliateInfo/generate_verification_code/$userId',
+      query: {'checkDate': checkDate.toString()},
+      fromJson: (json) {
+        if (json is bool) {
+          return json;
+        }
+        throw Exception('Invalid data format for verification code generation');
       },
     );
   }

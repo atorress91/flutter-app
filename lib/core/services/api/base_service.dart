@@ -154,11 +154,12 @@ abstract class BaseService {
         Object? body,
         required JsonParser<T?> fromJson,
         Map<String, String>? headers,
+        Map<String, String>? query,
         String dataKey = 'data',
       }) {
     return _handleRequest<T>(
           () => client.post(
-        buildUri(endpoint),
+        buildUri(endpoint, query: query),
         headers: defaultHeaders(headers),
         body: body != null ? jsonEncode(body) : null,
       ),
