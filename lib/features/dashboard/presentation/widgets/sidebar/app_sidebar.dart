@@ -4,6 +4,7 @@ import 'package:my_app/features/dashboard/presentation/widgets/sidebar/sidebar_c
 import 'package:my_app/features/dashboard/presentation/widgets/sidebar/sidebar_header.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/sidebar/sidebar_menu_item.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/sidebar/sidebar_navigation.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 
 class AppSidebar extends StatelessWidget {
   final bool isCollapsed;
@@ -56,7 +57,7 @@ class AppSidebar extends StatelessWidget {
       padding: EdgeInsets.zero,
       children: [
         SidebarMenuItem(
-          title: 'Inicio',
+          title: AppLocalizations.of(context).t('sidebarHome'),
           icon: Icons.home_filled,
           isCollapsed: isCollapsed,
           isSelected: SidebarNavigation.isRouteSelected(
@@ -70,7 +71,7 @@ class AppSidebar extends StatelessWidget {
           ),
         ),
         SidebarMenuItem(
-          title: 'Mis compras',
+          title: AppLocalizations.of(context).t('sidebarPurchases'),
           icon: Icons.shopping_bag,
           isCollapsed: isCollapsed,
           isSelected: SidebarNavigation.isRouteSelected(
@@ -84,7 +85,7 @@ class AppSidebar extends StatelessWidget {
           ),
         ),
         SidebarMenuItem(
-          title: 'Mis Clientes',
+          title: AppLocalizations.of(context).t('sidebarClients'),
           icon: Icons.people_alt_outlined,
           isCollapsed: isCollapsed,
           isSelected: SidebarNavigation.isRouteSelected(
@@ -98,7 +99,7 @@ class AppSidebar extends StatelessWidget {
           ),
         ),
         SidebarMenuItem(
-          title: 'Solicitar pago',
+          title: AppLocalizations.of(context).t('sidebarRequestPayment'),
           icon: Icons.payment_outlined,
           isCollapsed: isCollapsed,
           isSelected: SidebarNavigation.isRouteSelected(
@@ -112,7 +113,7 @@ class AppSidebar extends StatelessWidget {
           ),
         ),
         SidebarMenuItem(
-          title: 'Mi billetera',
+          title: AppLocalizations.of(context).t('sidebarMyWallet'),
           icon: Icons.account_balance_wallet,
           isCollapsed: isCollapsed,
           isSelected: SidebarNavigation.isRouteSelected(
@@ -125,20 +126,20 @@ class AppSidebar extends StatelessWidget {
             onRequestClose: onRequestClose,
           ),
         ),
-        SidebarMenuItem(
-          title: 'Servicio al cliente',
-          icon: Icons.support_agent_outlined,
-          isCollapsed: isCollapsed,
-          isSelected: SidebarNavigation.isRouteSelected(
-            currentRoute,
-            '/dashboard/customer-service',
-          ),
-          onTap: () => SidebarNavigation.navigate(
-            context,
-            '/dashboard/customer-service',
-            onRequestClose: onRequestClose,
-          ),
-        )
+        // SidebarMenuItem(
+        //   title: AppLocalizations.of(context).t('sidebarCustomerService'),
+        //   icon: Icons.support_agent_outlined,
+        //   isCollapsed: isCollapsed,
+        //   isSelected: SidebarNavigation.isRouteSelected(
+        //     currentRoute,
+        //     '/dashboard/customer-service',
+        //   ),
+        //   onTap: () => SidebarNavigation.navigate(
+        //     context,
+        //     '/dashboard/customer-service',
+        //     onRequestClose: onRequestClose,
+        //   ),
+        // )
       ],
     );
   }
@@ -152,7 +153,7 @@ class AppSidebar extends StatelessWidget {
           endIndent: 16,
         ),
         SidebarMenuItem(
-          title: 'Cerrar Sesión',
+          title: AppLocalizations.of(context).t('sidebarLogout'),
           icon: Icons.logout,
           isCollapsed: isCollapsed,
           isSelected: false,

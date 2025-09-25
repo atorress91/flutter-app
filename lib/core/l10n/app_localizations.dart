@@ -84,6 +84,14 @@ class AppLocalizations {
       'sidebarDashboard': 'Dashboard',
       'sidebarLogoutToLogin': 'Back to Login',
       'menuTooltip': 'Collapse/Expand Menu',
+      // Sidebar
+      'sidebarHome': 'Home',
+      'sidebarPurchases': 'My Purchases',
+      'sidebarClients': 'My Clients',
+      'sidebarRequestPayment': 'Request Payment',
+      'sidebarMyWallet': 'My Wallet',
+      'sidebarCustomerService': 'Customer Service',
+      'sidebarLogout': 'Log Out',
       // Auth form
       'passwordLabel': 'Password',
       'signInButtonLabel': 'Sign in',
@@ -228,6 +236,14 @@ class AppLocalizations {
       'sidebarDashboard': 'Dashboard',
       'sidebarLogoutToLogin': 'Salir a Login',
       'menuTooltip': 'Contraer/Expandir Menú',
+      // Sidebar
+      'sidebarHome': 'Inicio',
+      'sidebarPurchases': 'Mis Compras',
+      'sidebarClients': 'Mis Clientes',
+      'sidebarRequestPayment': 'Solicitar pago',
+      'sidebarMyWallet': 'Mi Billetera',
+      'sidebarCustomerService': 'Servicio al cliente',
+      'sidebarLogout': 'Cerrar Sesión',
       // Auth form
       'passwordLabel': 'Contraseña',
       'signInButtonLabel': 'Iniciar sesión',
