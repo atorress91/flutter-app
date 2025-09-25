@@ -95,13 +95,13 @@ class HomeData {
         'icon': Icons.add_box,
         'labelKey': 'quickCreate',
         'color': const Color(0xFF9B5DE5),
-        'route': '/dashboard/purchases',
+        'route': '/dashboard/request-payment',
       },
       {
-        'icon': Icons.analytics,
-        'labelKey': 'quickReports',
+        'icon': Icons.group_add,
+        'labelKey': 'quickClients',
         'color': const Color(0xFF00A8E8),
-        'route': '/dashboard/purchases',
+        'route': '/dashboard/clients',
       },
       {
         'icon': Icons.receipt_long,
@@ -110,8 +110,8 @@ class HomeData {
         'route': '/dashboard/purchases',
       },
       {
-        'icon': Icons.sync_alt,
-        'labelKey': 'quickSettings',
+        'icon': Icons.wallet,
+        'labelKey': 'quickMyWallet',
         'color': const Color(0xFF00F5D4),
         'route': '/dashboard/my-wallet',
       },

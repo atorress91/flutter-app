@@ -56,7 +56,7 @@ class AffiliateService extends BaseService {
           return UsersAffiliatesDto.fromJson(json);
         }
         throw Exception('Invalid data format for affiliate');
-      },
+      }
     );
   }
 
@@ -69,7 +69,7 @@ class AffiliateService extends BaseService {
           return json;
         }
         throw Exception('Invalid data format for verification code generation');
-      },
+      }
     );
   }
 }

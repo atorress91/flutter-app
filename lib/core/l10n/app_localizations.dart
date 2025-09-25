@@ -109,9 +109,9 @@ class AppLocalizations {
       'statsReferrals': 'Referrals',
       // Quick actions
       'quickCreate': 'Create',
-      'quickReports': 'Reports',
+      'quickClients': 'Clients',
       'quickInvoices': 'Invoices',
-      'quickSettings': 'Settings',
+      'quickMyWallet': 'Movements',
       // Recent activity items
       'activityNewSaleTitle': 'New sale made',
       'activityNewSaleSubtitle': 'Product #3452, for \$250',
@@ -227,9 +227,9 @@ class AppLocalizations {
       'statsReferrals': 'Referidos',
       // Quick actions
       'quickCreate': 'Retirar',
-      'quickReports': 'Reportes',
+      'quickClients': 'Clientes',
       'quickInvoices': 'Facturas',
-      'quickSettings': 'Movimientos',
+      'quickMyWallet': 'Movimientos',
       // Recent activity items
       'activityNewSaleTitle': 'Nueva venta realizada',
       'activityNewSaleSubtitle': 'Producto #3452, por \$250',
@@ -396,11 +396,11 @@ class AppLocalizations {
   // Quick actions
   String get quickCreate => _t('quickCreate');
 
-  String get quickReports => _t('quickReports');
+  String get quickClients => _t('quickClients');
 
   String get quickInvoices => _t('quickInvoices');
 
-  String get quickSettings => _t('quickSettings');
+  String get quickMyWallet => _t('quickMyWallet');
 
   // Activity
   String get activityNewSaleTitle => _t('activityNewSaleTitle');
