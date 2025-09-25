@@ -73,6 +73,19 @@ class AppLocalizations {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      // Clients screen
+      'clientsTitle': 'My Clients',
+      'clientsAddClientTooltip': 'Add Client',
+      'clientsAddButton': 'Add',
+      'clientsDirect': 'Direct Clients',
+      'clientsIndirect': 'Indirect Clients',
+      'clientsUniLevel': 'UniLevel',
+      'clientsNoDirectClients': "You don't have direct clients yet.",
+      'clientsExpand': 'Expand',
+      'clientsCollapse': 'Collapse',
+            'clientsZoomIn': 'Zoom in',
+            'clientsZoomOut': 'Zoom out',
+            'clientsResetView': 'Reset view',
       'appTitle': 'Modular App',
       'loginScreenTitle': 'Login',
       'loginAsClient': 'Login as Client',
@@ -225,6 +238,19 @@ class AppLocalizations {
       'walletDebit': 'Debit',
     },
     'es': {
+      // Clients screen
+      'clientsTitle': 'Mis Clientes',
+      'clientsAddClientTooltip': 'Añadir Cliente',
+      'clientsAddButton': 'Añadir',
+      'clientsDirect': 'Clientes Directos',
+      'clientsIndirect': 'Clientes Indirectos',
+      'clientsUniLevel': 'UniLevel',
+      'clientsNoDirectClients': 'Aún no tienes clientes directos.',
+      'clientsExpand': 'Expandir',
+      'clientsCollapse': 'Contraer',
+            'clientsZoomIn': 'Acercar',
+            'clientsZoomOut': 'Alejar',
+            'clientsResetView': 'Restablecer vista',
       'appTitle': 'App Modular',
       'loginScreenTitle': 'Inicio de Sesión',
       'loginAsClient': 'Login como Cliente',

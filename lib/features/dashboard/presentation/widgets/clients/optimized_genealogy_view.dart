@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/features/dashboard/domain/entities/client.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'genealogy_tree/genealogy_tree_root.dart';
 
 class OptimizedGenealogyView extends StatefulWidget {
@@ -94,7 +95,7 @@ class _OptimizedGenealogyViewState extends State<OptimizedGenealogyView> {
                               width: width,
                               height: height,
                               alignment: Alignment.center,
-                              child: const Text('No hay clientes directos'),
+                              child: Text(AppLocalizations.of(context).t('clientsNoDirectClients')),
                             )
                           : GenealogyTreeRoot(
                               title: widget.rootTitle,
@@ -113,19 +114,19 @@ class _OptimizedGenealogyViewState extends State<OptimizedGenealogyView> {
                 children: [
                   _ZoomButton(
                     icon: Icons.add,
-                    tooltip: 'Acercar',
+                    tooltip: AppLocalizations.of(context).t('clientsZoomIn'),
                     onPressed: () => _zoom(1.2),
                   ),
                   const SizedBox(height: 8),
                   _ZoomButton(
                     icon: Icons.remove,
-                    tooltip: 'Alejar',
+                    tooltip: AppLocalizations.of(context).t('clientsZoomOut'),
                     onPressed: () => _zoom(1 / 1.2),
                   ),
                   const SizedBox(height: 8),
                   _ZoomButton(
                     icon: Icons.refresh,
-                    tooltip: 'Restablecer vista',
+                    tooltip: AppLocalizations.of(context).t('clientsResetView'),
                     onPressed: _resetView,
                   ),
                 ],

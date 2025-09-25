@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' hide DateUtils;
 import 'package:my_app/features/dashboard/domain/entities/client.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class ClientTreeNode extends StatefulWidget {
@@ -115,7 +116,9 @@ class _ClientTreeNodeState extends State<ClientTreeNode> {
             ),
             if (client.referrals.isNotEmpty) ...[
               IconButton(
-                tooltip: _expanded ? 'Contraer' : 'Expandir',
+                tooltip: _expanded
+                    ? AppLocalizations.of(context).t('clientsCollapse')
+                    : AppLocalizations.of(context).t('clientsExpand'),
                 icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
                 onPressed: () {
                   setState(() => _expanded = !_expanded);

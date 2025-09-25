@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/core/common/widgets/custom_loading_indicator.dart';
 import 'package:my_app/core/common/widgets/custom_refresh_indicator.dart';
 import 'package:my_app/core/common/widgets/info_card.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/dashboard/domain/entities/client.dart';
 
 import 'package:my_app/features/dashboard/presentation/controllers/clients_screen_controller.dart';
@@ -67,7 +68,7 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
                           children: [
                             Expanded(
                               child: Text(
-                                'Mis Clientes',
+                                AppLocalizations.of(context).t('clientsTitle'),
                                 style: textTheme.headlineSmall?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: colorScheme.onSurface,
@@ -75,11 +76,11 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
                               ),
                             ),
                             Tooltip(
-                              message: 'Añadir Cliente',
+                              message: AppLocalizations.of(context).t('clientsAddClientTooltip'),
                               child: FilledButton.icon(
                                 onPressed: () {},
                                 icon: const Icon(Icons.person_add_alt_1),
-                                label: const Text('Añadir'),
+                                label: Text(AppLocalizations.of(context).t('clientsAddButton')),
                               ),
                             ),
                           ],
@@ -95,7 +96,7 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
                               Expanded(
                                 child: InfoCard(
                                   icon: Icons.person_outline,
-                                  title: 'Clientes Directos',
+                                  title: AppLocalizations.of(context).t('clientsDirect'),
                                   value: directClients.length.toString(),
                                   color: const Color(0xFF00A8E8),
                                 ),
@@ -104,7 +105,7 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
                               Expanded(
                                 child: InfoCard(
                                   icon: Icons.groups_outlined,
-                                  title: 'Clientes Indirectos',
+                                  title: AppLocalizations.of(context).t('clientsIndirect'),
                                   value: indirectClientsCount.toString(),
                                   color: const Color(0xFF9B5DE5),
                                 ),
@@ -117,7 +118,7 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Text(
-                          'UniLevel',
+                          AppLocalizations.of(context).t('clientsUniLevel'),
                           style: textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -135,7 +136,7 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
 
   Widget _buildTreeContent(List<Client> directClients) {
     if (directClients.isEmpty) {
-      return const Center(child: Text('Aún no tienes clientes directos.'));
+      return Center(child: Text(AppLocalizations.of(context).t('clientsNoDirectClients')));
     }
 
     return VerticalTreeView(directClients: directClients);
