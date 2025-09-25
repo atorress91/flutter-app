@@ -75,7 +75,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24),
                             child: Text(
-                              "Balances Recycoin",
+                              AppLocalizations.of(context).t('homeBalancesTitle'),
                               style: textTheme.titleLarge?.copyWith(
                                 color: Theme.of(context).colorScheme.onSurface,
                                 fontWeight: FontWeight.bold,
@@ -91,7 +91,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24),
                             child: Text(
-                              "Detalles del Contrato",
+                              AppLocalizations.of(context).t('homeContractDetailsTitle'),
                               style: textTheme.titleLarge?.copyWith(
                                 color: Theme.of(context).colorScheme.onSurface,
                                 fontWeight: FontWeight.bold,
@@ -172,7 +172,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     if (state.error != null && state.balance == null) {
       return Center(
         child: Text(
-          'Error al cargar el balance:\n${state.error}',
+          '${AppLocalizations.of(context).t('homeErrorLoadingBalance')}\n${state.error}',
           textAlign: TextAlign.center,
           style: TextStyle(color: Theme.of(context).colorScheme.error),
         ),

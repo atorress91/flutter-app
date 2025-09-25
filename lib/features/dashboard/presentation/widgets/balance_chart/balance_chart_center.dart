@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/features/dashboard/presentation/models/balance_chart_view_model.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'balance_chart_section.dart';
 
 class BalanceChartCenter extends StatelessWidget {
@@ -25,7 +26,7 @@ class BalanceChartCenter extends StatelessWidget {
     final balanceForDisplay = animatedBalance ?? viewModel.latestBalance;
 
     if (touchedIndex == -1) {
-      title = 'Balance Total';
+      title = AppLocalizations.of(context).t('balanceTotal');
       amount =
           '${viewModel.currencySymbol}${balanceForDisplay.total.toStringAsFixed(2)}';
       color = Theme.of(context).textTheme.bodyLarge!.color!;

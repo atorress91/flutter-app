@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/features/dashboard/presentation/models/balance_chart_view_model.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'balance_chart_section.dart';
 
 class BalanceChartLegend extends StatelessWidget {
@@ -21,17 +22,17 @@ class BalanceChartLegend extends StatelessWidget {
         _LegendItem(
           // Obtenemos el color desde la misma fuente que el gráfico
           color: getSectionData(context,0, balance).color,
-          text: 'Disponible',
+          text: AppLocalizations.of(context).t('balanceAvailable'),
           amountText: '$currencySymbol${balance.available.toStringAsFixed(2)}',
         ),
         _LegendItem(
           color: getSectionData(context,1, balance).color,
-          text: 'Pagado',
+          text: AppLocalizations.of(context).t('balancePaid'),
           amountText: '$currencySymbol${balance.locked.toStringAsFixed(2)}',
         ),
         _LegendItem(
           color: getSectionData(context,2, balance).color,
-          text: 'Recycoins',
+          text: AppLocalizations.of(context).t('balanceRecycoins'),
           amountText: '${balance.recycoins} RC',
         ),
       ],

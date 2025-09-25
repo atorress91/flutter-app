@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/dashboard/domain/entities/network_purchase.dart';
 
 class PerformanceChart extends StatelessWidget {
@@ -46,19 +47,20 @@ class PerformanceChart extends StatelessWidget {
                     sideTitles: SideTitles(
                       showTitles: true,
                       getTitlesWidget: (value, meta) {
-                        const months = [
-                          'Ene',
-                          'Feb',
-                          'Mar',
-                          'Abr',
-                          'May',
-                          'Jun',
-                          'Jul',
-                          'Ago',
-                          'Sep',
-                          'Oct',
-                          'Nov',
-                          'Dic',
+                        final loc = AppLocalizations.of(context);
+                        final months = [
+                          loc.t('monthJanShort'),
+                          loc.t('monthFebShort'),
+                          loc.t('monthMarShort'),
+                          loc.t('monthAprShort'),
+                          loc.t('monthMayShort'),
+                          loc.t('monthJunShort'),
+                          loc.t('monthJulShort'),
+                          loc.t('monthAugShort'),
+                          loc.t('monthSepShort'),
+                          loc.t('monthOctShort'),
+                          loc.t('monthNovShort'),
+                          loc.t('monthDecShort'),
                         ];
                         if (value.toInt() >= 0 &&
                             value.toInt() < months.length) {

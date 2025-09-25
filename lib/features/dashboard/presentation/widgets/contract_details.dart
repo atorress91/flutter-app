@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 
 String _shortenAddress(String address) {
   if (address.length < 12) return address;
@@ -26,7 +27,7 @@ class ContractDetails extends StatelessWidget {
         children: [
           _buildDetailRow(
             context,
-            title: 'Contrato',
+            title: AppLocalizations.of(context).t('contractLabel'),
             value: _shortenAddress(fullContractAddress),
             trailingIcon: Icons.copy_all_outlined,
             onCopy: () async {
@@ -35,17 +36,17 @@ class ContractDetails extends StatelessWidget {
               );
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Contrato copiado al portapapeles'),
+                  SnackBar(
+                    content: Text(AppLocalizations.of(context).t('contractCopied')),
                   ),
                 );
               }
             },
           ),
           const Divider(),
-          _buildDetailRow(context, title: 'Venta pública', value: '01-08-2026'),
+          _buildDetailRow(context, title: AppLocalizations.of(context).t('publicSaleLabel'), value: '01-08-2026'),
           const Divider(),
-          _buildDetailRow(context, title: 'Red', value: 'BNB Smart Chain'),
+          _buildDetailRow(context, title: AppLocalizations.of(context).t('networkLabel'), value: 'BNB Smart Chain'),
         ],
       ),
     );

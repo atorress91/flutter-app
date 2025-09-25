@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/core/theme/app_theme.dart';
 import 'package:my_app/features/dashboard/presentation/models/balance_chart_view_model.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 
 class SectionData {
   final Color color;
@@ -18,18 +19,19 @@ SectionData getSectionData(
 ) {
   final theme = Theme.of(context);
   final isDarkMode = theme.brightness == Brightness.dark;
+  final loc = AppLocalizations.of(context);
 
   switch (index) {
     case 0: // Disponible
       return SectionData(
         color: isDarkMode ? const Color(0xFF00A8E8) : Colors.blue.shade600,
-        title: 'Disponible',
+        title: loc.t('balanceAvailable'),
         value: balance.available.toStringAsFixed(2),
       );
     case 1: // Pagado
       return SectionData(
         color: isDarkMode ? Colors.red.shade400 : Colors.red.shade700,
-        title: 'Pagado',
+        title: loc.t('balancePaid'),
         value: balance.locked.toStringAsFixed(2),
       );
     case 2: // Recycoins
@@ -37,7 +39,7 @@ SectionData getSectionData(
         color: isDarkMode
             ? AppTheme.accentYellowColor
             : AppTheme.accentGreenColor,
-        title: 'Recycoins',
+        title: loc.t('balanceRecycoins'),
         value: balance.recycoins.toStringAsFixed(2),
       );
     default:
