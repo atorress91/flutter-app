@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_app/core/errors/exceptions.dart';
 import 'package:my_app/core/services/platform/biometric_service.dart';
 import 'package:my_app/features/auth/domain/use_cases/login_with_biometrics_use_case.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 
 import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 
@@ -22,7 +23,7 @@ class BiometricLoginButton extends ConsumerWidget {
           height: 44,
           child: OutlinedButton.icon(
             icon: const Icon(Icons.fingerprint),
-            label: const Text('Iniciar sesión con huella'),
+            label: Text(AppLocalizations.of(context).t('signInWithBiometrics')),
             onPressed: () => _onPressed(context, ref),
           ),
         );

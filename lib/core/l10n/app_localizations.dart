@@ -112,6 +112,15 @@ class AppLocalizations {
       'usernameOrEmailRequired': 'Enter your username or email',
       'passwordRequired': 'Enter your password',
       'passwordTooShort': 'Password is too short',
+      'showPassword': 'Show password',
+      'hidePassword': 'Hide password',
+      'forgotPassword': 'Forgot your password?',
+      'forgotPasswordSoon': 'Password recovery coming soon',
+      'loginOrContinueWith': 'or continue with',
+      'noAccountQuestion': "Don't have an account? ",
+      'createAccount': 'Create Account',
+      'invalidCredentials': 'Invalid username or password.',
+      'signInWithBiometrics': 'Sign in with fingerprint',
       // Biometric prompt
       'enableBiometricsTitle': 'Enable Biometric Login?',
       'enableBiometricsContent':
@@ -277,6 +286,15 @@ class AppLocalizations {
       'usernameOrEmailRequired': 'Ingresa tu usuario o email',
       'passwordRequired': 'Ingresa tu contraseña',
       'passwordTooShort': 'La contraseña es muy corta',
+      'showPassword': 'Mostrar contraseña',
+      'hidePassword': 'Ocultar contraseña',
+      'forgotPassword': '¿Olvidaste tu contraseña?',
+      'forgotPasswordSoon': 'Función de recuperación de contraseña próximamente',
+      'loginOrContinueWith': 'o continúa con',
+      'noAccountQuestion': '¿No tienes cuenta? ',
+      'createAccount': 'Crear Cuenta',
+      'invalidCredentials': 'Usuario o contraseña inválidos.',
+      'signInWithBiometrics': 'Iniciar sesión con huella',
       // Biometric prompt
       'enableBiometricsTitle': '¿Activar inicio biométrico?',
       'enableBiometricsContent':

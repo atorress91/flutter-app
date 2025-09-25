@@ -133,7 +133,7 @@ class LoginScreen extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  'o continúa con',
+                  AppLocalizations.of(context).t('loginOrContinueWith'),
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurface.withAlpha((255 * 0.6).toInt()),
                     fontWeight: FontWeight.w500,
@@ -170,7 +170,7 @@ class LoginScreen extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            '¿No tienes cuenta? ',
+            AppLocalizations.of(context).t('noAccountQuestion'),
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurface.withAlpha((255 * 0.7).toInt()),
               fontWeight: FontWeight.w400,
@@ -184,7 +184,7 @@ class LoginScreen extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
-                'Crear Cuenta',
+                AppLocalizations.of(context).t('createAccount'),
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.primary,
                   fontWeight: FontWeight.w600,
@@ -240,7 +240,7 @@ class LoginScreen extends ConsumerWidget {
     } else {
       // Establecer mensaje de error si las credenciales son inválidas
       ref.read(loginErrorMessageProvider.notifier).state =
-      'Usuario o contraseña inválidos.';
+          AppLocalizations.of(context).t('invalidCredentials');
     }
   }
 

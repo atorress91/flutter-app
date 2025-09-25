@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/core/common/widgets/custom_text_field.dart';
 import 'package:my_app/core/common/widgets/primary_button.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 
 class LoginForm extends StatefulWidget {
   final Function(String username, String password) onSubmit;
@@ -64,14 +65,14 @@ class _LoginFormState extends State<LoginForm> {
           // Campo de usuario
           CustomTextField(
             controller: _usernameController,
-            labelText: 'Usuario',
+            labelText: AppLocalizations.of(context).usernameOrEmailLabel,
             icon: Icons.person_outline,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             textCapitalization: TextCapitalization.none,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'Por favor ingresa tu usuario';
+                return AppLocalizations.of(context).usernameOrEmailRequired;
               }
               return null;
             },
@@ -82,7 +83,7 @@ class _LoginFormState extends State<LoginForm> {
           // Campo de contraseña
           CustomTextField(
             controller: _passwordController,
-            labelText: 'Contraseña',
+            labelText: AppLocalizations.of(context).passwordLabel,
             icon: Icons.lock_outline,
             obscureText: !_showPassword,
             textInputAction: TextInputAction.done,
@@ -96,15 +97,15 @@ class _LoginFormState extends State<LoginForm> {
               ),
               onPressed: _togglePasswordVisibility,
               tooltip: _showPassword
-                  ? 'Ocultar contraseña'
-                  : 'Mostrar contraseña',
+                  ? AppLocalizations.of(context).t('hidePassword')
+                  : AppLocalizations.of(context).t('showPassword'),
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Por favor ingresa tu contraseña';
+                return AppLocalizations.of(context).passwordRequired;
               }
               if (value.length < 6) {
-                return 'La contraseña debe tener al menos 6 caracteres';
+                return AppLocalizations.of(context).passwordTooShort;
               }
               return null;
             },
@@ -115,7 +116,7 @@ class _LoginFormState extends State<LoginForm> {
 
           // Botón de iniciar sesión
           PrimaryButton(
-            text: 'Iniciar Sesión',
+            text: AppLocalizations.of(context).signInButtonLabel,
             isLoading: _isLoading,
             onPressed: _handleSubmit,
           ),
@@ -127,15 +128,15 @@ class _LoginFormState extends State<LoginForm> {
             onPressed: () {
               // TODO: Implementar recuperación de contraseña
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
+                SnackBar(
                   content: Text(
-                    'Función de recuperación de contraseña próximamente',
+                    AppLocalizations.of(context).t('forgotPasswordSoon'),
                   ),
                 ),
               );
             },
             child: Text(
-              '¿Olvidaste tu contraseña?',
+              AppLocalizations.of(context).t('forgotPassword'),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.primary,
                 decoration: TextDecoration.underline,
