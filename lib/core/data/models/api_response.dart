@@ -26,7 +26,7 @@ class ApiResponse<T> {
         ? envelope[dataKey]
         : envelope;
 
-    final T data = parseData(rawData);
+    final T data = success ? parseData(rawData) : null as T;
     final String? message = envelope.containsKey('message')
         ? envelope['message']?.toString()
         : null;

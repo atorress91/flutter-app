@@ -48,7 +48,7 @@ class RequestPaymentController extends StateNotifier<RequestPaymentState> {
       final result = await createWalletRequestUseCase.execute(request);
       return result;
     } catch (e) {
-      state = state.copyWith(error: 'Error al crear la solicitud de retiro.');
+      state = state.copyWith(error: e.toString());
       return false;
     }
   }

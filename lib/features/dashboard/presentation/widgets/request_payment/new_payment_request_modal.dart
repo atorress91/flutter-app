@@ -75,12 +75,13 @@ class _NewPaymentRequestModalState
     final success = await controller.createWalletRequest(request);
 
     if (mounted) {
+      final errorMessage = ref.read(requestPaymentControllerProvider).error;
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(success
                 ? 'Solicitud enviada con éxito'
-                : 'Ocurrió un error al enviar la solicitud')),
+                : errorMessage ?? 'Ocurrió un error al enviar la solicitud')),
       );
     }
   }
