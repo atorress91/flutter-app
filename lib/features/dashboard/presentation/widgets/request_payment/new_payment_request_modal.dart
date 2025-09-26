@@ -1,6 +1,10 @@
+// atorress91/flutter-app/flutter-app-37be6818c8723798eabdb53ab04d96f98bfa4bd9/lib/features/dashboard/presentation/widgets/request_payment/new_payment_request_modal.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/core/data/request/wallet_request.dart';
+import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 import 'package:my_app/features/dashboard/presentation/controllers/request_payment_screen_controller.dart';
 
 class NewPaymentRequestModal extends ConsumerStatefulWidget {
@@ -58,13 +62,25 @@ class _NewPaymentRequestModalState
       return;
     }
     setState(() => _isSubmitting = true);
+    final user = ref.read(authNotifierProvider).value!.user;
 
-    await Future.delayed(const Duration(seconds: 2));
+    final request = WalletRequest(
+        affiliateId: user.id,
+        affiliateName: user.userName,
+        userPassword: _accessKeyController.text,
+        verificationCode: _confirmationCodeController.text,
+        amount: double.parse(_amountController.text),
+        concept: _observationController.text);
+    final controller = ref.read(requestPaymentControllerProvider.notifier);
+    final success = await controller.createWalletRequest(request);
 
     if (mounted) {
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Solicitud enviada con éxito.')),
+        SnackBar(
+            content: Text(success
+                ? 'Solicitud enviada con éxito'
+                : 'Ocurrió un error al enviar la solicitud')),
       );
     }
   }
@@ -113,7 +129,7 @@ class _NewPaymentRequestModalState
                 prefixText: '\$ ',
               ),
               validator: (value) =>
-                  (value == null || value.isEmpty) ? 'Campo requerido' : null,
+              (value == null || value.isEmpty) ? 'Campo requerido' : null,
             ),
             const SizedBox(height: 16),
 
@@ -136,7 +152,7 @@ class _NewPaymentRequestModalState
                 ),
               ),
               validator: (value) =>
-                  (value == null || value.isEmpty) ? 'Campo requerido' : null,
+              (value == null || value.isEmpty) ? 'Campo requerido' : null,
             ),
             const SizedBox(height: 16),
             TextFormField(
@@ -166,9 +182,9 @@ class _NewPaymentRequestModalState
                   child: _isCodeSending
                       ? const CircularProgressIndicator()
                       : TextButton(
-                          onPressed: _sendSecurityCode,
-                          child: const Text('Enviar código'),
-                        ),
+                    onPressed: _sendSecurityCode,
+                    child: const Text('Enviar código'),
+                  ),
                 ),
               ],
             ),
@@ -180,13 +196,13 @@ class _NewPaymentRequestModalState
                 onPressed: _isSubmitting ? null : _submitRequest,
                 child: _isSubmitting
                     ? const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.white,
-                        ),
-                      )
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
                     : const Text('Confirmar y Enviar'),
               ),
             ),

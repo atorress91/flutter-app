@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_app/core/data/request/wallet_request.dart';
 import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 import 'package:my_app/features/dashboard/data/providers/account_providers.dart';
 import 'package:my_app/features/dashboard/presentation/states/request_payment_state.dart';
@@ -36,6 +37,18 @@ class RequestPaymentController extends StateNotifier<RequestPaymentState> {
       return result;
     } catch (e) {
       state = state.copyWith(error: 'Error al generar el código de verificación.');
+      return false;
+    }
+  }
+
+  Future<bool> createWalletRequest(WalletRequest request) async {
+    try {
+      final createWalletRequestUseCase =
+      _ref.read(createWalletRequestUseCaseProvider);
+      final result = await createWalletRequestUseCase.execute(request);
+      return result;
+    } catch (e) {
+      state = state.copyWith(error: 'Error al crear la solicitud de retiro.');
       return false;
     }
   }

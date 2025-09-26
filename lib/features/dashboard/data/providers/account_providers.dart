@@ -23,6 +23,7 @@ import 'package:my_app/features/dashboard/data/repositories/request_repository_i
 import 'package:my_app/features/dashboard/domain/repositories/matrix_repository.dart';
 import 'package:my_app/features/dashboard/domain/repositories/profile_repository.dart';
 import 'package:my_app/features/dashboard/domain/repositories/request_repository.dart';
+import 'package:my_app/features/dashboard/domain/use_cases/create_wallet_request_use_case.dart';
 import 'package:my_app/features/dashboard/domain/use_cases/generate_verification_code_use_case.dart';
 import 'package:my_app/features/dashboard/domain/use_cases/get_unilevel_tree_use_case.dart';
 import 'package:my_app/features/dashboard/domain/use_cases/update_profile_picture_use_case.dart';
@@ -113,4 +114,11 @@ final getUniLevelTreeUseCaseProvider = Provider<GetUniLevelTreeUseCase>(
 // --- Request Use Cases ---
 final generateVerificationCodeUseCaseProvider = Provider<GenerateVerificationCodeUseCase>(
   (ref) => GenerateVerificationCodeUseCase(ref.watch(requestRepositoryProvider)),
+);
+
+final createWalletRequestUseCaseProvider =
+Provider.autoDispose<CreateWalletRequestUseCase>(
+      (ref) => CreateWalletRequestUseCase(
+    ref.watch(requestRepositoryProvider),
+  ),
 );
