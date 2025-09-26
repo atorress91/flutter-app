@@ -1,3 +1,4 @@
+import 'package:my_app/core/data/request/wallet_request.dart';
 import 'package:my_app/core/errors/exceptions.dart';
 import 'package:my_app/core/services/api/affiliate_service.dart';
 import 'package:my_app/core/services/api/wallet_request_service.dart';
@@ -31,6 +32,19 @@ class RequestRepositoryImpl implements RequestRepository {
     } else {
       throw ApiException(
         response.message ?? 'Error al obtener las solicitudes de retiro',
+      );
+    }
+  }
+
+  @override
+  Future<bool> createWalletRequest(WalletRequest request) async {
+    final response = await _walletRequestService.createWalletRequest(request);
+
+    if (response.success && response.data != null) {
+      return true;
+    } else {
+      throw ApiException(
+        response.message ?? 'Error al crear la solicitud de retiro',
       );
     }
   }

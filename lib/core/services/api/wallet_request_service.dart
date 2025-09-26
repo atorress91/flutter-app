@@ -24,16 +24,16 @@ class WalletRequestService extends BaseService {
     );
   }
 
-  // Future<ApiResponse<Null>> createWalletRequest(WalletRequest request) async {
-  //   return post<Null>(
-  //     '/walletRequest',
-  //     body: request.toJson(),
-  //     fromJson: (json) {
-  //       if (json is Map<String, dynamic>) {
-  //         return json;
-  //       }
-  //       throw Exception('Invalid data format for verification code generation');
-  //     }
-  //   );
-  // }
+  Future<ApiResponse<WalletRequestDto?>> createWalletRequest(WalletRequest request) async {
+    return post<WalletRequestDto>(
+      '/walletRequest',
+      body: request.toJson(),
+      fromJson: (json) {
+        if (json is Map<String, dynamic>) {
+          return WalletRequestDto.fromJson(json);
+        }
+        throw Exception('Invalid data format for request');
+      }
+    );
+  }
 }
