@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/dashboard/domain/entities/payment.dart';
 
 class PaymentHistoryList extends StatelessWidget {
@@ -11,10 +12,10 @@ class PaymentHistoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (requests.isEmpty) {
-      return const Center(
+      return Center(
         child: Padding(
-          padding: EdgeInsets.all(32.0),
-          child: Text('No tienes solicitudes anteriores.'),
+          padding: const EdgeInsets.all(32.0),
+          child: Text(AppLocalizations.of(context).requestPaymentNoPreviousRequests),
         ),
       );
     }
@@ -49,10 +50,24 @@ class _HistoryItem extends StatelessWidget {
     }
   }
 
+  String _translateStatus(RequestStatus status, BuildContext context) {
+    final loc = AppLocalizations.of(context);
+    switch (status) {
+      case RequestStatus.aprobado:
+        return loc.requestPaymentStatusApproved;
+      case RequestStatus.pendiente:
+        return loc.requestPaymentStatusPending;
+      case RequestStatus.rechazado:
+        return loc.requestPaymentStatusRejected;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
     final colorScheme = Theme.of(context).colorScheme;
+    final loc = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context);
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -85,7 +100,7 @@ class _HistoryItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  request.status.name,
+                  _translateStatus(request.status, context),
                   style: textTheme.labelSmall?.copyWith(
                     color: _getStatusColor(request.status, context),
                     fontWeight: FontWeight.bold,
@@ -101,12 +116,12 @@ class _HistoryItem extends StatelessWidget {
             ),
           ),
           const Divider(height: 20),
-          _buildDetailRow(context, 'Observación:', request.observation),
-          _buildDetailRow(context, 'Respuesta:', request.adminResponse),
+          _buildDetailRow(context, loc.requestPaymentObservation, request.observation),
+          _buildDetailRow(context, loc.requestPaymentResponse, request.adminResponse),
           _buildDetailRow(
             context,
-            'Fecha:',
-            DateFormat.yMMMd('es_CR').format(request.date),
+            loc.requestPaymentDate,
+            DateFormat.yMMMd(locale.toString()).format(request.date),
           ),
         ],
       ),

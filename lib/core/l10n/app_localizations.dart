@@ -245,6 +245,32 @@ class AppLocalizations {
       'walletFilterExpenses': 'Expenses',
       'walletCredit': 'Credit',
       'walletDebit': 'Debit',
+      // Request Payment screen
+      'requestPaymentTitle': 'Request Payment',
+      'requestPaymentNewRequestButton': 'Create New Request',
+      'requestPaymentHistoryTitle': 'Request History',
+      'requestPaymentMinimumAmountInfoPrefix': 'The minimum amount to process the payment is USD \$',
+      'requestPaymentWalletAvailableLabel': 'Available Wallet Balance:',
+      // New Payment Request Modal
+      'requestPaymentModalTitle': 'Send Request',
+      'requestPaymentAmountLabel': 'Requested Amount *',
+      'formRequiredField': 'Required field',
+      'requestPaymentAccessKeyLabel': 'Access key *',
+      'requestPaymentObservationLabel': 'Observation',
+      'requestPaymentConfirmationCodeLabel': 'Confirmation code *',
+      'requestPaymentSendCodeButton': 'Send code',
+      'requestPaymentConfirmAndSendButton': 'Confirm and Send',
+      'requestPaymentCodeSendSuccess': 'Code sent to your device.',
+      'requestPaymentCodeSendError': 'Error sending the code.',
+      'requestPaymentSubmitSuccess': 'Request sent successfully',
+      'requestPaymentSubmitError': 'An error occurred while sending the request',
+      'requestPaymentNoPreviousRequests': "You don't have previous requests.",
+      'requestPaymentObservation': 'Observation:',
+      'requestPaymentResponse': 'Response:',
+      'requestPaymentDate': 'Date:',
+      'requestPaymentStatusApproved': 'Approved',
+      'requestPaymentStatusPending': 'Pending',
+      'requestPaymentStatusRejected': 'Rejected',
     },
     'es': {
       // Clients screen
@@ -419,6 +445,32 @@ class AppLocalizations {
       'walletFilterExpenses': 'Gastos',
       'walletCredit': 'Crédito',
       'walletDebit': 'Débito',
+      // Request Payment screen
+      'requestPaymentTitle': 'Realizar solicitud de pago',
+      'requestPaymentNewRequestButton': 'Realizar Nueva Solicitud',
+      'requestPaymentHistoryTitle': 'Historial de Solicitudes',
+      'requestPaymentMinimumAmountInfoPrefix': 'El monto mínimo para procesar el pago es de USD \$',
+      'requestPaymentWalletAvailableLabel': 'Saldo Disponible en Billetera:',
+      // New Payment Request Modal
+      'requestPaymentModalTitle': 'Enviar Solicitud',
+      'requestPaymentAmountLabel': 'Monto que Solicita *',
+      'formRequiredField': 'Campo requerido',
+      'requestPaymentAccessKeyLabel': 'Clave de acceso *',
+      'requestPaymentObservationLabel': 'Observación',
+      'requestPaymentConfirmationCodeLabel': 'Código de confirmación *',
+      'requestPaymentSendCodeButton': 'Enviar código',
+      'requestPaymentConfirmAndSendButton': 'Confirmar y Enviar',
+      'requestPaymentCodeSendSuccess': 'Código enviado a tu dispositivo.',
+      'requestPaymentCodeSendError': 'Error al enviar el código.',
+      'requestPaymentSubmitSuccess': 'Solicitud enviada con éxito',
+      'requestPaymentSubmitError': 'Ocurrió un error al enviar la solicitud',
+      'requestPaymentNoPreviousRequests': 'No tienes solicitudes anteriores.',
+      'requestPaymentObservation': 'Observación:',
+      'requestPaymentResponse': 'Respuesta:',
+      'requestPaymentDate': 'Fecha:',
+      'requestPaymentStatusApproved': 'Aprobado',
+      'requestPaymentStatusPending': 'Pendiente',
+      'requestPaymentStatusRejected': 'Rechazado',
     },
   };
 
@@ -665,4 +717,48 @@ class AppLocalizations {
   String get walletCredit => _t('walletCredit');
 
   String get walletDebit => _t('walletDebit');
+
+  // Request Payment screen getters
+  String get requestPaymentTitle => _t('requestPaymentTitle');
+
+  String get requestPaymentNewRequestButton => _t('requestPaymentNewRequestButton');
+
+  String get requestPaymentHistoryTitle => _t('requestPaymentHistoryTitle');
+
+  String get requestPaymentMinimumAmountInfoPrefix => _t('requestPaymentMinimumAmountInfoPrefix');
+
+  String get requestPaymentWalletAvailableLabel => _t('requestPaymentWalletAvailableLabel');
+
+  // New Payment Request Modal getters
+  String get requestPaymentModalTitle => _t('requestPaymentModalTitle');
+
+  String get requestPaymentAmountLabel => _t('requestPaymentAmountLabel');
+
+  String get formRequiredField => _t('formRequiredField');
+
+  String get requestPaymentAccessKeyLabel => _t('requestPaymentAccessKeyLabel');
+
+  String get requestPaymentObservationLabel => _t('requestPaymentObservationLabel');
+
+  String get requestPaymentConfirmationCodeLabel => _t('requestPaymentConfirmationCodeLabel');
+
+  String get requestPaymentSendCodeButton => _t('requestPaymentSendCodeButton');
+
+  String get requestPaymentConfirmAndSendButton => _t('requestPaymentConfirmAndSendButton');
+
+  String get requestPaymentCodeSendSuccess => _t('requestPaymentCodeSendSuccess');
+
+  String get requestPaymentCodeSendError => _t('requestPaymentCodeSendError');
+
+  String get requestPaymentSubmitSuccess => _t('requestPaymentSubmitSuccess');
+
+  String get requestPaymentSubmitError => _t('requestPaymentSubmitError');
+
+  String get requestPaymentNoPreviousRequests => _t('requestPaymentNoPreviousRequests');
+  String get requestPaymentObservation => _t('requestPaymentObservation');
+  String get requestPaymentResponse => _t('requestPaymentResponse');
+  String get requestPaymentDate => _t('requestPaymentDate');
+  String get requestPaymentStatusApproved => _t('requestPaymentStatusApproved');
+  String get requestPaymentStatusPending => _t('requestPaymentStatusPending');
+  String get requestPaymentStatusRejected => _t('requestPaymentStatusRejected');
 }

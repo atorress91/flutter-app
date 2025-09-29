@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 
 class PaymentInfoCard extends StatelessWidget {
   final double availableBalance;
@@ -32,7 +33,7 @@ class PaymentInfoCard extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  'El monto mínimo para procesar el pago es de USD \$${minimumAmount.toStringAsFixed(2)}',
+                  AppLocalizations.of(context).requestPaymentMinimumAmountInfoPrefix + minimumAmount.toStringAsFixed(2),
                   style: textTheme.bodySmall,
                 ),
               ),
@@ -40,7 +41,7 @@ class PaymentInfoCard extends StatelessWidget {
           ),
           const Divider(height: 24),
           Text(
-            'Saldo Disponible en Billetera:',
+            AppLocalizations.of(context).requestPaymentWalletAvailableLabel,
             style: textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurface.withAlpha((255 * 0.7).toInt()),
             ),

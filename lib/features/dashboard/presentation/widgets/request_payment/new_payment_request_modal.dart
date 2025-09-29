@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/core/data/request/wallet_request.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 import 'package:my_app/features/dashboard/presentation/controllers/request_payment_screen_controller.dart';
 
@@ -48,8 +49,8 @@ class _NewPaymentRequestModalState
         SnackBar(
           content: Text(
             success
-                ? 'Código enviado a tu dispositivo.'
-                : 'Error al enviar el código.',
+                ? AppLocalizations.of(context).requestPaymentCodeSendSuccess
+                : AppLocalizations.of(context).requestPaymentCodeSendError,
           ),
         ),
       );
@@ -80,8 +81,8 @@ class _NewPaymentRequestModalState
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(success
-                ? 'Solicitud enviada con éxito'
-                : errorMessage ?? 'Ocurrió un error al enviar la solicitud')),
+                ? AppLocalizations.of(context).requestPaymentSubmitSuccess
+                : errorMessage ?? AppLocalizations.of(context).requestPaymentSubmitError)),
       );
     }
   }
@@ -107,7 +108,7 @@ class _NewPaymentRequestModalState
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Enviar Solicitud',
+                  AppLocalizations.of(context).requestPaymentModalTitle,
                   style: textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -125,12 +126,12 @@ class _NewPaymentRequestModalState
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              decoration: const InputDecoration(
-                labelText: 'Monto que Solicita *',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context).requestPaymentAmountLabel,
                 prefixText: '\$ ',
               ),
               validator: (value) =>
-              (value == null || value.isEmpty) ? 'Campo requerido' : null,
+                  (value == null || value.isEmpty) ? AppLocalizations.of(context).formRequiredField : null,
             ),
             const SizedBox(height: 16),
 
@@ -138,7 +139,7 @@ class _NewPaymentRequestModalState
               controller: _accessKeyController,
               obscureText: !_isPasswordVisible,
               decoration: InputDecoration(
-                labelText: 'Clave de acceso *',
+                labelText: AppLocalizations.of(context).requestPaymentAccessKeyLabel,
                 suffixIcon: IconButton(
                   icon: Icon(
                     _isPasswordVisible
@@ -153,12 +154,12 @@ class _NewPaymentRequestModalState
                 ),
               ),
               validator: (value) =>
-              (value == null || value.isEmpty) ? 'Campo requerido' : null,
+                  (value == null || value.isEmpty) ? AppLocalizations.of(context).formRequiredField : null,
             ),
             const SizedBox(height: 16),
             TextFormField(
               controller: _observationController,
-              decoration: const InputDecoration(labelText: 'Observación'),
+              decoration: InputDecoration(labelText: AppLocalizations.of(context).requestPaymentObservationLabel),
             ),
             const SizedBox(height: 16),
 
@@ -169,11 +170,11 @@ class _NewPaymentRequestModalState
                   child: TextFormField(
                     controller: _confirmationCodeController,
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      labelText: 'Código de confirmación *',
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context).requestPaymentConfirmationCodeLabel,
                     ),
                     validator: (value) => (value == null || value.isEmpty)
-                        ? 'Campo requerido'
+                        ? AppLocalizations.of(context).formRequiredField
                         : null,
                   ),
                 ),
@@ -183,9 +184,9 @@ class _NewPaymentRequestModalState
                   child: _isCodeSending
                       ? const CircularProgressIndicator()
                       : TextButton(
-                    onPressed: _sendSecurityCode,
-                    child: const Text('Enviar código'),
-                  ),
+                          onPressed: _sendSecurityCode,
+                          child: Text(AppLocalizations.of(context).requestPaymentSendCodeButton),
+                        ),
                 ),
               ],
             ),
@@ -197,14 +198,14 @@ class _NewPaymentRequestModalState
                 onPressed: _isSubmitting ? null : _submitRequest,
                 child: _isSubmitting
                     ? const SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: Colors.white,
-                  ),
-                )
-                    : const Text('Confirmar y Enviar'),
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Text(AppLocalizations.of(context).requestPaymentConfirmAndSendButton),
               ),
             ),
           ],

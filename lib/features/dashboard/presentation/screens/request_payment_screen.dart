@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/core/common/widgets/custom_loading_indicator.dart';
 import 'package:my_app/core/common/widgets/custom_refresh_indicator.dart';
 import 'package:my_app/features/dashboard/presentation/controllers/request_payment_screen_controller.dart';
+import 'package:my_app/core/l10n/app_localizations.dart';
 
 import 'package:my_app/features/dashboard/presentation/widgets/request_payment/new_payment_request_modal.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/request_payment/payment_history_list.dart';
@@ -69,7 +70,7 @@ class _RequestPaymentScreenState extends ConsumerState<RequestPaymentScreen> {
             ),
             children: [
               Text(
-                'Realizar solicitud de pago',
+                AppLocalizations.of(context).requestPaymentTitle,
                 style: textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -85,7 +86,7 @@ class _RequestPaymentScreenState extends ConsumerState<RequestPaymentScreen> {
                 child: OutlinedButton.icon(
                   onPressed: () => _openRequestModal(context),
                   icon: const Icon(Icons.add),
-                  label: const Text('Realizar Nueva Solicitud'),
+                  label: Text(AppLocalizations.of(context).requestPaymentNewRequestButton),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
@@ -93,7 +94,7 @@ class _RequestPaymentScreenState extends ConsumerState<RequestPaymentScreen> {
               ),
               const SizedBox(height: 32),
               Text(
-                'Historial de Solicitudes',
+                AppLocalizations.of(context).requestPaymentHistoryTitle,
                 style: textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
