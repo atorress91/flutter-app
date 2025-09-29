@@ -74,15 +74,7 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
                                   color: colorScheme.onSurface,
                                 ),
                               ),
-                            ),
-                            Tooltip(
-                              message: AppLocalizations.of(context).t('clientsAddClientTooltip'),
-                              child: FilledButton.icon(
-                                onPressed: () {},
-                                icon: const Icon(Icons.person_add_alt_1),
-                                label: Text(AppLocalizations.of(context).t('clientsAddButton')),
-                              ),
-                            ),
+                            )
                           ],
                         ),
                       ),
