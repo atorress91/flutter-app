@@ -271,6 +271,8 @@ class AppLocalizations {
       'requestPaymentStatusApproved': 'Approved',
       'requestPaymentStatusPending': 'Pending',
       'requestPaymentStatusRejected': 'Rejected',
+      // New payment request types
+      'requestPaymentTypeWithdrawalRequest': 'Withdrawal Request',
     },
     'es': {
       // Clients screen
@@ -471,6 +473,8 @@ class AppLocalizations {
       'requestPaymentStatusApproved': 'Aprobado',
       'requestPaymentStatusPending': 'Pendiente',
       'requestPaymentStatusRejected': 'Rechazado',
+      // Nuevos tipos de solicitud de pago
+      'requestPaymentTypeWithdrawalRequest': 'Solicitud de retiro',
     },
   };
 
@@ -761,4 +765,5 @@ class AppLocalizations {
   String get requestPaymentStatusApproved => _t('requestPaymentStatusApproved');
   String get requestPaymentStatusPending => _t('requestPaymentStatusPending');
   String get requestPaymentStatusRejected => _t('requestPaymentStatusRejected');
+  String get requestPaymentTypeWithdrawalRequest => _t('requestPaymentTypeWithdrawalRequest');
 }

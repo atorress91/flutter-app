@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/dashboard/domain/entities/payment.dart';
+import 'package:my_app/features/dashboard/presentation/widgets/request_payment/payment_status_chip.dart';
 
 class PaymentHistoryList extends StatelessWidget {
   final List<Payment> requests;
@@ -25,7 +26,7 @@ class PaymentHistoryList extends StatelessWidget {
       // Para que funcione dentro de otra ListView
       physics: const NeverScrollableScrollPhysics(),
       // El scroll lo maneja el padre
-      separatorBuilder: (_, _) => const SizedBox(height: 12),
+      separatorBuilder: (_, _) => const SizedBox(height: 16),
       itemBuilder: (context, index) {
         return _HistoryItem(request: requests[index]);
       },
@@ -38,30 +39,6 @@ class _HistoryItem extends StatelessWidget {
 
   const _HistoryItem({required this.request});
 
-  Color _getStatusColor(RequestStatus status, BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    switch (status) {
-      case RequestStatus.aprobado:
-        return Colors.green.shade700;
-      case RequestStatus.pendiente:
-        return Colors.orange.shade700;
-      case RequestStatus.rechazado:
-        return colorScheme.error;
-    }
-  }
-
-  String _translateStatus(RequestStatus status, BuildContext context) {
-    final loc = AppLocalizations.of(context);
-    switch (status) {
-      case RequestStatus.aprobado:
-        return loc.requestPaymentStatusApproved;
-      case RequestStatus.pendiente:
-        return loc.requestPaymentStatusPending;
-      case RequestStatus.rechazado:
-        return loc.requestPaymentStatusRejected;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
@@ -69,67 +46,86 @@ class _HistoryItem extends StatelessWidget {
     final loc = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context);
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Theme.of(context).dividerColor.withAlpha((255 * 0.5).toInt()),
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: colorScheme.outline.withAlpha((255 * 0.2).toInt()),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '\$ ${request.amount.toStringAsFixed(2)}',
-                style: textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: _getStatusColor(
-                    request.status,
-                    context,
-                  ).withAlpha((255 * 0.1).toInt()),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  _translateStatus(request.status, context),
-                  style: textTheme.labelSmall?.copyWith(
-                    color: _getStatusColor(request.status, context),
-                    fontWeight: FontWeight.bold,
+      color: colorScheme.surface,
+      clipBehavior: Clip.antiAlias,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
+                    request.type == 'withdrawal_request'
+                        ? AppLocalizations.of(context).requestPaymentTypeWithdrawalRequest
+                        : request.type,
+                    style: textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: colorScheme.primary,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-              ),
-            ],
-          ),
-          Text(
-            request.type,
-            style: textTheme.bodySmall?.copyWith(
-              color: colorScheme.onSurface.withAlpha((255 * 0.6).toInt()),
+                const SizedBox(width: 12),
+                Flexible(
+                  flex: 0,
+                  child: Text(
+                    DateFormat('dd/MM/yyyy', locale.toString()).format(request.date),
+                    style: textTheme.bodySmall?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                  ),
+                ),
+              ],
             ),
-          ),
-          const Divider(height: 20),
-          _buildDetailRow(context, loc.requestPaymentObservation, request.observation),
-          _buildDetailRow(context, loc.requestPaymentResponse, request.adminResponse),
-          _buildDetailRow(
-            context,
-            loc.requestPaymentDate,
-            DateFormat.yMMMd(locale.toString()).format(request.date),
-          ),
-        ],
+            const Divider(height: 32, thickness: 0.5),
+            // Details
+            _buildDetailRow(context, loc.requestPaymentObservation, request.observation),
+            _buildDetailRow(
+              context,
+              loc.requestPaymentDate,
+              DateFormat.yMMMd(locale.toString()).format(request.date),
+            ),
+            const SizedBox(height: 12),
+            // Footer: status + amount
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                PaymentStatusChip(status: request.status),
+                Text(
+                  '\$ ${request.amount.toStringAsFixed(2)}',
+                  style: textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildDetailRow(BuildContext context, String title, String value) {
     final textTheme = GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme);
+    final colorScheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.only(bottom: 4.0),
       child: Row(
@@ -138,16 +134,16 @@ class _HistoryItem extends StatelessWidget {
           Text(
             title,
             style: textTheme.bodySmall?.copyWith(
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withAlpha((255 * 0.6).toInt()),
+              color: colorScheme.onSurface.withAlpha((255 * 0.6).toInt()),
             ),
           ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
-              value,
+              value.isEmpty ? '-' : value,
               style: textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
