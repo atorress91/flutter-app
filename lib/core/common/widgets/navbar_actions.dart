@@ -3,7 +3,6 @@ import 'package:my_app/core/common/widgets/theme_toggle.dart';
 import 'package:my_app/core/l10n/app_locale.dart';
 
 import 'language_switcher.dart';
-import 'notification_button.dart';
 
 enum Language { en, es }
 
@@ -47,7 +46,6 @@ class _NavbarActionsState extends State<NavbarActions> {
           selectedLanguage: _selectedLanguage,
           onChanged: _onLanguageChange,
         ),
-        NotificationButton(onPressed: () {}),
         const SizedBox(width: 16),
       ],
     );
