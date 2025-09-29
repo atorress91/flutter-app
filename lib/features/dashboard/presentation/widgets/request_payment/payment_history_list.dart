@@ -34,10 +34,47 @@ class PaymentHistoryList extends StatelessWidget {
   }
 }
 
+// NUEVA VERSION VIRTUALIZADA PARA USO EN SLIVERS
+class PaymentHistorySliverList extends StatelessWidget {
+  final List<Payment> requests;
+  const PaymentHistorySliverList({super.key, required this.requests});
+
+  @override
+  Widget build(BuildContext context) {
+    if (requests.isEmpty) {
+      return SliverToBoxAdapter(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 16),
+            child: Text(AppLocalizations.of(context).requestPaymentNoPreviousRequests),
+          ),
+        ),
+      );
+    }
+    final total = requests.length * 2 - 1; // items + separadores
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          if (index.isOdd) {
+            return const SizedBox(height: 16);
+          }
+          final itemIndex = index >> 1; // index / 2
+          final payment = requests[itemIndex];
+          return _HistoryItem(
+            key: ValueKey('payment-$itemIndex-${payment.date.millisecondsSinceEpoch}-${payment.amount}-${payment.status.name}'),
+            request: payment,
+          );
+        },
+        childCount: total,
+      ),
+    );
+  }
+}
+
 class _HistoryItem extends StatelessWidget {
   final Payment request;
 
-  const _HistoryItem({required this.request});
+  const _HistoryItem({super.key, required this.request});
 
   @override
   Widget build(BuildContext context) {

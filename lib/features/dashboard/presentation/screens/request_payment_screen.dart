@@ -61,58 +61,67 @@ class _RequestPaymentScreenState extends ConsumerState<RequestPaymentScreen> {
           onRefresh: _handleRefresh,
           child: requestPaymentState.isLoading && requestPaymentState.configuration == null
               ? const Center(child: CustomLoadingIndicator())
-              : ListView(
+              : CustomScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 20,
-                  ),
-                  children: [
-                    Text(
-                      AppLocalizations.of(context).requestPaymentTitle,
-                      style: textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    PaymentInfoCard(
-                      availableBalance: 78.59,
-                      minimumAmount: requestPaymentState.configuration?.minimumAmount.toDouble() ?? 0.0,
-                    ),
-                    const SizedBox(height: 32),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.payments_outlined,
-                          size: 28,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            AppLocalizations.of(context).requestPaymentHistoryTitle,
-                            style: textTheme.titleLarge?.copyWith(
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                      sliver: SliverList(
+                        delegate: SliverChildListDelegate([
+                          Text(
+                            AppLocalizations.of(context).requestPaymentTitle,
+                            style: textTheme.headlineSmall?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
-                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                        Tooltip(
-                          message: AppLocalizations.of(context).requestPaymentNewRequestButton,
-                          child: IconButton(
-                            onPressed: () => _openRequestModal(context),
-                            icon: Icon(
-                              Icons.add_circle_rounded,
-                              size: 30,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+                          const SizedBox(height: 24),
+                          PaymentInfoCard(
+                            availableBalance: 78.59,
+                            minimumAmount: requestPaymentState.configuration?.minimumAmount.toDouble() ?? 0.0,
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 32),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.payments_outlined,
+                                size: 28,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  AppLocalizations.of(context).requestPaymentHistoryTitle,
+                                  style: textTheme.titleLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              Tooltip(
+                                message: AppLocalizations.of(context).requestPaymentNewRequestButton,
+                                child: IconButton(
+                                  onPressed: () => _openRequestModal(context),
+                                  icon: Icon(
+                                    Icons.add_circle_rounded,
+                                    size: 30,
+                                    color: Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                        ]),
+                      ),
                     ),
-                    const SizedBox(height: 16),
-                    PaymentHistoryList(requests: requestPaymentState.requests),
+                    // Lista virtualizada de historial
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      sliver: PaymentHistorySliverList(requests: requestPaymentState.requests),
+                    ),
+                    // Espacio final para evitar que el último item quede demasiado pegado al borde inferior
+                    const SliverToBoxAdapter(child: SizedBox(height: 32)),
                   ],
                 ),
         ),
