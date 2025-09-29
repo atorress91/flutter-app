@@ -52,6 +52,18 @@ class RequestPaymentController extends StateNotifier<RequestPaymentState> {
       return false;
     }
   }
+
+  Future<bool> getWalletRequestByAffiliateId(int userId) async {
+    try {
+      final getWalletRequestByAffiliateIdUseCase =
+      _ref.read(getWalletRequestUseCaseProvider);
+      final result = await getWalletRequestByAffiliateIdUseCase.execute(userId);
+      return result;
+    } catch (e) {
+      state = state.copyWith(error: e.toString());
+      return false;
+    }
+  }
 }
 
 final requestPaymentControllerProvider =

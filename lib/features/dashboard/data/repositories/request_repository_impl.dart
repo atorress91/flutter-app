@@ -2,6 +2,8 @@ import 'package:my_app/core/data/request/wallet_request.dart';
 import 'package:my_app/core/errors/exceptions.dart';
 import 'package:my_app/core/services/api/affiliate_service.dart';
 import 'package:my_app/core/services/api/wallet_request_service.dart';
+import 'package:my_app/features/dashboard/data/mappers/request_mapper.dart';
+import 'package:my_app/features/dashboard/domain/entities/payment.dart';
 import 'package:my_app/features/dashboard/domain/repositories/request_repository.dart';
 
 class RequestRepositoryImpl implements RequestRepository {
@@ -24,11 +26,11 @@ class RequestRepositoryImpl implements RequestRepository {
   }
 
   @override
-  Future<bool> getWalletRequestByAffiliateId(int userId) async {
+  Future<List<Payment>> getWalletRequestByAffiliateId(int userId) async {
     final response = await _walletRequestService.getWalletRequestByAffiliateId(userId);
 
     if (response.success && response.data != null) {
-      return response.data!.isNotEmpty;
+      return response.data!.map((dto) => RequestMapper.fromDto(dto)).toList();
     } else {
       throw ApiException(
         response.message ?? 'Error al obtener las solicitudes de retiro',

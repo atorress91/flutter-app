@@ -47,3 +47,4 @@ final getNetworkPurchasesUseCaseProvider = Provider<GetNetworkPurchasesUseCase>(
 final getWalletTransactionsUseCaseProvider = Provider<GetWalletTransactionsUseCase>((ref) =>
     GetWalletTransactionsUseCase(ref.watch(walletRepositoryProvider))
 );
+

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Core providers and services
 import 'package:my_app/core/providers/api_providers.dart';
 import 'package:my_app/core/services/api/affiliate_service.dart';
@@ -26,6 +27,7 @@ import 'package:my_app/features/dashboard/domain/repositories/request_repository
 import 'package:my_app/features/dashboard/domain/use_cases/create_wallet_request_use_case.dart';
 import 'package:my_app/features/dashboard/domain/use_cases/generate_verification_code_use_case.dart';
 import 'package:my_app/features/dashboard/domain/use_cases/get_unilevel_tree_use_case.dart';
+import 'package:my_app/features/dashboard/domain/use_cases/get_wallet_request_use_case.dart';
 import 'package:my_app/features/dashboard/domain/use_cases/update_profile_picture_use_case.dart';
 import 'package:my_app/features/dashboard/domain/use_cases/update_user_profile_use_case.dart';
 
@@ -87,23 +89,20 @@ final performRegistrationUseCaseProvider = Provider<PerformRegistrationUseCase>(
 );
 
 final getCurrentUserUseCaseProvider = Provider<GetCurrentUserUseCase>(
-  (ref) => GetCurrentUserUseCase(
-    ref.watch(affiliateRepositoryProvider),
-  ),
+  (ref) => GetCurrentUserUseCase(ref.watch(affiliateRepositoryProvider)),
 );
 
 // --- Profile Use Cases ---
-final updateProfilePictureUseCaseProvider = Provider<UpdateProfilePictureUseCase>(
-  (ref) => UpdateProfilePictureUseCase(
-    ref.watch(imagePickerServiceProvider),
-    ref.watch(profileRepositoryProvider),
-  ),
-);
+final updateProfilePictureUseCaseProvider =
+    Provider<UpdateProfilePictureUseCase>(
+      (ref) => UpdateProfilePictureUseCase(
+        ref.watch(imagePickerServiceProvider),
+        ref.watch(profileRepositoryProvider),
+      ),
+    );
 
 final updateUserProfileUseCaseProvider = Provider<UpdateUserProfileUseCase>(
-  (ref) => UpdateUserProfileUseCase(
-    ref.watch(profileRepositoryProvider),
-  ),
+  (ref) => UpdateUserProfileUseCase(ref.watch(profileRepositoryProvider)),
 );
 
 // --- Matrix Use Cases ---
@@ -112,13 +111,17 @@ final getUniLevelTreeUseCaseProvider = Provider<GetUniLevelTreeUseCase>(
 );
 
 // --- Request Use Cases ---
-final generateVerificationCodeUseCaseProvider = Provider<GenerateVerificationCodeUseCase>(
-  (ref) => GenerateVerificationCodeUseCase(ref.watch(requestRepositoryProvider)),
-);
+final generateVerificationCodeUseCaseProvider =
+    Provider<GenerateVerificationCodeUseCase>(
+      (ref) =>
+          GenerateVerificationCodeUseCase(ref.watch(requestRepositoryProvider)),
+    );
 
 final createWalletRequestUseCaseProvider =
-Provider.autoDispose<CreateWalletRequestUseCase>(
-      (ref) => CreateWalletRequestUseCase(
-    ref.watch(requestRepositoryProvider),
-  ),
+    Provider.autoDispose<CreateWalletRequestUseCase>(
+      (ref) => CreateWalletRequestUseCase(ref.watch(requestRepositoryProvider)),
+    );
+
+final getWalletRequestUseCaseProvider = Provider<GetWalletRequestUseCase>(
+  (ref) => GetWalletRequestUseCase(ref.watch(requestRepositoryProvider)),
 );
