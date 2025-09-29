@@ -53,15 +53,20 @@ class RequestPaymentController extends StateNotifier<RequestPaymentState> {
     }
   }
 
-  Future<bool> getWalletRequestByAffiliateId(int userId) async {
+  Future<void> getWalletRequests() async {
+    state = state.copyWith(isLoading: true, error: null);
+    final userId = _ref.read(authNotifierProvider).value?.user.id;
+    if (userId == null) {
+      state = state.copyWith(isLoading: false, error: 'Usuario no autenticado');
+      return;
+    }
+
     try {
-      final getWalletRequestByAffiliateIdUseCase =
-      _ref.read(getWalletRequestUseCaseProvider);
-      final result = await getWalletRequestByAffiliateIdUseCase.execute(userId);
-      return result;
+      final getWalletRequestsUseCase = _ref.read(getWalletRequestUseCaseProvider);
+      final requests = await getWalletRequestsUseCase.execute(userId);
+      state = state.copyWith(isLoading: false, requests: requests);
     } catch (e) {
-      state = state.copyWith(error: e.toString());
-      return false;
+      state = state.copyWith(isLoading: false, error: 'Error al obtener las solicitudes.');
     }
   }
 }

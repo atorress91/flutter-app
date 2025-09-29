@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/core/common/widgets/custom_loading_indicator.dart';
 import 'package:my_app/core/common/widgets/custom_refresh_indicator.dart';
-import 'package:my_app/features/dashboard/data/payment_request_data.dart';
-import 'package:my_app/features/dashboard/domain/entities/payment.dart';
 import 'package:my_app/features/dashboard/presentation/controllers/request_payment_screen_controller.dart';
 
 import 'package:my_app/features/dashboard/presentation/widgets/request_payment/new_payment_request_modal.dart';
@@ -19,26 +17,20 @@ class RequestPaymentScreen extends ConsumerStatefulWidget {
 }
 
 class _RequestPaymentScreenState extends ConsumerState<RequestPaymentScreen> {
-  List<Payment> _requests = [];
 
   @override
   void initState() {
     super.initState();
-    // --- LA SOLUCIÓN ---
-    // Ejecuta este código DESPUÉS de que el widget se haya construido.
+
     Future.microtask(() {
       ref.read(requestPaymentControllerProvider.notifier).loadConfiguration();
+      ref.read(requestPaymentControllerProvider.notifier).getWalletRequests();
     });
   }
 
   Future<void> _handleRefresh() async {
-    // Simulación de llamada a API
-    await Future.delayed(const Duration(seconds: 1));
-    if (mounted) {
-      setState(() {
-        _requests = PaymentsData.getSampleRequests();
-      });
-    }
+    await ref.read(requestPaymentControllerProvider.notifier).loadConfiguration();
+    await ref.read(requestPaymentControllerProvider.notifier).getWalletRequests();
   }
 
   void _openRequestModal(BuildContext context) {
@@ -107,7 +99,7 @@ class _RequestPaymentScreenState extends ConsumerState<RequestPaymentScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              PaymentHistoryList(requests: _requests),
+              PaymentHistoryList(requests: requestPaymentState.requests),
             ],
           ),
         ),
