@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 512">
+  <g fill="#c5fc44" stroke="none">
+    <path d="M 1380 201 L 1331 201 L 1279 324 L 1225 201 L 1175 201 L 1253 383 L 1218 469 L 1267 469 Z" vector-effect="non-scaling-stroke" id="shape-0"/>
+    <path d="M 1781 199 L 1781 383 L 1826 383 L 1826 199 Z" vector-effect="non-scaling-stroke" id="shape-1"/>
+    <path d="M 2023 208 L 1968 196 L 1913 223 L 1910 199 L 1867 199 L 1867 383 L 1913 383 L 1914 278 L 1927 253 L 1957 239 L 1981 243 L 1999 266 L 2002 383 L 2047 383 L 2047 248 Z" vector-effect="non-scaling-stroke" id="shape-2"/>
+    <path d="M 1626 196 L 1593 213 L 1565 250 L 1558 276 L 1564 324 L 1590 361 L 1619 378 L 1674 383 L 1698 377 L 1734 351 L 1750 324 L 1756 277 L 1749 250 L 1728 219 L 1697 199 L 1667 192 Z" vector-effect="non-scaling-stroke" id="shape-3"/>
+    <path d="M 1453 195 L 1421 211 L 1397 240 L 1385 279 L 1388 314 L 1403 346 L 1431 372 L 1464 383 L 1506 381 L 1534 365 L 1534 321 L 1504 339 L 1469 338 L 1441 316 L 1433 280 L 1442 258 L 1474 237 L 1506 238 L 1534 254 L 1534 211 L 1497 193 Z" vector-effect="non-scaling-stroke" id="shape-4"/>
+    <path d="M 1077 195 L 1046 210 L 1025 232 L 1010 269 L 1011 312 L 1029 350 L 1058 374 L 1088 383 L 1130 381 L 1157 366 L 1157 321 L 1127 339 L 1093 338 L 1066 318 L 1056 284 L 1065 259 L 1094 238 L 1130 238 L 1157 254 L 1157 210 L 1121 193 Z" vector-effect="non-scaling-stroke" id="shape-5"/>
+    <path d="M 866 195 L 834 211 L 807 247 L 800 272 L 804 320 L 824 355 L 855 377 L 926 380 L 967 352 L 981 323 L 940 318 L 915 340 L 885 343 L 854 325 L 846 303 L 985 302 L 982 263 L 965 227 L 938 203 L 901 192 Z" vector-effect="non-scaling-stroke" id="shape-6"/>
+    <path d="M 1794 129 L 1788 132 L 1781 142 L 1781 160 L 1785 167 L 1793 173 L 1812 173 L 1816 171 L 1824 162 L 1826 156 L 1825 142 L 1820 134 L 1812 129 Z" vector-effect="non-scaling-stroke" id="shape-7"/>
+    <path d="M 595 128 L 595 383 L 640 383 L 641 305 L 684 305 L 734 383 L 785 383 L 734 300 L 765 272 L 780 242 L 782 201 L 767 163 L 715 129 Z" vector-effect="non-scaling-stroke" id="shape-8"/>
+    <path d="M 219 0 L 132 30 L 52 99 L 8 186 L 0 289 L 30 378 L 101 460 L 184 502 L 287 511 L 378 481 L 457 414 L 502 328 L 510 221 L 482 134 L 411 51 L 326 8 Z" vector-effect="non-scaling-stroke" id="shape-9"/>
+  </g>
+</svg>
