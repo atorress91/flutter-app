@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_app/core/common/widgets/error_display.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
-import 'package:my_app/core/services/platform/biometric_service.dart';
+import 'package:my_app/core/providers/platform_providers.dart';
 import 'package:my_app/core/theme/app_theme.dart';
 import 'package:my_app/features/auth/presentation/controllers/login_controller.dart';
 import 'package:my_app/features/auth/presentation/widgets/biometric_login_button.dart';

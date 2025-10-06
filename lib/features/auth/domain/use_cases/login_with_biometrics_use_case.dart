@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/core/errors/exceptions.dart';
+import 'package:my_app/core/providers/platform_providers.dart';
 import 'package:my_app/core/services/platform/biometric_service.dart';
 
 /// Caso de Uso para el flujo de login biométrico.
@@ -40,5 +41,3 @@ final loginWithBiometricsUseCaseProvider = Provider<LoginWithBiometricsUseCase>(
     return LoginWithBiometricsUseCase(biometricService);
   },
 );
-
-

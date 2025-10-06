@@ -5,10 +5,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:my_app/core/data/models/session_model.dart';
 import 'package:my_app/core/data/request/user_auth_request.dart';
 import 'package:my_app/core/data/request/user_registration_request.dart';
+import 'package:my_app/core/providers/platform_providers.dart';
 import 'package:my_app/features/auth/domain/entities/user.dart';
 import 'package:my_app/features/auth/domain/repositories/affiliate_repository.dart';
 import 'package:my_app/features/auth/domain/repositories/auth_repository.dart';
-import 'package:my_app/features/dashboard/data/providers/account_providers.dart' hide authRepositoryProvider;
 
 import '../../data/providers/auth_providers.dart';
 

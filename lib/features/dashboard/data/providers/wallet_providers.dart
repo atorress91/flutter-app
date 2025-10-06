@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/core/providers/api_providers.dart';
-import 'package:my_app/core/services/api/invoice_service.dart';
 import 'package:my_app/features/dashboard/data/repositories/balance_repository_impl.dart';
 import 'package:my_app/features/dashboard/data/repositories/invoice_repository_impl.dart';
 import 'package:my_app/features/dashboard/data/repositories/network_purchase_repository_impl.dart';
@@ -20,7 +19,7 @@ final balanceRepositoryProvider = Provider<BalanceRepository>(
 );
 
 final invoiceRepositoryProvider = Provider<InvoiceRepository>(
-      (ref) => InvoiceRepositoryImpl(InvoiceService()),
+      (ref) => InvoiceRepositoryImpl(ref.watch(invoiceServiceProvider)),
 );
 
 final networkPurchaseRepositoryProvider = Provider<NetworkPurchaseRepository>(
@@ -47,4 +46,3 @@ final getNetworkPurchasesUseCaseProvider = Provider<GetNetworkPurchasesUseCase>(
 final getWalletTransactionsUseCaseProvider = Provider<GetWalletTransactionsUseCase>((ref) =>
     GetWalletTransactionsUseCase(ref.watch(walletRepositoryProvider))
 );
-
