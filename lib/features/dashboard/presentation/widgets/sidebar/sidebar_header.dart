@@ -41,12 +41,20 @@ class SidebarHeader extends ConsumerWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(16, 50, 16, 20),
+      padding: EdgeInsets.fromLTRB(16, isMobile ? 16 : 50, 16, 20),
       color: Theme.of(context).colorScheme.surface,
       child: Stack(
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
+          // Botón de cerrar en la parte superior derecha (solo móvil)
+          if (!isCollapsed && isMobile && onRequestClose != null)
+            Positioned(
+              top: 0,
+              right: 0,
+              child: _buildCloseButton(context),
+            ),
+          // Contenido del header con padding para evitar superposición
+          Padding(
+            padding: EdgeInsets.only(top: isMobile ? 40 : 0),
             child: _buildHeaderContent(
               context,
               textTheme,
@@ -55,8 +63,6 @@ class SidebarHeader extends ConsumerWidget {
               imageUrl,
             ),
           ),
-          if (!isCollapsed && isMobile && onRequestClose != null)
-            _buildCloseButton(context),
         ],
       ),
     );

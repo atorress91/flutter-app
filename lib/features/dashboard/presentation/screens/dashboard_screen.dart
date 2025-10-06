@@ -25,6 +25,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
+  void _closeDrawer() {
+    if (_scaffoldKey.currentState?.isDrawerOpen ?? false) {
+      Navigator.of(context).pop();
+    }
+  }
+
   // Método para crear el background gradiente
   Widget _buildGradientBackground({required Widget child}) {
     return Container(
@@ -55,12 +61,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
         key: _scaffoldKey,
         appBar: AppNavbar(onMenuPressed: () => _onMenuPressed(true)),
         drawer: Drawer(
+          width: width * 0.85, // 85% del ancho en móviles
           backgroundColor: Theme.of(context).colorScheme.surface,
-          child: SafeArea(
-            child: AppSidebar(
-              isCollapsed: false,
-              onRequestClose: () => Navigator.of(context).maybePop(),
-            ),
+          child: AppSidebar(
+            isCollapsed: false,
+            onRequestClose: _closeDrawer,
           ),
         ),
         body: _buildGradientBackground(child: widget.child),

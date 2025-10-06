@@ -16,21 +16,15 @@ class AppSidebar extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentRoute = GoRouterState.of(context).matchedLocation;
     final theme = Theme.of(context);
+    final width = MediaQuery.of(context).size.width;
+    final bool isMobile = width < 900;
 
-    return AnimatedContainer(
+    final sidebarContent = AnimatedContainer(
       duration: sidebarAnimationDuration,
       curve: Curves.easeInOutCubic,
       width: isCollapsed ? sidebarCollapsedWidth : sidebarExpandedWidth,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            theme.colorScheme.primary.withAlpha((255 * 0.15).toInt()),
-            theme.scaffoldBackgroundColor,
-            theme.colorScheme.surface.withAlpha((255 * 0.9).toInt()),
-          ],
-        ),
+        color: theme.colorScheme.surface, // Color sólido sin transparencia
         border: Border(
           right: BorderSide(
             color: theme.dividerColor.withAlpha((255 * 0.3).toInt()),
@@ -50,6 +44,15 @@ class AppSidebar extends StatelessWidget {
         ],
       ),
     );
+
+    // En móviles, envolvemos con SafeArea para evitar superposición con notch/barra de estado
+    if (isMobile && onRequestClose != null) {
+      return SafeArea(
+        child: sidebarContent,
+      );
+    }
+
+    return sidebarContent;
   }
 
   Widget _buildMenuItems(BuildContext context, String currentRoute) {
