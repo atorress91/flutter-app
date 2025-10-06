@@ -218,6 +218,9 @@ class LoginScreen extends ConsumerWidget {
       final bio = ref.read(biometricServiceProvider);
       await bio.saveLastIsAffiliate(isAffiliate);
 
+      // Guardar las credenciales para el login biométrico
+      await bio.saveCredentials(username, password);
+
       // Si la biometría no está habilitada pero está disponible,
       // preguntar al usuario si desea activarla.
       final enabled = await bio.isEnabled();
