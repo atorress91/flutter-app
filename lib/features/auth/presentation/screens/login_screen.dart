@@ -71,8 +71,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
     // Calcular el alto disponible real
     final availableHeight = screenHeight -
         mediaQuery.padding.top -
-        mediaQuery.padding.bottom -
-        mediaQuery.viewInsets.bottom;
+        mediaQuery.padding.bottom;
 
     // Definir breakpoints más granulares
     final isTablet = screenWidth >= 600;
@@ -97,61 +96,60 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
             child: LayoutBuilder(
               builder: (context, constraints) {
                 return SingleChildScrollView(
-                  physics: const ClampingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
+                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: constraints.maxHeight,
                     ),
-                    child: IntrinsicHeight(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: horizontalPadding,
-                          vertical: verticalPadding,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // Espaciador superior flexible
-                            if (!isVerySmall) const Spacer(flex: 1),
-                            if (isVerySmall) const SizedBox(height: 8),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: horizontalPadding,
+                        vertical: verticalPadding,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Espaciador superior flexible
+                          if (!isVerySmall) SizedBox(height: constraints.maxHeight * 0.05),
+                          if (isVerySmall) const SizedBox(height: 8),
 
-                            // Logo con animación
-                            FadeTransition(
+                          // Logo con animación
+                          FadeTransition(
+                            opacity: _fadeAnimation,
+                            child: _buildLogoSection(
+                              context,
+                              theme,
+                              isTablet,
+                              isVerySmall,
+                              isSmall,
+                              availableHeight,
+                            ),
+                          ),
+
+                          SizedBox(height: logoSpacing),
+
+                          // Card de autenticación con glassmorphism
+                          SlideTransition(
+                            position: _slideAnimation,
+                            child: FadeTransition(
                               opacity: _fadeAnimation,
-                              child: _buildLogoSection(
+                              child: _buildGlassCard(
                                 context,
+                                ref,
                                 theme,
+                                strings,
                                 isTablet,
                                 isVerySmall,
                                 isSmall,
-                                availableHeight,
                               ),
                             ),
+                          ),
 
-                            SizedBox(height: logoSpacing),
-
-                            // Card de autenticación con glassmorphism
-                            SlideTransition(
-                              position: _slideAnimation,
-                              child: FadeTransition(
-                                opacity: _fadeAnimation,
-                                child: _buildGlassCard(
-                                  context,
-                                  ref,
-                                  theme,
-                                  strings,
-                                  isTablet,
-                                  isVerySmall,
-                                  isSmall,
-                                ),
-                              ),
-                            ),
-
-                            // Espaciador inferior flexible
-                            if (!isVerySmall) const Spacer(flex: 2),
-                            if (isVerySmall) const SizedBox(height: 8),
-                          ],
-                        ),
+                          // Espaciador inferior flexible
+                          if (!isVerySmall) SizedBox(height: constraints.maxHeight * 0.1),
+                          if (isVerySmall) const SizedBox(height: 8),
+                        ],
                       ),
                     ),
                   ),
