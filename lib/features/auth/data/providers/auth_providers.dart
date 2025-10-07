@@ -7,6 +7,7 @@ import 'package:my_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:my_app/features/auth/domain/use_cases/get_current_user_use_case.dart';
 import 'package:my_app/features/auth/domain/use_cases/perform_login_use_case.dart';
 import 'package:my_app/features/auth/domain/use_cases/perform_registration_use_case.dart';
+import 'package:my_app/features/auth/domain/use_cases/send_password_reset_link_use_case.dart';
 
 // =============================================================================
 // REPOSITORIES
@@ -34,4 +35,8 @@ final performRegistrationUseCaseProvider = Provider<PerformRegistrationUseCase>(
 
 final getCurrentUserUseCaseProvider = Provider<GetCurrentUserUseCase>(
   (ref) => GetCurrentUserUseCase(ref.watch(affiliateRepositoryProvider)),
+);
+
+final sendPasswordResetLinkUseCaseProvider = Provider<SendPasswordResetLinkUseCase>(
+  (ref) => SendPasswordResetLinkUseCase(ref.watch(authRepositoryProvider)),
 );

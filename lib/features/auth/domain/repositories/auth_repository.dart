@@ -6,4 +6,5 @@ abstract class AuthRepository {
   Future<User> login(UserAuthRequest request);
   Future<User> register(UserRegistrationRequest request);
   Future<void> logout();
+  Future<bool> sendPasswordResetLink(String email);
 }

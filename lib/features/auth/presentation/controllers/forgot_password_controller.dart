@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_app/features/auth/data/providers/auth_providers.dart';
+import 'package:my_app/features/auth/domain/use_cases/send_password_reset_link_use_case.dart';
 
 // Estado para el controlador de recuperación de contraseña
 class ForgotPasswordState {
@@ -27,37 +29,20 @@ class ForgotPasswordState {
 
 // Controlador para la recuperación de contraseña
 class ForgotPasswordController extends StateNotifier<ForgotPasswordState> {
-  ForgotPasswordController() : super(ForgotPasswordState());
+  final SendPasswordResetLinkUseCase _sendPasswordResetLinkUseCase;
 
-  /// Envía un código de recuperación al email del usuario
+  ForgotPasswordController(this._sendPasswordResetLinkUseCase)
+      : super(ForgotPasswordState());
+
+  /// Envía un link de recuperación al email del usuario
   Future<bool> sendPasswordResetCode(String email) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     try {
-      // TODO: Implementar la lógica real para enviar el código
-      // Por ejemplo, llamar a un servicio de backend o Firebase
+      final success = await _sendPasswordResetLinkUseCase.execute(email);
 
-      // Simulación de petición HTTP
-      await Future.delayed(const Duration(seconds: 2));
-
-      // Aquí deberías hacer algo como:
-      // final response = await _authRepository.sendPasswordResetCode(email);
-      // if (response.success) {
-      //   state = state.copyWith(isLoading: false, success: true);
-      //   return true;
-      // } else {
-      //   state = state.copyWith(
-      //     isLoading: false,
-      //     success: false,
-      //     errorMessage: response.errorMessage,
-      //   );
-      //   return false;
-      // }
-
-      // Por ahora, simular éxito
-      state = state.copyWith(isLoading: false, success: true);
-      return true;
-
+      state = state.copyWith(isLoading: false, success: success);
+      return success;
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
@@ -77,6 +62,7 @@ class ForgotPasswordController extends StateNotifier<ForgotPasswordState> {
 // Provider del controlador
 final forgotPasswordControllerProvider =
     StateNotifierProvider<ForgotPasswordController, ForgotPasswordState>(
-  (ref) => ForgotPasswordController(),
+  (ref) => ForgotPasswordController(
+    ref.watch(sendPasswordResetLinkUseCaseProvider),
+  ),
 );
-

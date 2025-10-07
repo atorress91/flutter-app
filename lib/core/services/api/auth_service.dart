@@ -40,4 +40,17 @@ class AuthService extends BaseService {
       dataKey: 'affiliate',
     );
   }
+
+  Future<ApiResponse<bool?>> sendPasswordResetLink(String email) async {
+    return post(
+      '/userAffiliateInfo/sendEmailToChangePassword',
+      body: {'email': email},
+      fromJson: (json) {
+        if (json is bool) {
+          return json;
+        }
+        throw Exception('Invalid data format for send password reset link');
+      },
+    );
+  }
 }

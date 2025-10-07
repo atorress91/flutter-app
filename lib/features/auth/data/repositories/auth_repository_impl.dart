@@ -39,4 +39,17 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> logout() async {
     return;
   }
+
+  @override
+  Future<bool> sendPasswordResetLink(String email) async {
+    final response = await _authService.sendPasswordResetLink(email);
+
+    if (response.success && response.data != null) {
+      return response.data!;
+    } else {
+      throw ApiException(
+        response.message ?? 'Error al enviar el link de recuperación',
+      );
+    }
+  }
 }
