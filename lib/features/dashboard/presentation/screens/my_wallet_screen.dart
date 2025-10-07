@@ -103,8 +103,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                           ),
                         ),
                         const SizedBox(height: 15),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
+                        Center(
                           child: Container(
                             padding: const EdgeInsets.all(2.0),
                             decoration: BoxDecoration(
