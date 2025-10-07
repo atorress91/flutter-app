@@ -44,7 +44,7 @@ class AuthService extends BaseService {
   Future<ApiResponse<bool?>> sendPasswordResetLink(String email) async {
     return post(
       '/userAffiliateInfo/sendEmailToChangePassword',
-      body: {'email': email},
+      body: email,
       fromJson: (json) {
         if (json is bool) {
           return json;
