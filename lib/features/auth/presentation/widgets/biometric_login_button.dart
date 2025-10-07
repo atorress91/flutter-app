@@ -7,7 +7,6 @@ import 'package:my_app/core/providers/platform_providers.dart';
 import 'package:my_app/core/services/platform/biometric_service.dart';
 import 'package:my_app/features/auth/domain/use_cases/login_with_biometrics_use_case.dart';
 import 'package:my_app/features/auth/presentation/controllers/login_controller.dart';
-import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 
 class BiometricLoginButton extends ConsumerWidget {
   const BiometricLoginButton({super.key, required WidgetRef ref});

@@ -5,6 +5,7 @@ import 'package:my_app/features/admin/presentation/screens/admin_screen.dart';
 import 'package:my_app/features/auth/presentation/screens/landing_screen.dart';
 import 'package:my_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:my_app/features/auth/presentation/screens/registration_screen.dart';
+import 'package:my_app/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:my_app/features/dashboard/presentation/screens/clients_screen.dart';
 import 'package:my_app/features/dashboard/presentation/screens/customer_service_screen.dart';
 import 'package:my_app/features/dashboard/presentation/screens/dashboard_screen.dart';
@@ -36,6 +37,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/auth/register',
       builder: (context, state) => const RegistrationScreen(),
+    ),
+    GoRoute(
+      path: '/auth/forgot-password',
+      builder: (context, state) => const ForgotPasswordScreen(),
     ),
 
     // --- Rutas del Dashboard del Cliente (con layout) ---

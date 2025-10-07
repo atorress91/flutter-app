@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_app/core/common/widgets/custom_text_field.dart';
 import 'package:my_app/core/common/widgets/primary_button.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
@@ -126,14 +127,7 @@ class _LoginFormState extends State<LoginForm> {
           // Link de "¿Olvidaste tu contraseña?"
           TextButton(
             onPressed: () {
-              // TODO: Implementar recuperación de contraseña
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    AppLocalizations.of(context).t('forgotPasswordSoon'),
-                  ),
-                ),
-              );
+              context.push('/auth/forgot-password');
             },
             child: Text(
               AppLocalizations.of(context).t('forgotPassword'),

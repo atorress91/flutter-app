@@ -62,7 +62,7 @@ class _LazyTreeWidgetState extends State<LazyTreeWidget> {
   int _recursiveCount(List<Client> clients) {
     int count = clients.length;
     for (final client in clients) {
-      if (_loadedNodes[client.id] == true) {
+      if (_loadedNodes[client.id.toString()] == true) {
         count += _recursiveCount(client.referrals);
       }
     }
