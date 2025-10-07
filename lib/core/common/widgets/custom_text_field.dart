@@ -58,7 +58,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           boxShadow: _isFocused
               ? [
                   BoxShadow(
-                    color: theme.colorScheme.primary.withOpacity(0.2),
+                    color: theme.colorScheme.primary.withValues(alpha: 0.2),
                     blurRadius: widget.isCompact ? 8 : 12,
                     spreadRadius: 0,
                     offset: Offset(0, widget.isCompact ? 2 : 4),
@@ -82,7 +82,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             labelStyle: theme.textTheme.bodyMedium?.copyWith(
               color: _isFocused
                   ? theme.colorScheme.primary
-                  : theme.colorScheme.onSurface.withOpacity(0.6),
+                  : theme.colorScheme.onSurface.withValues(alpha: 0.6),
               fontWeight: FontWeight.w500,
               fontSize: widget.isCompact ? 13 : null,
             ),
@@ -98,15 +98,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 widget.icon,
                 color: _isFocused
                     ? theme.colorScheme.primary
-                    : theme.colorScheme.onSurface.withOpacity(0.5),
+                    : theme.colorScheme.onSurface.withValues(alpha: 0.5),
                 size: iconSize,
               ),
             ),
             suffixIcon: widget.suffixIcon,
             filled: true,
             fillColor: isDark
-                ? Colors.white.withOpacity(0.05)
-                : theme.colorScheme.surface.withOpacity(0.8),
+                ? Colors.white.withValues(alpha: 0.05)
+                : theme.colorScheme.surface.withValues(alpha: 0.8),
             contentPadding: EdgeInsets.symmetric(
               horizontal: widget.isCompact ? 16 : 20,
               vertical: verticalPadding,
@@ -114,14 +114,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
               borderSide: BorderSide(
-                color: theme.colorScheme.outline.withOpacity(0.2),
+                color: theme.colorScheme.outline.withValues(alpha: 0.2),
                 width: 1.5,
               ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
               borderSide: BorderSide(
-                color: theme.colorScheme.outline.withOpacity(0.2),
+                color: theme.colorScheme.outline.withValues(alpha: 0.2),
                 width: 1.5,
               ),
             ),

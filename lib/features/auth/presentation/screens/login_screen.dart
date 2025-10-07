@@ -197,22 +197,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
         Positioned(
           top: 100,
           right: -50,
-          child: _buildBubble(200, theme.colorScheme.primary.withOpacity(0.05)),
+          child: _buildBubble(200, theme.colorScheme.primary.withValues(alpha: 0.05)),
         ),
         Positioned(
           top: 300,
           left: -30,
-          child: _buildBubble(150, theme.colorScheme.primary.withOpacity(0.08)),
+          child: _buildBubble(150, theme.colorScheme.primary.withValues(alpha: 0.08)),
         ),
         Positioned(
           bottom: 150,
           right: 50,
-          child: _buildBubble(120, theme.colorScheme.primary.withOpacity(0.06)),
+          child: _buildBubble(120, theme.colorScheme.primary.withValues(alpha: 0.06)),
         ),
         Positioned(
           bottom: -40,
           left: 80,
-          child: _buildBubble(180, theme.colorScheme.primary.withOpacity(0.04)),
+          child: _buildBubble(180, theme.colorScheme.primary.withValues(alpha: 0.04)),
         ),
       ],
     );
@@ -234,7 +234,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
               color: color,
               boxShadow: [
                 BoxShadow(
-                  color: color.withOpacity(0.3),
+                  color: color.withValues(alpha: 0.3),
                   blurRadius: 40,
                   spreadRadius: 10,
                 ),
@@ -259,10 +259,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
         ? 100.0
         : (isVerySmall ? 50.0 : (isSmall ? 65.0 : 85.0));
 
-    final titleSize = isTablet ? null : (isVerySmall ? 20.0 : (isSmall ? 24.0 : null));
-    final subtitleSize = isVerySmall ? 12.0 : (isSmall ? 13.0 : null);
-    final showSubtitle = !isVerySmall;
-
     return Column(
       children: [
         Container(
@@ -271,8 +267,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
             shape: BoxShape.circle,
             gradient: RadialGradient(
               colors: [
-                theme.colorScheme.primary.withOpacity(0.1),
-                theme.colorScheme.primary.withOpacity(0.0),
+                theme.colorScheme.primary.withValues(alpha: 0.1),
+                theme.colorScheme.primary.withValues(alpha: 0.0),
               ],
             ),
           ),
@@ -284,26 +280,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
           ),
         ),
         SizedBox(height: isVerySmall ? 8 : 16),
-        Text(
-          'Recycoin',
-          style: theme.textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.5,
-            color: theme.colorScheme.primary,
-            fontSize: titleSize,
-          ),
-        ),
-        if (showSubtitle) ...[
-          SizedBox(height: isVerySmall ? 4 : 8),
-          Text(
-            AppLocalizations.of(context).t('welcomeBack') ?? 'Bienvenido de nuevo',
-            style: theme.textTheme.bodyLarge?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.6),
-              fontWeight: FontWeight.w300,
-              fontSize: subtitleSize,
-            ),
-          ),
-        ],
       ],
     );
   }
@@ -337,24 +313,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                   end: Alignment.bottomRight,
                   colors: theme.brightness == Brightness.dark
                       ? [
-                          Colors.white.withOpacity(0.08),
-                          Colors.white.withOpacity(0.04),
+                          Colors.white.withValues(alpha: 0.08),
+                          Colors.white.withValues(alpha: 0.04),
                         ]
                       : [
-                          Colors.white.withOpacity(0.9),
-                          Colors.white.withOpacity(0.7),
+                          Colors.white.withValues(alpha: 0.9),
+                          Colors.white.withValues(alpha: 0.7),
                         ],
                 ),
                 borderRadius: BorderRadius.circular(isVerySmall ? 24 : 32),
                 border: Border.all(
                   color: theme.brightness == Brightness.dark
-                      ? Colors.white.withOpacity(0.1)
-                      : Colors.white.withOpacity(0.5),
+                      ? Colors.white.withValues(alpha: 0.1)
+                      : Colors.white.withValues(alpha: 0.5),
                   width: 1.5,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: theme.shadowColor.withOpacity(0.1),
+                    color: theme.shadowColor.withValues(alpha: 0.1),
                     blurRadius: 40,
                     spreadRadius: 0,
                     offset: const Offset(0, 20),
@@ -421,13 +397,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                theme.colorScheme.primary.withOpacity(0.15),
-                theme.colorScheme.primary.withOpacity(0.05),
+                theme.colorScheme.primary.withValues(alpha: 0.15),
+                theme.colorScheme.primary.withValues(alpha: 0.05),
               ],
             ),
             borderRadius: BorderRadius.circular(isVerySmall ? 12 : 16),
             border: Border.all(
-              color: theme.colorScheme.primary.withOpacity(0.3),
+              color: theme.colorScheme.primary.withValues(alpha: 0.3),
               width: 1.5,
             ),
           ),
@@ -475,7 +451,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
               gradient: LinearGradient(
                 colors: [
                   Colors.transparent,
-                  theme.colorScheme.outline.withOpacity(0.3),
+                  theme.colorScheme.outline.withValues(alpha: 0.3),
                 ],
               ),
             ),
@@ -489,13 +465,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
               vertical: isVerySmall ? 2 : 4,
             ),
             decoration: BoxDecoration(
-              color: theme.colorScheme.surface.withOpacity(0.5),
+              color: theme.colorScheme.surface.withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
               AppLocalizations.of(context).t('loginOrContinueWith'),
               style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.5),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                 fontWeight: FontWeight.w500,
                 fontSize: isVerySmall ? 10 : 12,
                 letterSpacing: 0.5,
@@ -509,7 +485,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  theme.colorScheme.outline.withOpacity(0.3),
+                  theme.colorScheme.outline.withValues(alpha: 0.3),
                   Colors.transparent,
                 ],
               ),
@@ -632,7 +608,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: theme.colorScheme.primary.withOpacity(0.1),
+                color: theme.colorScheme.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
@@ -662,7 +638,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
             style: TextButton.styleFrom(
-              foregroundColor: theme.colorScheme.onSurface.withOpacity(0.6),
+              foregroundColor: theme.colorScheme.onSurface.withValues(alpha: 0.6),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             ),
             child: Text(strings.cancelButtonLabel),

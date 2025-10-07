@@ -62,17 +62,17 @@ class _PrimaryButtonState extends State<PrimaryButton>
               : LinearGradient(
                   colors: [
                     theme.colorScheme.primary,
-                    theme.colorScheme.primary.withOpacity(0.8),
+                    theme.colorScheme.primary.withValues(alpha: 0.8),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-          color: isDisabled ? theme.colorScheme.onSurface.withOpacity(0.12) : null,
+          color: isDisabled ? theme.colorScheme.onSurface.withValues(alpha: 0.12) : null,
           boxShadow: isDisabled
               ? []
               : [
                   BoxShadow(
-                    color: theme.colorScheme.primary.withOpacity(0.3),
+                    color: theme.colorScheme.primary.withValues(alpha: 0.3),
                     blurRadius: 12,
                     spreadRadius: 0,
                     offset: const Offset(0, 6),
@@ -107,7 +107,7 @@ class _PrimaryButtonState extends State<PrimaryButton>
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                           color: isDisabled
-                              ? theme.colorScheme.onSurface.withOpacity(0.38)
+                              ? theme.colorScheme.onSurface.withValues(alpha: 0.38)
                               : theme.colorScheme.onPrimary,
                           letterSpacing: 0.5,
                         ),
