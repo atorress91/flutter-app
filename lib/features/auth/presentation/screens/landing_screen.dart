@@ -158,274 +158,294 @@ class _LandingScreenState extends State<LandingScreen>
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final isSmallScreen = screenWidth < 360;
+    final isTablet = screenWidth >= 600;
+
+    // Calcular tamaños dinámicos basados en el dispositivo
+    final logoMaxHeight = isTablet ? 120.0 : (isSmallScreen ? 70.0 : 90.0);
+    final logoMaxWidth = isTablet ? screenWidth * 0.7 : screenWidth * 0.85;
 
     return Scaffold(
       backgroundColor: const Color(0xFF0A0B0D),
-      body: Stack(
-        children: [
-          // Fondo animado con gradientes dinámicos
-          AnimatedBuilder(
-            animation: _backgroundT,
-            builder: (context, child) {
-              return Container(
-                decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    center: Alignment.center,
-                    radius: 2.0 + math.sin(_backgroundT.value * math.pi * 2) * 0.5,
-                    colors: [
-                      Color.lerp(
-                        const Color(0xFF1A1B1F),
-                        const Color(0xFF2D4A22),
-                        math.sin(_backgroundT.value * math.pi * 2) * 0.3 + 0.3,
-                      )!,
-                      const Color(0xFF0A0B0D),
-                      Color.lerp(
-                        const Color(0xFF0A0B0D),
-                        const Color(0xFF1A2B1A),
-                        math.cos(_backgroundT.value * math.pi * 2) * 0.2 + 0.2,
-                      )!,
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-
-          // Partículas flotantes
-          AnimatedBuilder(
-            animation: _particlesT,
-            builder: (context, child) {
-              return CustomPaint(
-                size: Size.infinite,
-                painter: ParticlesPainter(
-                  particles: _particles,
-                  progress: _particlesT.value,
-                ),
-              );
-            },
-          ),
-
-          // Iconos flotantes
-          AnimatedBuilder(
-            animation: _particlesT,
-            builder: (context, child) {
-              return CustomPaint(
-                size: Size.infinite,
-                painter: FloatingIconsPainter(
-                  icons: _floatingIcons,
-                  progress: _particlesT.value,
-                ),
-              );
-            },
-          ),
-
-          // Logo con FittedBox para responsividad total
-          Center(
-            child: SlideTransition(
-              position: _slideT,
-              child: AnimatedBuilder(
-                animation: Listenable.merge([_drawT, _colorT, _pulseT]),
-                builder: (context, child) {
-                  return Transform.scale(
-                    scale: _colorT.value > 0.5 ? _pulseT.value : 1.0,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
-                      child: Container(
-                        constraints: BoxConstraints(
-                          maxWidth: screenWidth * 0.8,
-                          maxHeight: 100,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: _colorT.value > 0.3
-                              ? [
-                            BoxShadow(
-                              color: Color.fromARGB(
-                                  (76 * _colorT.value.clamp(0.0, 1.0)).round(),
-                                  174, 213, 0
-                              ),
-                              blurRadius: 30,
-                              spreadRadius: 5,
-                            ),
-                            BoxShadow(
-                              color: Color.fromARGB(
-                                  (25 * _colorT.value.clamp(0.0, 1.0)).round(),
-                                  174, 213, 0
-                              ),
-                              blurRadius: 60,
-                              spreadRadius: 10,
-                            ),
-                          ]
-                              : null,
-                        ),
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: SizedBox(
-                            width: 400,
-                            height: 100,
-                            child: CustomPaint(
-                              painter: RecycoinLogoPainter(
-                                drawProgress: _drawT.value,
-                                colorProgress: _colorT.value,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-
-          // Texto de carga responsivo
-          Positioned(
-            bottom: screenHeight * 0.15,
-            left: 0,
-            right: 0,
-            child: SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0, 1),
-                end: Offset.zero,
-              ).animate(CurvedAnimation(
-                parent: _slideCtrl,
-                curve: const Interval(0.3, 1.0, curve: Curves.easeOutBack),
-              )),
-              child: AnimatedBuilder(
-                animation: _colorT,
-                builder: (context, child) {
-                  return Opacity(
-                    opacity: _colorT.value.clamp(0.0, 1.0),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 10,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              border: Border.all(
-                                color: Color.fromARGB(
-                                    (76 * _colorT.value.clamp(0.0, 1.0)).round(),
-                                    174, 213, 0
-                                ),
-                                width: 1,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromARGB(
-                                      (25 * _colorT.value.clamp(0.0, 1.0)).round(),
-                                      174, 213, 0
-                                  ),
-                                  blurRadius: 20,
-                                  spreadRadius: 2,
-                                ),
-                              ],
-                            ),
-                            child: Text(
-                              'Iniciando ...',
-                              style: TextStyle(
-                                color: Color.fromARGB(
-                                    (230 * _colorT.value.clamp(0.0, 1.0)).round(),
-                                    255, 255, 255
-                                ),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          Container(
-                            width: screenWidth * 0.5,
-                            constraints: const BoxConstraints(maxWidth: 200),
-                            height: 4,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(2),
-                              color: Color.fromARGB(
-                                  (25 * _colorT.value.clamp(0.0, 1.0)).round(),
-                                  255, 255, 255
-                              ),
-                            ),
-                            child: AnimatedBuilder(
-                              animation: _drawT,
-                              builder: (context, child) {
-                                return Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: FractionallySizedBox(
-                                    widthFactor: _drawT.value.clamp(0.0, 1.0),
-                                    child: Container(
-                                      height: 4,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(2),
-                                        gradient: const LinearGradient(
-                                          colors: [
-                                            Color(0xFFAED500),
-                                            Color(0xFF7CB342),
-                                            Color(0xFFAED500),
-                                          ],
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Color.fromARGB(
-                                                (127 * _drawT.value.clamp(0.0, 1.0)).round(),
-                                                174, 213, 0
-                                            ),
-                                            blurRadius: 8,
-                                            spreadRadius: 1,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-
-          // Mensaje responsivo
-          Positioned(
-            bottom: screenHeight * 0.05,
-            left: 0,
-            right: 0,
-            child: AnimatedBuilder(
-              animation: _colorT,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            // Fondo animado con gradientes dinámicos
+            AnimatedBuilder(
+              animation: _backgroundT,
               builder: (context, child) {
-                return Opacity(
-                  opacity: ((_colorT.value * 2 - 1).clamp(0.0, 1.0)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-                    child: Text(
-                      '🌱 Riqueza Inteligente, Planeta Sostenible 🌎 Ganamos juntos',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color.fromARGB(
-                            (178 * ((_colorT.value * 2 - 1).clamp(0.0, 1.0))).round(),
-                            255, 255, 255
-                        ),
-                        fontSize: screenWidth < 360 ? 12 : 14,
-                        fontStyle: FontStyle.italic,
-                        letterSpacing: 0.3,
-                      ),
+                return Container(
+                  decoration: BoxDecoration(
+                    gradient: RadialGradient(
+                      center: Alignment.center,
+                      radius: 2.0 + math.sin(_backgroundT.value * math.pi * 2) * 0.5,
+                      colors: [
+                        Color.lerp(
+                          const Color(0xFF1A1B1F),
+                          const Color(0xFF2D4A22),
+                          math.sin(_backgroundT.value * math.pi * 2) * 0.3 + 0.3,
+                        )!,
+                        const Color(0xFF0A0B0D),
+                        Color.lerp(
+                          const Color(0xFF0A0B0D),
+                          const Color(0xFF1A2B1A),
+                          math.cos(_backgroundT.value * math.pi * 2) * 0.2 + 0.2,
+                        )!,
+                      ],
                     ),
                   ),
                 );
               },
             ),
-          ),
-        ],
+
+            // Partículas flotantes
+            AnimatedBuilder(
+              animation: _particlesT,
+              builder: (context, child) {
+                return CustomPaint(
+                  size: Size.infinite,
+                  painter: ParticlesPainter(
+                    particles: _particles,
+                    progress: _particlesT.value,
+                  ),
+                );
+              },
+            ),
+
+            // Iconos flotantes
+            AnimatedBuilder(
+              animation: _particlesT,
+              builder: (context, child) {
+                return CustomPaint(
+                  size: Size.infinite,
+                  painter: FloatingIconsPainter(
+                    icons: _floatingIcons,
+                    progress: _particlesT.value,
+                  ),
+                );
+              },
+            ),
+
+            // Logo con FittedBox para responsividad total
+            Center(
+              child: SlideTransition(
+                position: _slideT,
+                child: AnimatedBuilder(
+                  animation: Listenable.merge([_drawT, _colorT, _pulseT]),
+                  builder: (context, child) {
+                    return Transform.scale(
+                      scale: _colorT.value > 0.5 ? _pulseT.value : 1.0,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isTablet ? screenWidth * 0.15 : screenWidth * 0.08,
+                        ),
+                        child: Container(
+                          constraints: BoxConstraints(
+                            maxWidth: logoMaxWidth,
+                            maxHeight: logoMaxHeight,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: _colorT.value > 0.3
+                                ? [
+                              BoxShadow(
+                                color: Color.fromARGB(
+                                    (76 * _colorT.value.clamp(0.0, 1.0)).round(),
+                                    174, 213, 0
+                                ),
+                                blurRadius: isTablet ? 40 : 30,
+                                spreadRadius: isTablet ? 8 : 5,
+                              ),
+                              BoxShadow(
+                                color: Color.fromARGB(
+                                    (25 * _colorT.value.clamp(0.0, 1.0)).round(),
+                                    174, 213, 0
+                                ),
+                                blurRadius: isTablet ? 80 : 60,
+                                spreadRadius: isTablet ? 15 : 10,
+                              ),
+                            ]
+                                : null,
+                          ),
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: SizedBox(
+                              width: 400,
+                              height: 100,
+                              child: CustomPaint(
+                                painter: RecycoinLogoPainter(
+                                  drawProgress: _drawT.value,
+                                  colorProgress: _colorT.value,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+
+            // Texto de carga responsivo
+            Positioned(
+              bottom: isTablet ? screenHeight * 0.2 : (isSmallScreen ? screenHeight * 0.18 : screenHeight * 0.15),
+              left: 0,
+              right: 0,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 1),
+                  end: Offset.zero,
+                ).animate(CurvedAnimation(
+                  parent: _slideCtrl,
+                  curve: const Interval(0.3, 1.0, curve: Curves.easeOutBack),
+                )),
+                child: AnimatedBuilder(
+                  animation: _colorT,
+                  builder: (context, child) {
+                    return Opacity(
+                      opacity: _colorT.value.clamp(0.0, 1.0),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isTablet ? screenWidth * 0.2 : screenWidth * 0.1,
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: isTablet ? 30 : (isSmallScreen ? 16 : 20),
+                                vertical: isTablet ? 14 : (isSmallScreen ? 8 : 10),
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                border: Border.all(
+                                  color: Color.fromARGB(
+                                      (76 * _colorT.value.clamp(0.0, 1.0)).round(),
+                                      174, 213, 0
+                                  ),
+                                  width: 1,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color.fromARGB(
+                                        (25 * _colorT.value.clamp(0.0, 1.0)).round(),
+                                        174, 213, 0
+                                    ),
+                                    blurRadius: 20,
+                                    spreadRadius: 2,
+                                  ),
+                                ],
+                              ),
+                              child: Text(
+                                'Iniciando ...',
+                                style: TextStyle(
+                                  color: Color.fromARGB(
+                                      (230 * _colorT.value.clamp(0.0, 1.0)).round(),
+                                      255, 255, 255
+                                  ),
+                                  fontSize: isTablet ? 20 : (isSmallScreen ? 14 : 16),
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: isTablet ? 25 : (isSmallScreen ? 15 : 20)),
+                            Container(
+                              width: isTablet ? screenWidth * 0.3 : (isSmallScreen ? screenWidth * 0.6 : screenWidth * 0.5),
+                              constraints: BoxConstraints(
+                                maxWidth: isTablet ? 300 : 200,
+                                minWidth: isSmallScreen ? 150 : 180,
+                              ),
+                              height: isTablet ? 5 : 4,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(2),
+                                color: Color.fromARGB(
+                                    (25 * _colorT.value.clamp(0.0, 1.0)).round(),
+                                    255, 255, 255
+                                ),
+                              ),
+                              child: AnimatedBuilder(
+                                animation: _drawT,
+                                builder: (context, child) {
+                                  return Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: FractionallySizedBox(
+                                      widthFactor: _drawT.value.clamp(0.0, 1.0),
+                                      child: Container(
+                                        height: isTablet ? 5 : 4,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(2),
+                                          gradient: const LinearGradient(
+                                            colors: [
+                                              Color(0xFFAED500),
+                                              Color(0xFF7CB342),
+                                              Color(0xFFAED500),
+                                            ],
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Color.fromARGB(
+                                                  (127 * _drawT.value.clamp(0.0, 1.0)).round(),
+                                                  174, 213, 0
+                                              ),
+                                              blurRadius: 8,
+                                              spreadRadius: 1,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+
+            // Mensaje responsivo
+            Positioned(
+              bottom: isTablet ? screenHeight * 0.08 : (isSmallScreen ? screenHeight * 0.06 : screenHeight * 0.05),
+              left: 0,
+              right: 0,
+              child: AnimatedBuilder(
+                animation: _colorT,
+                builder: (context, child) {
+                  return Opacity(
+                    opacity: ((_colorT.value * 2 - 1).clamp(0.0, 1.0)),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isTablet ? screenWidth * 0.1 : (isSmallScreen ? screenWidth * 0.08 : screenWidth * 0.05),
+                      ),
+                      child: Text(
+                        '🌱 Riqueza Inteligente, Planeta Sostenible 🌎 Ganamos juntos',
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Color.fromARGB(
+                              (178 * ((_colorT.value * 2 - 1).clamp(0.0, 1.0))).round(),
+                              255, 255, 255
+                          ),
+                          fontSize: isTablet ? 16 : (isSmallScreen ? 11 : 13),
+                          fontStyle: FontStyle.italic,
+                          letterSpacing: 0.3,
+                          height: 1.3,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
