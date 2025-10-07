@@ -47,11 +47,7 @@ class SidebarHeader extends ConsumerWidget {
         children: [
           // Botón de cerrar en la parte superior derecha (solo móvil)
           if (!isCollapsed && isMobile && onRequestClose != null)
-            Positioned(
-              top: 0,
-              right: 0,
-              child: _buildCloseButton(context),
-            ),
+            _buildCloseButton(context),
           // Contenido del header con padding para evitar superposición
           Padding(
             padding: EdgeInsets.only(top: isMobile ? 40 : 0),
@@ -264,20 +260,16 @@ class SidebarHeader extends ConsumerWidget {
   }
 
   Widget _buildCloseButton(BuildContext context) {
-    return Positioned(
-      top: 8,
-      right: 8,
-      child: Tooltip(
-        message: 'Cerrar',
-        child: IconButton(
-          icon: Icon(
-            Icons.close,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withAlpha((255 * 0.7).toInt()),
-          ),
-          onPressed: onRequestClose,
+    return Tooltip(
+      message: 'Cerrar',
+      child: IconButton(
+        icon: Icon(
+          Icons.close,
+          color: Theme.of(
+            context,
+          ).colorScheme.onSurface.withAlpha((255 * 0.7).toInt()),
         ),
+        onPressed: onRequestClose,
       ),
     );
   }

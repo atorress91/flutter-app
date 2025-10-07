@@ -102,10 +102,11 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                             style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        Center(
+                        const SizedBox(height: 15),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
                           child: Container(
-                            padding: const EdgeInsets.all(4.0),
+                            padding: const EdgeInsets.all(2.0),
                             decoration: BoxDecoration(
                               color: colorScheme.surface.withAlpha((255*0.5).toInt()),
                               borderRadius: BorderRadius.circular(16.0),
@@ -123,7 +124,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                                   isSelected: walletState.filter == TransactionFilterType.all,
                                   onTap: () => walletController.setFilter(TransactionFilterType.all),
                                 ),
-                                const SizedBox(width: 4),
+                                const SizedBox(width: 1),
                                 FilterButton(
                                   icon: Icons.add_circle_outline_rounded,
                                   label: l10n.walletFilterIncome,
@@ -131,7 +132,7 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                                   onTap: () => walletController.setFilter(TransactionFilterType.credit),
                                   selectedColor: Colors.green.shade600,
                                 ),
-                                const SizedBox(width: 4),
+                                const SizedBox(width: 1),
                                 FilterButton(
                                   icon: Icons.remove_circle_outline_rounded,
                                   label: l10n.walletFilterExpenses,
