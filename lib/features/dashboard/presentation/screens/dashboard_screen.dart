@@ -73,7 +73,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
       appBar: AppNavbar(onMenuPressed: () => _onMenuPressed(false)),
       body: _buildGradientBackground(
         child: Row(

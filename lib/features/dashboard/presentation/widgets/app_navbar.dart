@@ -14,6 +14,8 @@ class AppNavbar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       leading: NavbarMenuButton(onPressed: onMenuPressed),
       actions: const [NavbarActions()],
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      elevation: 1,
     );
   }
 

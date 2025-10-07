@@ -104,42 +104,45 @@ class _MyWalletScreenState extends ConsumerState<MyWalletScreen> {
                         ),
                         const SizedBox(height: 15),
                         Center(
-                          child: Container(
-                            padding: const EdgeInsets.all(2.0),
-                            decoration: BoxDecoration(
-                              color: colorScheme.surface.withAlpha((255*0.5).toInt()),
-                              borderRadius: BorderRadius.circular(16.0),
-                              border: Border.all(
-                                color: colorScheme.outline.withAlpha((255*0.5).toInt()),
-                                width: 1,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Container(
+                              padding: const EdgeInsets.all(2.0),
+                              decoration: BoxDecoration(
+                                color: colorScheme.surface.withAlpha((255*0.5).toInt()),
+                                borderRadius: BorderRadius.circular(16.0),
+                                border: Border.all(
+                                  color: colorScheme.outline.withAlpha((255*0.5).toInt()),
+                                  width: 1,
+                                ),
                               ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                FilterButton(
-                                  icon: Icons.apps_rounded,
-                                  label: l10n.walletFilterAll,
-                                  isSelected: walletState.filter == TransactionFilterType.all,
-                                  onTap: () => walletController.setFilter(TransactionFilterType.all),
-                                ),
-                                const SizedBox(width: 1),
-                                FilterButton(
-                                  icon: Icons.add_circle_outline_rounded,
-                                  label: l10n.walletFilterIncome,
-                                  isSelected: walletState.filter == TransactionFilterType.credit,
-                                  onTap: () => walletController.setFilter(TransactionFilterType.credit),
-                                  selectedColor: Colors.green.shade600,
-                                ),
-                                const SizedBox(width: 1),
-                                FilterButton(
-                                  icon: Icons.remove_circle_outline_rounded,
-                                  label: l10n.walletFilterExpenses,
-                                  isSelected: walletState.filter == TransactionFilterType.debit,
-                                  onTap: () => walletController.setFilter(TransactionFilterType.debit),
-                                  selectedColor: Colors.red.shade600,
-                                ),
-                              ],
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  FilterButton(
+                                    icon: Icons.apps_rounded,
+                                    label: l10n.walletFilterAll,
+                                    isSelected: walletState.filter == TransactionFilterType.all,
+                                    onTap: () => walletController.setFilter(TransactionFilterType.all),
+                                  ),
+                                  const SizedBox(width: 1),
+                                  FilterButton(
+                                    icon: Icons.add_circle_outline_rounded,
+                                    label: l10n.walletFilterIncome,
+                                    isSelected: walletState.filter == TransactionFilterType.credit,
+                                    onTap: () => walletController.setFilter(TransactionFilterType.credit),
+                                    selectedColor: Colors.green.shade600,
+                                  ),
+                                  const SizedBox(width: 1),
+                                  FilterButton(
+                                    icon: Icons.remove_circle_outline_rounded,
+                                    label: l10n.walletFilterExpenses,
+                                    isSelected: walletState.filter == TransactionFilterType.debit,
+                                    onTap: () => walletController.setFilter(TransactionFilterType.debit),
+                                    selectedColor: Colors.red.shade600,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
