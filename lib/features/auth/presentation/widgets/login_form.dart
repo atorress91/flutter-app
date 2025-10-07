@@ -57,6 +57,15 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final mediaQuery = MediaQuery.of(context);
+    final availableHeight = mediaQuery.size.height -
+        mediaQuery.padding.top -
+        mediaQuery.padding.bottom -
+        mediaQuery.viewInsets.bottom;
+
+    final isVerySmall = availableHeight < 600;
+    final fieldSpacing = isVerySmall ? 12.0 : 16.0;
+    final buttonSpacing = isVerySmall ? 16.0 : 24.0;
 
     return Form(
       key: _formKey,
@@ -71,6 +80,7 @@ class _LoginFormState extends State<LoginForm> {
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             textCapitalization: TextCapitalization.none,
+            isCompact: isVerySmall,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
                 return AppLocalizations.of(context).usernameOrEmailRequired;
@@ -79,7 +89,7 @@ class _LoginFormState extends State<LoginForm> {
             },
           ),
 
-          const SizedBox(height: 16),
+          SizedBox(height: fieldSpacing),
 
           // Campo de contraseña
           CustomTextField(
@@ -88,13 +98,14 @@ class _LoginFormState extends State<LoginForm> {
             icon: Icons.lock_outline,
             obscureText: !_showPassword,
             textInputAction: TextInputAction.done,
+            isCompact: isVerySmall,
             suffixIcon: IconButton(
               icon: Icon(
                 _showPassword ? Icons.visibility_off : Icons.visibility,
                 color: theme.colorScheme.onSurface.withAlpha(
                   (255 * 0.7).toInt(),
                 ),
-                size: 20,
+                size: isVerySmall ? 18 : 20,
               ),
               onPressed: _togglePasswordVisibility,
               tooltip: _showPassword
@@ -113,27 +124,34 @@ class _LoginFormState extends State<LoginForm> {
             onFieldSubmitted: (_) => _handleSubmit(),
           ),
 
-          const SizedBox(height: 24),
+          SizedBox(height: buttonSpacing),
 
           // Botón de iniciar sesión
           PrimaryButton(
             text: AppLocalizations.of(context).signInButtonLabel,
             isLoading: _isLoading,
             onPressed: _handleSubmit,
+            height: isVerySmall ? 48 : 56,
           ),
 
-          const SizedBox(height: 12),
+          SizedBox(height: isVerySmall ? 8 : 12),
 
           // Link de "¿Olvidaste tu contraseña?"
           TextButton(
             onPressed: () {
               context.push('/auth/forgot-password');
             },
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.symmetric(
+                vertical: isVerySmall ? 8 : 12,
+              ),
+            ),
             child: Text(
               AppLocalizations.of(context).t('forgotPassword'),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.primary,
                 decoration: TextDecoration.underline,
+                fontSize: isVerySmall ? 13 : null,
               ),
             ),
           ),
