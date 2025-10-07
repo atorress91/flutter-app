@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_app/core/common/widgets/avatar_updater.dart';
 import 'package:my_app/core/common/widgets/primary_button.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/features/auth/domain/entities/user.dart';
@@ -109,29 +108,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               padding: const EdgeInsets.all(24.0),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight - 48.0, // Resta el padding
+                  minHeight: constraints.maxHeight - 48.0,
                 ),
                 child: IntrinsicHeight(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       // Avatar
-                      AvatarUpdater(
-                        child: ProfileHeader(
-                          onEdit: () {
-                            context.goNamed('edit-profile');
-                          },
-                        ),
-                        onSuccess: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(l10n.profilePhotoUpdated)),
-                          );
-                        },
-                        onError: (error) {
-                          ScaffoldMessenger.of(
-                            context,
-                          ).showSnackBar(SnackBar(content: Text(error)));
-                        },
+                      ProfileHeader(
+                        onAvatarTap: () => _updateAvatar(context),
+                        onEditIconTap: () => _updateAvatar(context),
                       ),
                       const SizedBox(height: 32),
 
@@ -181,6 +167,28 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _updateAvatar(BuildContext context) async {
+    final profileController = ref.read(profileScreenControllerProvider);
+    final l10n = AppLocalizations.of(context);
+
+    try {
+      final success = await profileController.updateProfilePicture();
+
+      if (success && context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.profilePhotoUpdated)),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        final errorMessage = 'Error al subir la imagen: $e';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+      }
+    }
   }
 
   void _saveChanges() async {

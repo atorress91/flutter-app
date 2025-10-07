@@ -5,11 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
 
 class ProfileHeader extends ConsumerWidget {
-  final VoidCallback onEdit;
+  final VoidCallback? onAvatarTap;
+  final VoidCallback? onEditIconTap;
 
   const ProfileHeader({
     super.key,
-    required this.onEdit,
+    this.onAvatarTap,
+    this.onEditIconTap,
   });
 
   @override
@@ -24,45 +26,49 @@ class ProfileHeader extends ConsumerWidget {
         Stack(
           clipBehavior: Clip.none,
           children: [
-            Hero(
-              tag: 'user_avatar',
-              child: CircleAvatar(
-                radius: 50,
-                backgroundColor: colorScheme.surface,
-                backgroundImage: (user?.imageUrl != null && user!.imageUrl!.isNotEmpty)
-                    ? CachedNetworkImageProvider(user.imageUrl!)
-                    : null,
-                child: (user?.imageUrl == null || user!.imageUrl!.isEmpty)
-                    ? Icon(
-                  Icons.person,
-                  size: 50,
-                  color: colorScheme.onSurface.withAlpha((255*0.5).toInt()),
-                )
-                    : null,
+            GestureDetector(
+              onTap: onAvatarTap,
+              child: Hero(
+                tag: 'user_avatar',
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundColor: colorScheme.surface,
+                  backgroundImage: (user?.imageUrl != null && user!.imageUrl!.isNotEmpty)
+                      ? CachedNetworkImageProvider(user.imageUrl!)
+                      : null,
+                  child: (user?.imageUrl == null || user!.imageUrl!.isEmpty)
+                      ? Icon(
+                    Icons.person,
+                    size: 50,
+                    color: colorScheme.onSurface.withAlpha((255*0.5).toInt()),
+                  )
+                      : null,
+                ),
               ),
             ),
-            Positioned(
-              bottom: 0,
-              right: -5,
-              child: Material(
-                color: colorScheme.primary,
-                shape: const CircleBorder(),
-                elevation: 2,
-                child: InkWell(
-                  onTap: onEdit,
-                  customBorder: const CircleBorder(),
-                  child: const SizedBox(
-                    width: 32,
-                    height: 32,
-                    child: Icon(
-                      Icons.edit,
-                      color: Colors.white,
-                      size: 18,
+            if (onEditIconTap != null)
+              Positioned(
+                bottom: 0,
+                right: -5,
+                child: Material(
+                  color: colorScheme.primary,
+                  shape: const CircleBorder(),
+                  elevation: 2,
+                  child: InkWell(
+                    onTap: onEditIconTap,
+                    customBorder: const CircleBorder(),
+                    child: const SizedBox(
+                      width: 32,
+                      height: 32,
+                      child: Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: 18,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
         const SizedBox(height: 16),

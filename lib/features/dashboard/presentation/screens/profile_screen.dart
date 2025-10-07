@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_app/core/common/widgets/avatar_updater.dart';
 import 'package:my_app/core/l10n/app_localizations.dart';
 import 'package:my_app/core/utils/date_formatter.dart';
 import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
+import 'package:my_app/features/dashboard/presentation/controllers/profile_screen_controller.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/profile/profile_header.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/profile/profile_info_card.dart';
 import 'package:my_app/features/dashboard/presentation/widgets/sidebar/sidebar_navigation.dart';
@@ -50,24 +50,9 @@ class ProfileScreen extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
               child: Column(
                 children: [
-                  AvatarUpdater(
-                    child: ProfileHeader(
-                      onEdit: () {
-                        context.goNamed('edit-profile');
-                      },
-                    ),
-                    onSuccess: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(l10n.profilePhotoUpdated),
-                        ),
-                      );
-                    },
-                    onError: (error) {
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(SnackBar(content: Text(error)));
-                    },
+                  ProfileHeader(
+                    onAvatarTap: () => _updateAvatar(context, ref),
+                    onEditIconTap: () => _updateAvatar(context, ref),
                   ),
                   const SizedBox(height: 32),
                   ProfileInfoCard(
@@ -110,7 +95,7 @@ class ProfileScreen extends ConsumerWidget {
                   ),
 
                   const SizedBox(height: 32),
-                  _buildActionButtons(context, ref), // Pasamos ref
+                  _buildActionButtons(context, ref),
                 ],
               ),
             ),
@@ -118,6 +103,28 @@ class ProfileScreen extends ConsumerWidget {
         },
       ),
     );
+  }
+
+  Future<void> _updateAvatar(BuildContext context, WidgetRef ref) async {
+    final profileController = ref.read(profileScreenControllerProvider);
+    final l10n = AppLocalizations.of(context);
+
+    try {
+      final success = await profileController.updateProfilePicture();
+
+      if (success && context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.profilePhotoUpdated)),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        final errorMessage = '${l10n.profileErrorOccurred}: $e';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+      }
+    }
   }
 
   Widget _buildActionButtons(BuildContext context, WidgetRef ref) {

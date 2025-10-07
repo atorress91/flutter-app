@@ -19,8 +19,12 @@ class AvatarUpdater extends ConsumerWidget {
     final profileController = ref.read(profileScreenControllerProvider);
 
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () => _updateAvatar(context, profileController),
-      child: child,
+      child: IgnorePointer(
+        ignoring: false,
+        child: child,
+      ),
     );
   }
 
