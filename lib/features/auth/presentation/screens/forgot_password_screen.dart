@@ -183,7 +183,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                 ),
                 const SizedBox(height: 24),
                 PrimaryButton(
-                  text: strings.t('sendCodeButton'),
+                  text: strings.t('sendLinkButton'),
                   onPressed: _isLoading ? null : _handleSubmit,
                   isLoading: _isLoading,
                 ),
