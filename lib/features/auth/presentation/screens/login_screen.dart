@@ -37,33 +37,26 @@ class LoginScreen extends ConsumerWidget {
           ),
         ),
         child: SafeArea(
-          child: Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: isTablet ? 480 : 360,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: SingleChildScrollView(
-                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(height: 40),
-                      // Logo section
-                      _buildLogoSection(context, theme),
-                      const SizedBox(height: 32),
-                      // Authentication section
-                      _buildAuthSection(context, ref, theme, strings),
-                      const SizedBox(height: 32),
-                      // Register link
-                      _buildRegisterSection(context, theme),
-                      const SizedBox(height: 40),
-                    ],
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 40),
+                Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: isTablet ? 480 : 360,
+                    ),
+                    child: _buildLogoSection(context, theme),
                   ),
                 ),
-              ),
+                const SizedBox(height: 32),
+                // Authentication section - full width
+                _buildAuthSection(context, ref, theme, strings),
+                const SizedBox(height: 40),
+              ],
             ),
           ),
         ),
@@ -90,19 +83,24 @@ class LoginScreen extends ConsumerWidget {
       AppLocalizations strings,
       ) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: theme.colorScheme.outline.withAlpha((255 * 0.1).toInt()),
-          width: 1,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(32),
+          topRight: Radius.circular(32),
+        ),
+        border: Border(
+          top: BorderSide(
+            color: theme.colorScheme.outline.withAlpha((255 * 0.1).toInt()),
+            width: 1,
+          ),
         ),
         boxShadow: [
           BoxShadow(
-            color: theme.shadowColor.withAlpha((255 * 0.05).toInt()),
+            color: theme.shadowColor.withAlpha((255 * 0.1).toInt()),
             blurRadius: 30,
-            offset: const Offset(0, 15),
+            offset: const Offset(0, -10),
           ),
         ],
       ),
@@ -163,41 +161,6 @@ class LoginScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildRegisterSection(BuildContext context, ThemeData theme) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            AppLocalizations.of(context).t('noAccountQuestion'),
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withAlpha((255 * 0.7).toInt()),
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          GestureDetector(
-            onTap: () => context.go('/auth/register'),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                AppLocalizations.of(context).t('createAccount'),
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.primary,
-                  fontWeight: FontWeight.w600,
-                  decoration: TextDecoration.underline,
-                  decorationColor: theme.colorScheme.primary.withAlpha((255 * 0.3).toInt()),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   Future<void> _handleLogin(
       BuildContext context,
