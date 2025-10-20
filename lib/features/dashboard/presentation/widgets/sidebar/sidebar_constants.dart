@@ -10,5 +10,5 @@ const Duration navigationDelay = Duration(milliseconds: 100);
 // Constantes de diseño
 const double sidebarBorderWidth = 1;
 const double menuItemBorderRadius = 12;
-const double avatarRadiusCollapsed = 24;
-const double avatarRadiusExpanded = 32;
+const double avatarRadiusCollapsed = 20;
+const double avatarRadiusExpanded = 28;

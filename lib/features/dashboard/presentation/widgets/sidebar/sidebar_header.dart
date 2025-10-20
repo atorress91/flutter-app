@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/features/auth/presentation/providers/auth_state_provider.dart';
+import 'package:my_app/core/theme/app_theme.dart';
 import '../../screens/profile_screen.dart';
 import 'sidebar_constants.dart';
 
@@ -41,7 +42,7 @@ class SidebarHeader extends ConsumerWidget {
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.fromLTRB(16, isMobile ? 16 : 50, 16, 20),
+      padding: EdgeInsets.fromLTRB(16, isMobile ? 16 : 24, 16, 20),
       color: Theme.of(context).colorScheme.surface,
       child: Stack(
         children: [
@@ -51,12 +52,20 @@ class SidebarHeader extends ConsumerWidget {
           // Contenido del header con padding para evitar superposición
           Padding(
             padding: EdgeInsets.only(top: isMobile ? 40 : 0),
-            child: _buildHeaderContent(
-              context,
-              textTheme,
-              displayName,
-              secondaryText,
-              imageUrl,
+            child: Column(
+              children: [
+                // Logo de Recycoin
+                _buildLogo(context),
+                const SizedBox(height: 16),
+                // Contenido del header (usuario)
+                _buildHeaderContent(
+                  context,
+                  textTheme,
+                  displayName,
+                  secondaryText,
+                  imageUrl,
+                ),
+              ],
             ),
           ),
         ],
@@ -240,36 +249,66 @@ class SidebarHeader extends ConsumerWidget {
         const SizedBox(height: 12),
         Text(
           name.isEmpty ? '' : name,
-          style: textTheme.titleLarge?.copyWith(
+          style: textTheme.titleMedium?.copyWith(
             color: Theme.of(context).colorScheme.onSurface,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w600,
           ),
+          maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
+        const SizedBox(height: 2),
         Text(
           subtitle,
-          style: textTheme.bodyMedium?.copyWith(
+          style: textTheme.bodySmall?.copyWith(
             color: Theme.of(
               context,
-            ).colorScheme.onSurface.withAlpha((255 * 0.6).toInt()),
+            ).colorScheme.onSurface.withAlpha((255 * 0.5).toInt()),
+            fontSize: 11,
           ),
+          maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
       ],
     );
   }
 
+  Widget _buildLogo(BuildContext context) {
+    final logoPath = AppTheme.getLogoPath(context);
+
+    if (isCollapsed) {
+      // Logo compacto cuando está colapsado
+      return Image.asset(
+        logoPath,
+        width: 40,
+        height: 40,
+        fit: BoxFit.contain,
+      );
+    }
+
+    // Logo completo cuando está expandido
+    return Image.asset(
+      logoPath,
+      width: sidebarExpandedWidth - 60,
+      height: 50,
+      fit: BoxFit.contain,
+    );
+  }
+
   Widget _buildCloseButton(BuildContext context) {
-    return Tooltip(
-      message: 'Cerrar',
-      child: IconButton(
-        icon: Icon(
-          Icons.close,
-          color: Theme.of(
-            context,
-          ).colorScheme.onSurface.withAlpha((255 * 0.7).toInt()),
+    return Positioned(
+      top: 0,
+      right: 0,
+      child: Tooltip(
+        message: 'Cerrar',
+        child: IconButton(
+          icon: Icon(
+            Icons.close,
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withAlpha((255 * 0.7).toInt()),
+          ),
+          onPressed: onRequestClose,
         ),
-        onPressed: onRequestClose,
       ),
     );
   }
