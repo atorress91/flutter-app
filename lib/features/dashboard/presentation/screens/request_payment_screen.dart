@@ -25,11 +25,13 @@ class _RequestPaymentScreenState extends ConsumerState<RequestPaymentScreen> {
     Future.microtask(() {
       ref.read(requestPaymentControllerProvider.notifier).loadConfiguration();
       ref.read(requestPaymentControllerProvider.notifier).getWalletRequests();
+      ref.read(requestPaymentControllerProvider.notifier).checkWithdrawalLimit();
     });
   }
 
   Future<void> _handleRefresh() async {
     await ref.read(requestPaymentControllerProvider.notifier).loadConfiguration();
+    await ref.read(requestPaymentControllerProvider.notifier).checkWithdrawalLimit();
     await ref.read(requestPaymentControllerProvider.notifier).getWalletRequests();
   }
 
@@ -98,17 +100,18 @@ class _RequestPaymentScreenState extends ConsumerState<RequestPaymentScreen> {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              Tooltip(
-                                message: AppLocalizations.of(context).requestPaymentNewRequestButton,
-                                child: IconButton(
-                                  onPressed: () => _openRequestModal(context),
-                                  icon: Icon(
-                                    Icons.add_circle_rounded,
-                                    size: 30,
-                                    color: Theme.of(context).colorScheme.primary,
+                              if (!requestPaymentState.hasReachedWithdrawalLimit)
+                                Tooltip(
+                                  message: AppLocalizations.of(context).requestPaymentNewRequestButton,
+                                  child: IconButton(
+                                    onPressed: () => _openRequestModal(context),
+                                    icon: Icon(
+                                      Icons.add_circle_rounded,
+                                      size: 30,
+                                      color: Theme.of(context).colorScheme.primary,
+                                    ),
                                   ),
                                 ),
-                              ),
                             ],
                           ),
                           const SizedBox(height: 16),

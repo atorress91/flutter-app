@@ -6,6 +6,7 @@ class RequestPaymentState {
   final String? error;
   final WithdrawalWalletConfiguration? configuration;
   final List<Payment> requests;
+  final bool hasReachedWithdrawalLimit;
 
   const RequestPaymentState({
     this.isLoading = false,
@@ -17,17 +18,20 @@ class RequestPaymentState {
       activateInvoiceCancellation: false,
     ),
     this.requests = const [],
+    this.hasReachedWithdrawalLimit = false,
   });
 
   RequestPaymentState copyWith({
     bool? isLoading,
     String? error,
+    bool? hasReachedWithdrawalLimit,
     WithdrawalWalletConfiguration? configuration,
     List<Payment>? requests,
   }) {
     return RequestPaymentState(
       isLoading: isLoading ?? this.isLoading,
       error: error,
+      hasReachedWithdrawalLimit: hasReachedWithdrawalLimit ?? this.hasReachedWithdrawalLimit,
       configuration: configuration ?? this.configuration,
       requests: requests ?? this.requests,
     );

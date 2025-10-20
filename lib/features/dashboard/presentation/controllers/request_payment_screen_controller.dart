@@ -25,6 +25,22 @@ class RequestPaymentController extends StateNotifier<RequestPaymentState> {
     }
   }
 
+  Future<void> checkWithdrawalLimit() async {
+    final userId = _ref.read(authNotifierProvider).value?.user.id;
+    if (userId == null) {
+      state = state.copyWith(error: 'Usuario no autenticado');
+      return;
+    }
+
+    try {
+      final hasReachedLimitUseCase = _ref.read(hasReachedWithdrawalLimitUseCaseProvider);
+      final hasReached = await hasReachedLimitUseCase.execute(userId);
+      state = state.copyWith(hasReachedWithdrawalLimit: hasReached);
+    } catch (e) {
+      state = state.copyWith(error: 'Error al verificar el límite de retiro.');
+    }
+  }
+
   Future<bool> generateVerificationCode() async {
     final userId = _ref.read(authNotifierProvider).value?.user.id;
     if (userId == null) {
