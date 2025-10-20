@@ -24,4 +24,22 @@ class MatrixService extends BaseService {
       },
     );
   }
+
+  Future<ApiResponse<bool?>> hasReachedWithdrawalLimit(int userId) async{
+    return get<bool>(
+      'matrixQualification/has-reached-withdrawal-limit',
+      query: {'userId': userId.toString()},
+      fromJson: (json){
+        if(json == null) return null;
+
+        if(json is bool){
+          return json;
+        }
+
+        throw Exception(
+          'Formato de datos inválido',
+        );
+      }
+    );
+  }
 }

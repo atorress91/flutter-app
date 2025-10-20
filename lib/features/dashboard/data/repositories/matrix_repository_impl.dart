@@ -19,4 +19,15 @@ class MatrixRepositoryImpl implements MatrixRepository {
       throw ApiException(response.message ?? 'Error al obtener el árbol unilevel');
     }
   }
+
+  @override
+  Future<bool> hasReachedWithdrawalLimit(int userId) async {
+    final response = await _matrixService.hasReachedWithdrawalLimit(userId);
+
+    if(response.success && response.data != null){
+      return response.data!;
+    }else{
+      throw ApiException(response.message ?? 'Error al obtener el limite de rétiro');
+    }
+  }
 }
